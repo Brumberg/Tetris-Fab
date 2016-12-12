@@ -13,21 +13,8 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        Button button = (Button) findViewById(R.id.back_button); // find button by id
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View v) {
-
-                goToFirstActivity();
-
-            }
-
-        });
     }
-    private void goToFirstActivity() {
+    public void goToFirstActivity(View view) { //is called by onClick function of Button in activity_second.xml
 
         Intent intent = new Intent(this, MainActivity.class);
 

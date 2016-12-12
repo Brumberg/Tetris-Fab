@@ -18,19 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(msg, "The onCreate() event");
-        Button button = (Button) findViewById(R.id.button); // find button by id
 
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View v) {
-
-                goToSecondActivity();
-
-            }
-
-        });
     }
 
     /** Called when the activity is about to become visible. */
@@ -68,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(msg, "The onDestroy() event");
     }
 
-    private void goToSecondActivity() {
+    public void goToSecondActivity(View view) { //is called by onClick function of Button in activity_main.xml
 
         Intent intent = new Intent(this, SecondActivity.class);
 

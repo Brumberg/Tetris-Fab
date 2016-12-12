@@ -26,5 +26,6 @@
         android:layout_marginTop="43dp"
         android:id="@+id/back_button"
         android:layout_below="@+id/text2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="goToFirstActivity" />
 </RelativeLayout>
