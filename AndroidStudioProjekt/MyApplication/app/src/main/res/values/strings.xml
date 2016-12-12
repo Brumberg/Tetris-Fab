@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TestApp</string>
+    <string name="welcome">Hello Tetris!</string>
+    <string name="second_page">Second Page!</string>
 </resources>
