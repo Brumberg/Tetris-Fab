@@ -28,7 +28,7 @@ public class SecondActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     public void changeColor(View view) {
 
         ImageButton button = (ImageButton) findViewById(R.id.imageButton2);
@@ -85,8 +85,18 @@ public class SecondActivity extends AppCompatActivity {
                 break;
 
             case 4:
-                button.setImageResource(R.drawable.vi_z);
+                button.setImageResource(R.drawable.vi_j);
                 resource = 5;
+                break;
+
+            case 5:
+                button.setImageResource(R.drawable.vi_z);
+                resource = 6;
+                break;
+
+            case 6:
+                button.setImageResource(R.drawable.vi_s);
+                resource = 7;
                 break;
 
             default:

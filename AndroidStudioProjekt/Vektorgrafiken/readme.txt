@@ -1,0 +1,1 @@
+zu öffnen mit Inkscape(freeware)
