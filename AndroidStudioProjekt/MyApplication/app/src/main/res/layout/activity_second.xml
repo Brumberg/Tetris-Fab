@@ -53,4 +53,15 @@
         android:layout_centerHorizontal="true"
         android:onClick="changeObj"/>
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/vi_rotate"
+        android:layout_alignTop="@+id/imageButton2"
+        android:layout_toRightOf="@+id/text2"
+        android:layout_toEndOf="@+id/text2"
+        android:layout_marginTop="45dp"
+        android:id="@+id/imageButton5"
+        android:onClick="rotateImage" />
+
 </RelativeLayout>

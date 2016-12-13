@@ -61,6 +61,8 @@ public class SecondActivity extends AppCompatActivity {
     public void changeObj(View view) {
         ImageButton button = (ImageButton) findViewById(R.id.imageButton2);
 
+        button.setRotation((float) 0.0);
+
         switch (resource){
             case 0:
                 button.setImageResource(R.drawable.vi_quadrat_small);
@@ -93,7 +95,13 @@ public class SecondActivity extends AppCompatActivity {
                 break;
 
         }
+    }
 
+    public void rotateImage(View view) {
+
+        ImageButton button = (ImageButton) findViewById(R.id.imageButton2);
+
+        button.setRotation(button.getRotation() - (float) 90.0);
 
     }
 }
