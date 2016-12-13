@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_second"
     android:layout_width="match_parent"
@@ -19,13 +20,37 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/vi_quadrat_large"
+        android:id="@+id/imageButton2"
+        android:layout_marginTop="55dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="changeColor"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:backgroundTint="@android:color/white" />
+
     <Button
         android:text="Back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
         android:id="@+id/back_button"
+        android:onClick="goToFirstActivity"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="55dp" />
+
+    <Button
+        android:text="Change Object"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:layout_marginTop="41dp"
         android:layout_below="@+id/text2"
         android:layout_centerHorizontal="true"
-        android:onClick="goToFirstActivity" />
+        android:onClick="changeObj"/>
+
 </RelativeLayout>
