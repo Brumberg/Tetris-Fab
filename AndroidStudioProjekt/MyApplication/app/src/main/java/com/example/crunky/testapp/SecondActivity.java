@@ -28,6 +28,13 @@ public class SecondActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToDragAndDrop(View view) { //is called by onClick function of Button in activity_second.xml
+
+        Intent intent = new Intent(this, DragAndDrop.class);
+        startActivity(intent);
+    }
+
+
 
     public void changeColor(View view) {
 

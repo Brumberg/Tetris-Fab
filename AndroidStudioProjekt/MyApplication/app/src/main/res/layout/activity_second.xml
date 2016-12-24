@@ -34,16 +34,6 @@
         android:backgroundTint="@android:color/transparent" />
 
     <Button
-        android:text="Back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/back_button"
-        android:onClick="goToFirstActivity"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="55dp" />
-
-    <Button
         android:text="Change Object"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,5 +53,32 @@
         android:layout_marginTop="45dp"
         android:id="@+id/imageButton5"
         android:onClick="rotateImage" />
+
+    <Button
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:onClick="goToFirstActivity"
+        android:layout_below="@+id/button2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="47dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="30dp" />
+
+    <Button
+        android:text="Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/next"
+        android:onClick="goToDragAndDrop"
+        android:layout_alignBaseline="@+id/button3"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_alignRight="@+id/imageButton5"
+        android:layout_alignEnd="@+id/imageButton5"
+        android:layout_marginRight="34dp"
+        android:layout_marginEnd="34dp"
+        />
 
 </RelativeLayout>
