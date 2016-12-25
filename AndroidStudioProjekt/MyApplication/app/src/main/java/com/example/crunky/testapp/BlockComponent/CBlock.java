@@ -51,7 +51,7 @@ public class CBlock{
     public int GetWidth(){return m_Dim_X;}
     public int GetHeights(){return m_Dim_Y;}
     public int GetRawData(int x, int y) {if (x>=0&&y>=0&&x<m_Dim_X&&y<m_Dim_Y) {
-        return m_RawData[x][y];} else {return -1;}}
+        return m_RawData[y][x];} else {return -1;}}
 
     public void Rotate( eRotation rotation ) {
         m_Rotation = rotation;
