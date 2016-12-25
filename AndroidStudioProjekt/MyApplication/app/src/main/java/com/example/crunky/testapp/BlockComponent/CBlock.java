@@ -10,6 +10,13 @@ public class CBlock{
         FOUR_SHAPE, MIRRORED_T_SHAPE, MIRRORRED_FOUR_SHAPE}
     public enum eBlockColor{BLACK, RED, GREEN, BLUE, YELLOW}
 
+    public class CCoordinates {
+        public int m_X;
+        public int m_Y;
+        public CCoordinates(int x, int y){m_X=x;m_Y=y;}
+        public CCoordinates(){m_X=0;m_Y=0;}
+    }
+
     public static final int NODIFFERENTBLOCKTYPES = eBlockType.values().length; // last of eBlockType+1
     private
         int m_UniqueObjectId;
@@ -26,7 +33,8 @@ public class CBlock{
 
     protected CBlock() {}
 
-    protected CBlock(eBlockType blocktype, eBlockColor color, int xdim, int ydim, eRotation rotation, int graphityx, int graphityy, int unique_id) {
+    protected CBlock(eBlockType blocktype, eBlockColor color, int xdim, int ydim,
+                     eRotation rotation, int graphityx, int graphityy, int unique_id) {
         m_BlockType = blocktype;
         m_Color = color;
         m_Dim_X = xdim;
@@ -42,7 +50,8 @@ public class CBlock{
     public int GetUniqueObjectId(){return m_UniqueObjectId;}
     public int GetWidth(){return m_Dim_X;}
     public int GetHeights(){return m_Dim_Y;}
-    public int GetRawData(int x, int y) {if (x>=0&&y>=0&&x<m_Dim_X&&y<m_Dim_Y) {return m_RawData[x][y];} else {return -1;}}
+    public int GetRawData(int x, int y) {if (x>=0&&y>=0&&x<m_Dim_X&&y<m_Dim_Y) {
+        return m_RawData[x][y];} else {return -1;}}
 
     public void Rotate( eRotation rotation ) {
         m_Rotation = rotation;
@@ -111,5 +120,28 @@ public class CBlock{
                 break;
         }
         return rotation;
+    }
+
+    public CCoordinates GetBaseCoords() {
+        CCoordinates dummy = new CCoordinates();
+        switch (m_Rotation){
+            case DEGREES_0:
+                dummy.m_X = m_Graphity_X;
+                dummy.m_Y = m_Graphity_Y;
+                break;
+            case DEGREES_90:
+                dummy.m_X = GetWidth()-1-m_Graphity_Y;
+                dummy.m_Y = m_Graphity_X;
+                break;
+            case DEGREES_180:
+                dummy.m_X = GetWidth()-1-m_Graphity_X;
+                dummy.m_Y = GetHeights()-1-m_Graphity_Y;
+                break;
+            case DEGREES_270:
+                dummy.m_X = m_Graphity_Y;
+                dummy.m_Y = GetHeights()-1-m_Graphity_X;
+                break;
+        }
+        return dummy;
     }
 }
