@@ -2,8 +2,10 @@ package com.example.crunky.testapp;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,17 +18,23 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+
 public class DragAndDrop extends AppCompatActivity {
 
     String msg = "Android : ";
-    static int color = 0;
+    static int color = Color.BLACK;
     static int resource = 0;
 
-    /** Called when the activity is first created. */
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drag_and_drop);
+
+        color=Color.BLACK; // default color
 
         Log.d(msg, "The onCreate() event");
 
@@ -35,9 +43,15 @@ public class DragAndDrop extends AppCompatActivity {
 
         // Defining drop target
         findViewById(R.id.topleft).setOnDragListener(new MyDragListener());
+        findViewById(R.id.topmidle).setOnDragListener(new MyDragListener());
         findViewById(R.id.topright).setOnDragListener(new MyDragListener());
+        findViewById(R.id.midleleft).setOnDragListener(new MyDragListener());
+        findViewById(R.id.midlemidle).setOnDragListener(new MyDragListener());
+        findViewById(R.id.midleright).setOnDragListener(new MyDragListener());
         findViewById(R.id.bottomleft).setOnDragListener(new MyDragListener());
+        findViewById(R.id.bottommidle).setOnDragListener(new MyDragListener());
         findViewById(R.id.bottomright).setOnDragListener(new MyDragListener());
+
     }
 
     public void goBack(View view) { //is called by onClick function of Button in activity_main.xml
@@ -47,6 +61,7 @@ public class DragAndDrop extends AppCompatActivity {
         startActivity(intent);
 
     }
+
 
     // defines touch listener
     private final class MyTouchListener implements View.OnTouchListener {
@@ -97,7 +112,7 @@ public class DragAndDrop extends AppCompatActivity {
                         // Calculate the canvas matrix with the specified translation with given
                         // distances to x and y
                         canvas.translate((width - view.getWidth()) / 2,
-                                         (height - view.getHeight()) / 2);
+                                (height - view.getHeight()) / 2);
 
                         // call parent onDrawShadow function
                         super.onDrawShadow(canvas);
@@ -118,6 +133,7 @@ public class DragAndDrop extends AppCompatActivity {
         }
     }
 
+    // drag and drop handling
     class MyDragListener implements View.OnDragListener {
         Drawable enterShape = getResources().getDrawable(
                 R.drawable.shape_droptarget);
@@ -125,29 +141,82 @@ public class DragAndDrop extends AppCompatActivity {
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
-            int action = event.getAction();
+
+            // actual shape where obj is dragged
+            LinearLayout container = (LinearLayout) v;
+
+            // list of all shapes
+            int[] views = new int[9];
+
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     // do nothing
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     v.setBackgroundDrawable(enterShape);
+
+
+                    if (container.getId() == R.id.midleright) {
+
+                        views[0] = R.id.topright;
+                        views[1] = R.id.midleright;
+                        views[2] = R.id.bottomright;
+                        views[3] = R.id.bottommidle;
+
+                        for (int i = 0; i< views.length; i++) {
+                            if (views[i] != 0) {
+                                findViewById(views[i]).setBackgroundDrawable(enterShape);
+                            }
+                        }
+                    }
+
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
-                    v.setBackgroundDrawable(normalShape);
+                    views[0] = R.id.topleft;
+                    views[1] = R.id.topmidle;
+                    views[2] = R.id.topright;
+                    views[3] = R.id.midleleft;
+                    views[4] = R.id.midlemidle;
+                    views[5] = R.id.midleright;
+                    views[6] = R.id.bottomleft;
+                    views[7] = R.id.bottommidle;
+                    views[8] = R.id.bottomright;
+
+                    for (int i = 0; i < views.length; i++) {
+                        findViewById(views[i]).setBackgroundDrawable(normalShape);
+                    }
+
                     break;
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
                     View view = (View) event.getLocalState();
-                    ViewGroup owner = (ViewGroup) view.getParent();
-                    owner.removeView(view);
-                    LinearLayout container = (LinearLayout) v;
-                    container.addView(view);
-                    view.setVisibility(View.VISIBLE);
+
+                    if (container.getId() == R.id.midleright) {
+
+                        views[0] = R.id.topright;
+                        views[1] = R.id.midleright;
+                        views[2] = R.id.bottomright;
+                        views[3] = R.id.bottommidle;
+
+
+                        for (int i = 0; i< views.length; i++) {
+                            if (views[i] != 0) {
+
+                                findViewById(views[i]).setBackgroundColor(color);
+                            }
+                        }
+
+                    } else {
+                        ViewGroup owner = (ViewGroup) view.getParent();
+                        owner.removeView(view);
+                        container.addView(view);
+                        view.setVisibility(View.VISIBLE);
+                    }
+
 
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    v.setBackgroundDrawable(normalShape);
+                    //v.setBackgroundDrawable(normalShape);
                 default:
                     break;
             }
@@ -159,25 +228,25 @@ public class DragAndDrop extends AppCompatActivity {
         ImageView img = (ImageView) findViewById(R.id.tetris_baustein);
 
         switch (color) {
-            case 0:
+            case Color.BLACK:
                 img.setColorFilter(Color.RED);
-                color = 1;
+                color = Color.RED;
                 break;
-            case 1:
+            case Color.RED:
                 img.setColorFilter(Color.GREEN);
-                color = 2;
+                color = Color.GREEN;
                 break;
-            case 2:
+            case Color.GREEN:
                 img.setColorFilter(Color.BLUE);
-                color = 3;
+                color = Color.BLUE;
                 break;
-            case 3:
+            case Color.BLUE:
                 img.setColorFilter(Color.YELLOW);
-                color = 4;
+                color = Color.YELLOW;
                 break;
             default:
                 img.setColorFilter(Color.BLACK);
-                color = 0;
+                color = Color.BLACK;
                 break;
         }
 
@@ -196,7 +265,7 @@ public class DragAndDrop extends AppCompatActivity {
 
         img.setRotation((float) 0.0);
 
-        switch (resource){
+        switch (resource) {
             case 0:
                 img.setImageResource(R.drawable.vi_quadrat_small);
                 resource = 1;

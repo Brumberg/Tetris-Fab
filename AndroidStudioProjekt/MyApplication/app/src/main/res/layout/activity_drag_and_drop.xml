@@ -6,16 +6,16 @@
     android:columnCount="3"
     android:columnWidth="320dp"
     android:orientation="vertical"
-    android:rowCount="4"
+    android:rowCount="6"
     android:stretchMode="columnWidth" >
-
 
 
     <LinearLayout
         android:id="@+id/topleft"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_row="0"
+        android:layout_column="0"
         android:background="@drawable/shape" >
 
         <ImageView
@@ -26,10 +26,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/topright"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:id="@+id/topmidle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_row="0"
+        android:layout_column="1"
         android:background="@drawable/shape" >
 
         <ImageView
@@ -40,12 +41,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/bottomright"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:background="@drawable/shape"
-        android:layout_row="1"
-        android:layout_column="1">
+        android:id="@+id/topright"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:background="@drawable/shape" >
 
         <ImageView
             android:id="@+id/myimage3"
@@ -55,52 +56,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/button"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_row="2"
-        android:layout_column="0">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <Button
-                android:text="Change Object"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button2"
-                android:layout_marginTop="11dp"
-                android:onClick="changeObj"
-                android:layout_below="@+id/button_rotate"
-                android:layout_centerHorizontal="true" />
-
-            <Button
-                android:text="Change Color"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_change_color"
-                android:onClick="changeColor"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/vi_rotate"
-                android:id="@+id/button_rotate"
-                android:onClick="rotateImage"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bottomleft"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:id="@+id/midleleft"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/shape"
         android:layout_row="1"
         android:layout_column="0">
@@ -114,11 +72,146 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/auswahlFeld"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:id="@+id/midlemidle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/shape"
+        android:layout_row="1"
+        android:layout_column="1">
+
+        <ImageView
+            android:id="@+id/myimage5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/midleright"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/shape"
+        android:layout_row="1"
+        android:layout_column="2">
+
+        <ImageView
+            android:id="@+id/myimage6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomleft"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/shape"
+        android:layout_row="2"
+        android:layout_column="0">
+
+        <ImageView
+            android:id="@+id/myimage7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottommidle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/shape"
         android:layout_row="2"
         android:layout_column="1">
+
+        <ImageView
+            android:id="@+id/myimage8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomright"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/shape"
+        android:layout_row="2"
+        android:layout_column="2">
+
+        <ImageView
+            android:id="@+id/myimage9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button"
+        android:layout_width="100dp"
+        android:layout_height="300dp"
+        android:layout_row="3"
+        android:layout_column="0">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/vi_rotate"
+                android:id="@+id/button_rotate"
+                android:onClick="rotateImage"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:text="Change Object"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/changeObj"
+                android:onClick="changeObj"
+                android:layout_below="@+id/button_rotate"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:text="Change Color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_change_color"
+                android:onClick="changeColor"
+                android:layout_below="@+id/changeObj"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:text="Back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button5"
+                android:layout_weight="1"
+                android:onClick="goBack"
+                android:layout_marginTop="12dp"
+                android:layout_below="@+id/button_change_color"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/auswahlFeld"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_row="3"
+        android:layout_column="2">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -131,17 +224,6 @@
                 android:id="@+id/tetris_baustein"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
-
-            <Button
-                android:text="Back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button5"
-                android:layout_weight="1"
-                android:onClick="goBack"
-                android:layout_alignParentBottom="true"
-                android:layout_alignLeft="@+id/tetris_baustein"
-                android:layout_alignStart="@+id/tetris_baustein" />
         </RelativeLayout>
 
     </LinearLayout>
