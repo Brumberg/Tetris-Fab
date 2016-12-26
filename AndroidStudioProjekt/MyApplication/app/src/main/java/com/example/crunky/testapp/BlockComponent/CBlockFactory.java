@@ -47,6 +47,7 @@ public class CBlockFactory implements IDispatchBlocks {
                     block = m_AvailableBlocks.get(blocktype.ordinal()).get(i);
                     m_AvailableBlocks.get(blocktype.ordinal()).remove(i);
                     m_DrawnBlocks.get(blocktype.ordinal()).add(block);
+                    break;
                 }
             }
         }
@@ -60,6 +61,7 @@ public class CBlockFactory implements IDispatchBlocks {
             for (int i=0;i<m_DrawnBlocks.get(block.GetBlockType().ordinal()).size();++i)
                 if (m_DrawnBlocks.get(block.GetBlockType().ordinal()).get(i).GetUniqueObjectId()==block.GetUniqueObjectId()) {
                     m_DrawnBlocks.get(block.GetBlockType().ordinal()).remove(i);
+                    break;
                 }
         }
     }
@@ -108,48 +110,56 @@ public class CBlockFactory implements IDispatchBlocks {
                         m_AvailableBlocks.get(blocktype.ordinal()).add(newblock);
                         ++m_BlocksOnStock[blocktype.ordinal()];
                         ++m_NoBlocks;
+                        eFactoryState = FactoryState.OK;
                         break;
                     case QUADRUPLE_SQUARE:
                         newblock = new CQuadrupleSquare(color, ++m_ObjectIdHandler);
                         m_AvailableBlocks.get(blocktype.ordinal()).add(newblock);
                         ++m_BlocksOnStock[blocktype.ordinal()];
                         ++m_NoBlocks;
+                        eFactoryState = FactoryState.OK;
                         break;
                     case I_SHAPE:
                         newblock = new CIShape(color, ++m_ObjectIdHandler);
                         m_AvailableBlocks.get(blocktype.ordinal()).add(newblock);
                         ++m_BlocksOnStock[blocktype.ordinal()];
                         ++m_NoBlocks;
+                        eFactoryState = FactoryState.OK;
                         break;
                     case MIRRORED_L_SHAPE:
                         newblock = new CMirroredLShape(color, ++m_ObjectIdHandler);
                         m_AvailableBlocks.get(blocktype.ordinal()).add(newblock);
                         ++m_BlocksOnStock[blocktype.ordinal()];
                         ++m_NoBlocks;
+                        eFactoryState = FactoryState.OK;
                         break;
                     case L_SHAPE:
                         newblock = new CLShape(color, ++m_ObjectIdHandler);
                         m_AvailableBlocks.get(blocktype.ordinal()).add(newblock);
                         ++m_BlocksOnStock[blocktype.ordinal()];
                         ++m_NoBlocks;
+                        eFactoryState = FactoryState.OK;
                         break;
                     case FOUR_SHAPE:
                         newblock = new CFourShape(color, ++m_ObjectIdHandler);
                         m_AvailableBlocks.get(blocktype.ordinal()).add(newblock);
                         ++m_BlocksOnStock[blocktype.ordinal()];
                         ++m_NoBlocks;
+                        eFactoryState = FactoryState.OK;
                         break;
                     case MIRRORED_T_SHAPE:
                         newblock = new CMirroredTShape(color, ++m_ObjectIdHandler);;
                         m_AvailableBlocks.get(blocktype.ordinal()).add(newblock);
                         ++m_BlocksOnStock[blocktype.ordinal()];
                         ++m_NoBlocks;
+                        eFactoryState = FactoryState.OK;
                         break;
                     case MIRRORRED_FOUR_SHAPE:
                         newblock = new CSimpleSquare(color, ++m_ObjectIdHandler);
                         m_AvailableBlocks.get(blocktype.ordinal()).add(newblock);
                         ++m_BlocksOnStock[blocktype.ordinal()];
                         ++m_NoBlocks;
+                        eFactoryState = FactoryState.OK;
                         break;
                     default:
                         newblock = null;
