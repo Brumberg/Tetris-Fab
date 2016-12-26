@@ -86,6 +86,8 @@ public class CGridCtrl {
                         }
                     }
                     block.Rotate(rotation);
+                } else {
+                    retVal = false;
                 }
                 break;
             case DEGREES_180:
@@ -106,6 +108,8 @@ public class CGridCtrl {
                         }
                     }
                     block.Rotate(rotation);
+                } else {
+                    retVal = false;
                 }
                 break;
             case DEGREES_90:
@@ -125,6 +129,8 @@ public class CGridCtrl {
                         }
                     }
                     block.Rotate(rotation);
+                } else {
+                    retVal = false;
                 }
                 break;
             case DEGREES_270:
@@ -144,6 +150,8 @@ public class CGridCtrl {
                         }
                     }
                     block.Rotate(rotation);
+                } else {
+                    retVal = false;
                 }
                 break;
             default:
@@ -152,5 +160,65 @@ public class CGridCtrl {
         return retVal;
     }
 
-
+    public boolean IsBlockPlacable(CBlock block, CBlock.eRotation rotation, int xcoord, int ycoord) {
+        boolean retVal = true;
+        switch (rotation)
+        {
+            case DEGREES_0:
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()<m_GridX&&
+                        ycoord+block.GetHeights()<m_GridY) {
+                    for (int y=0;y<block.GetHeights();y++) {
+                        for (int x=0;x<block.GetWidth();x++) {
+                            retVal &= block.GetRawData(x,y)==0||m_Grid[y+ycoord][x+xcoord]==0;
+                        }
+                    }
+                } else {
+                    retVal = false;
+                }
+                break;
+            case DEGREES_180:
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()<m_GridX&&
+                        ycoord+block.GetHeights()<m_GridY) {
+                    int yhi = block.GetHeights()-1;
+                    int xhi = block.GetWidth()-1;
+                    for (int y=0;y<block.GetHeights();y++) {
+                        for (int x=0;x<block.GetWidth();x++) {
+                            retVal &= block.GetRawData(xhi-x,yhi-y)==0||m_Grid[y+ycoord][x+xcoord]==0;
+                        }
+                    }
+                } else {
+                    retVal = false;
+                }
+                break;
+            case DEGREES_90:
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()<m_GridX&&
+                        ycoord+block.GetWidth()<m_GridY) {
+                    int yhi = block.GetWidth()-1;
+                    for (int y=0;y<block.GetWidth();y++) {
+                        for (int x=0;x<block.GetHeights();x++) {
+                            retVal &= block.GetRawData(yhi-y,x)==0||m_Grid[y+ycoord][x+xcoord]==0;
+                        }
+                    }
+                } else {
+                    retVal = false;
+                }
+                break;
+            case DEGREES_270:
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()<m_GridX&&
+                        ycoord+block.GetWidth()<m_GridY) {
+                    int xhi = block.GetHeights()-1;
+                    for (int y=0;y<block.GetWidth();y++) {
+                        for (int x=0;x<block.GetHeights();x++) {
+                            retVal &= block.GetRawData(y,xhi-x)==0||m_Grid[y+ycoord][x+xcoord]==0;
+                        }
+                    }
+                } else {
+                    retVal = false;
+                }
+                break;
+            default:
+                break;
+        }
+        return retVal;
+    }
 }
