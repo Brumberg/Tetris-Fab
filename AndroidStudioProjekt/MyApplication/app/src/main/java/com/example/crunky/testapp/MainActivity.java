@@ -3,10 +3,8 @@ package com.example.crunky.testapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToSecondActivity(View view) { //is called by onClick function of Button in activity_main.xml
 
-        Intent intent = new Intent(this, SecondActivity.class);
+        Intent intent = new Intent(this, DragAndDrop.class);
 
         startActivity(intent);
 

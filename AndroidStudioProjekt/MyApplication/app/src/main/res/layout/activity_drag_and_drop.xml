@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="2"
+    android:columnCount="3"
     android:columnWidth="320dp"
     android:orientation="vertical"
-    android:rowCount="3"
+    android:rowCount="4"
     android:stretchMode="columnWidth" >
 
 
@@ -29,6 +29,7 @@
         android:id="@+id/topright"
         android:layout_width="160dp"
         android:layout_height="160dp"
+        android:layout_row="0"
         android:background="@drawable/shape" >
 
         <ImageView
@@ -36,36 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bottomleft"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:background="@drawable/shape"
-        android:layout_row="0"
-        android:layout_column="1">
-
-        <ImageView
-            android:id="@+id/myimage3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/auswahlFeld"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_row="2"
-        android:layout_column="1">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/vi_j"
-            android:id="@+id/auswahl" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -77,11 +48,10 @@
         android:layout_column="1">
 
         <ImageView
-            android:id="@+id/myimage4"
+            android:id="@+id/myimage3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
-
     </LinearLayout>
 
     <LinearLayout
@@ -91,13 +61,88 @@
         android:layout_row="2"
         android:layout_column="0">
 
-        <Button
-            android:text="Back"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:text="Change Object"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:layout_marginTop="11dp"
+                android:onClick="changeObj"
+                android:layout_below="@+id/button_rotate"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:text="Change Color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_change_color"
+                android:onClick="changeColor"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/vi_rotate"
+                android:id="@+id/button_rotate"
+                android:onClick="rotateImage"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomleft"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="@drawable/shape"
+        android:layout_row="1"
+        android:layout_column="0">
+
+        <ImageView
+            android:id="@+id/myimage4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button5"
-            android:layout_weight="1"
-            android:onClick="goToSecondActivity"/>
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/auswahlFeld"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_row="2"
+        android:layout_column="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/vi_j"
+                android:id="@+id/tetris_baustein"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:text="Back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button5"
+                android:layout_weight="1"
+                android:onClick="goBack"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/tetris_baustein"
+                android:layout_alignStart="@+id/tetris_baustein" />
+        </RelativeLayout>
 
     </LinearLayout>
 
