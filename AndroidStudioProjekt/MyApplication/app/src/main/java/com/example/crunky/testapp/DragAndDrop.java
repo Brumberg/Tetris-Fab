@@ -18,6 +18,8 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+import static com.example.crunky.testapp.R.id.tetris_baustein;
+
 
 public class DragAndDrop extends AppCompatActivity {
 
@@ -39,7 +41,7 @@ public class DragAndDrop extends AppCompatActivity {
         Log.d(msg, "The onCreate() event");
 
         // Allowing a view to be dragged
-        findViewById(R.id.tetris_baustein).setOnTouchListener(new MyTouchListener());
+        findViewById(tetris_baustein).setOnTouchListener(new MyTouchListener());
 
         // Defining drop target
         findViewById(R.id.topleft).setOnDragListener(new MyDragListener());
@@ -52,6 +54,10 @@ public class DragAndDrop extends AppCompatActivity {
         findViewById(R.id.bottommidle).setOnDragListener(new MyDragListener());
         findViewById(R.id.bottomright).setOnDragListener(new MyDragListener());
 
+        findViewById(R.id.midleright).setOnLongClickListener(new MyLongClickListener());
+
+
+
     }
 
     public void goBack(View view) { //is called by onClick function of Button in activity_main.xml
@@ -60,6 +66,32 @@ public class DragAndDrop extends AppCompatActivity {
 
         startActivity(intent);
 
+    }
+
+
+    private final class MyLongClickListener implements View.OnLongClickListener {
+
+        @Override
+        public boolean onLongClick(View view) {
+
+            int[] views = new int[9];
+
+            views[0] = R.id.topright;
+            views[1] = R.id.midleright;
+            views[2] = R.id.bottomright;
+            views[3] = R.id.bottommidle;
+
+
+            for (int i = 0; i< views.length; i++) {
+                if (views[i] != 0) {
+
+                    findViewById(views[i]).setBackgroundDrawable(getResources().getDrawable(R.drawable.shape));
+                }
+            }
+
+
+            return true;
+        }
     }
 
 
@@ -124,9 +156,7 @@ public class DragAndDrop extends AppCompatActivity {
 
                 view.setVisibility(View.INVISIBLE);
 
-                Log.d(msg, "On Touch");
-
-                return true;
+               return true;
             } else {
                 return false;
             }
@@ -148,9 +178,16 @@ public class DragAndDrop extends AppCompatActivity {
             // list of all shapes
             int[] views = new int[9];
 
+            float originalX = 0;
+            float originalY = 0;
+
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
-                    // do nothing
+
+                    // store old position
+                    originalX = event.getX();
+                    originalY = event.getY();
+
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     v.setBackgroundDrawable(enterShape);
@@ -206,15 +243,35 @@ public class DragAndDrop extends AppCompatActivity {
                             }
                         }
 
-                    } else {
-                        ViewGroup owner = (ViewGroup) view.getParent();
-                        owner.removeView(view);
-                        container.addView(view);
-                        view.setVisibility(View.VISIBLE);
+                    }
+                     ViewGroup owner = (ViewGroup) view.getParent();
+                     owner.removeView(view);
+                     container.addView(view);
+                     view.setVisibility(View.VISIBLE);
+
+
+                    //ImageView image = (ImageView) findViewById(R.id.tetris_baustein);
+
+                    LinearLayout lL = (LinearLayout) findViewById(R.id.auswahlFeld);
+
+                    if (lL.findViewById(R.id.tetris_baustein) == null) {
+                        ImageView image = new ImageView(DragAndDrop.this);
+
+                        image.setImageResource(R.drawable.vi_j);
+
+                        lL.addView(image);
+                        lL.setVisibility(View.VISIBLE);
+
+                        image.setOnTouchListener(new MyTouchListener());
+
+                        findViewById(R.id.tetris_baustein).setId(0);
+                        image.setId(R.id.tetris_baustein);
                     }
 
 
+
                     break;
+
                 case DragEvent.ACTION_DRAG_ENDED:
                     //v.setBackgroundDrawable(normalShape);
                 default:
@@ -225,7 +282,7 @@ public class DragAndDrop extends AppCompatActivity {
     }
 
     public void changeColor(View view) {
-        ImageView img = (ImageView) findViewById(R.id.tetris_baustein);
+        ImageView img = (ImageView) findViewById(tetris_baustein);
 
         switch (color) {
             case Color.BLACK:
@@ -254,14 +311,14 @@ public class DragAndDrop extends AppCompatActivity {
 
     public void rotateImage(View view) {
 
-        View img = findViewById(R.id.tetris_baustein);
+        View img = findViewById(tetris_baustein);
 
         img.setRotation(img.getRotation() - (float) 90.0);
 
     }
 
     public void changeObj(View view) {
-        ImageView img = (ImageView) findViewById(R.id.tetris_baustein);
+        ImageView img = (ImageView) findViewById(tetris_baustein);
 
         img.setRotation((float) 0.0);
 

@@ -93,7 +93,7 @@
         android:layout_height="100dp"
         android:background="@drawable/shape"
         android:layout_row="1"
-        android:layout_column="2">
+        android:layout_column="2" >
 
         <ImageView
             android:id="@+id/myimage6"
@@ -213,19 +213,12 @@
         android:layout_row="3"
         android:layout_column="2">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/vi_j"
-                android:id="@+id/tetris_baustein"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-        </RelativeLayout>
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/vi_j"
+            android:id="@+id/tetris_baustein"
+            android:layout_weight="1" />
     </LinearLayout>
 
 
