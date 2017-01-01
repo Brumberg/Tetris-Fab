@@ -19,10 +19,14 @@
         </activity>
         <activity
             android:name=".DragAndDrop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SeedBox"
             android:label="@string/title_activity_seed_box"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CSeedBoxTab"
+            android:label="@string/title_activity_cseed_box_tab"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
