@@ -63,4 +63,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SeedBox.class);
         startActivity(intent);
     }
+
+    public void goToFourthActivity(View view) { //is called by onClick function of Button in activity_main.xml
+        Intent intent = new Intent(this, CSeedBoxTab.class);
+        startActivity(intent);
+    }
 }
