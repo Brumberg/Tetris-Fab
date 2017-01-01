@@ -18,6 +18,16 @@ public class CGridCtrl {
         m_DispatchIface=dispatch;
         CreateGrid(eGridSize.THREEBYTHREE);
     }
+    public int GetWidth(){return m_GridX;}
+    public int GetHeight(){return m_GridY;}
+    public int GetObjectId(int x,int y) {
+        if (x<m_GridX&&y<m_GridY) {
+            return m_Grid[y][x];
+        } else {
+            return 0;
+        }
+    }
+
     public void CreateGrid(eGridSize grid) {
         switch (grid) {
             case THREEBYTHREE:
@@ -71,8 +81,8 @@ public class CGridCtrl {
         switch (rotation)
         {
             case DEGREES_0:
-                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()<m_GridX&&
-                        ycoord+block.GetHeights()<m_GridY) {
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()-1<m_GridX&&
+                        ycoord+block.GetHeights()-1<m_GridY) {
                     for (int y=0;y<block.GetHeights();y++) {
                         for (int x=0;x<block.GetWidth();x++) {
                             retVal &= block.GetRawData(x,y)==0||m_Grid[y+ycoord][x+xcoord]==0;
@@ -91,8 +101,8 @@ public class CGridCtrl {
                 }
                 break;
             case DEGREES_180:
-                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()<m_GridX&&
-                        ycoord+block.GetHeights()<m_GridY) {
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()-1<m_GridX&&
+                        ycoord+block.GetHeights()-1<m_GridY) {
                     int yhi = block.GetHeights()-1;
                     int xhi = block.GetWidth()-1;
                     for (int y=0;y<block.GetHeights();y++) {
@@ -113,8 +123,8 @@ public class CGridCtrl {
                 }
                 break;
             case DEGREES_90:
-                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()<m_GridX&&
-                        ycoord+block.GetWidth()<m_GridY) {
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()-1<m_GridX&&
+                        ycoord+block.GetWidth()-1<m_GridY) {
                     int yhi = block.GetWidth()-1;
                     for (int y=0;y<block.GetWidth();y++) {
                         for (int x=0;x<block.GetHeights();x++) {
@@ -134,8 +144,8 @@ public class CGridCtrl {
                 }
                 break;
             case DEGREES_270:
-                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()<m_GridX&&
-                        ycoord+block.GetWidth()<m_GridY) {
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()-1<m_GridX&&
+                        ycoord+block.GetWidth()-1<m_GridY) {
                     int xhi = block.GetHeights()-1;
                     for (int y=0;y<block.GetWidth();y++) {
                         for (int x=0;x<block.GetHeights();x++) {
@@ -165,8 +175,8 @@ public class CGridCtrl {
         switch (rotation)
         {
             case DEGREES_0:
-                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()<m_GridX&&
-                        ycoord+block.GetHeights()<m_GridY) {
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()-1<m_GridX&&
+                        ycoord+block.GetHeights()-1<m_GridY) {
                     for (int y=0;y<block.GetHeights();y++) {
                         for (int x=0;x<block.GetWidth();x++) {
                             retVal &= block.GetRawData(x,y)==0||m_Grid[y+ycoord][x+xcoord]==0;
@@ -177,8 +187,8 @@ public class CGridCtrl {
                 }
                 break;
             case DEGREES_180:
-                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()<m_GridX&&
-                        ycoord+block.GetHeights()<m_GridY) {
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetWidth()-1<m_GridX&&
+                        ycoord+block.GetHeights()-1<m_GridY) {
                     int yhi = block.GetHeights()-1;
                     int xhi = block.GetWidth()-1;
                     for (int y=0;y<block.GetHeights();y++) {
@@ -191,8 +201,8 @@ public class CGridCtrl {
                 }
                 break;
             case DEGREES_90:
-                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()<m_GridX&&
-                        ycoord+block.GetWidth()<m_GridY) {
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()-1<m_GridX&&
+                        ycoord+block.GetWidth()-1<m_GridY) {
                     int yhi = block.GetWidth()-1;
                     for (int y=0;y<block.GetWidth();y++) {
                         for (int x=0;x<block.GetHeights();x++) {
@@ -204,8 +214,8 @@ public class CGridCtrl {
                 }
                 break;
             case DEGREES_270:
-                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()<m_GridX&&
-                        ycoord+block.GetWidth()<m_GridY) {
+                if (xcoord>=0&&ycoord>=0&&xcoord+block.GetHeights()-1<m_GridX&&
+                        ycoord+block.GetWidth()-1<m_GridY) {
                     int xhi = block.GetHeights()-1;
                     for (int y=0;y<block.GetWidth();y++) {
                         for (int x=0;x<block.GetHeights();x++) {
