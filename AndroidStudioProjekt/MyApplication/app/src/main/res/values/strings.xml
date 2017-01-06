@@ -3,4 +3,7 @@
     <string name="welcome">Hello Tetris!</string>
     <string name="second_page">Second Page!</string>
     <string name="title_activity_seed_box">SeedBox</string>
+    <string name="title_activity_cseed_box_tab">CSeedBoxTab</string>
+    <string name="connection_failed">Verbindung fehlgeschlagen!</string>
+    <string name="wrong_password">Falsches Passwort!</string>
 </resources>
