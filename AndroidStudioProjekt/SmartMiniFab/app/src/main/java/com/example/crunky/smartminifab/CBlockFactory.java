@@ -3,11 +3,18 @@ import java.util.*;
 
 /**
  * Created by i00201574 on 20.12.2016.
+ * Component is responsible for stock handling - block exchange.
+ * The seedbox just gets a handle to IDispatchBlocks. Blocks can be
+ * allocated from te Blockfactory (if on stock) or released (back on stock)
+ * Component is handld as a singleton - there is just one stock.
+ * ResetFactory removes all components on stock
+ * AddBlock(s) can be used to create blocks and "fill" the stock.
  */
 
 interface IDispatchBlocks {
     public Block Allocate(BlockShape shape, BlockColor color);
     public void ReleaseBlock(Block block);
+    public boolean IsBlocktypeAvailable(BlockShape blockshape, BlockColor color);
 }
 
 public class CBlockFactory implements IDispatchBlocks {
@@ -109,6 +116,10 @@ public class CBlockFactory implements IDispatchBlocks {
                 }
             }
         }
+    }
+
+    public boolean IsBlocktypeAvailable(BlockShape blockshape, BlockColor color) {
+        return m_BlocksOnStock[blockshape.ordinal()][color.ordinal()] > 0;
     }
 
     /**
