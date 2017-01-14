@@ -26,102 +26,16 @@
         android:textStyle="normal|bold"
         android:textAllCaps="false" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ID_Dev_Mode_Scan_Button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp"
-        android:id="@+id/ID_Dev_Mode_User_TextView"
-        android:text="Type in your Username:"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
-
     <ProgressBar
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ID_Dev_Mode_Connecting_ProcessBar"
-        android:layout_alignTop="@+id/ID_Dev_Mode__Button"
         android:layout_marginTop="11dp"
         android:layout_alignRight="@+id/ID_Dev_Mode_OrderSucces_TextView"
         android:layout_alignEnd="@+id/ID_Dev_Mode_OrderSucces_TextView"
         android:layout_toRightOf="@+id/ID_Dev_Mode__Button"
         android:layout_toEndOf="@+id/ID_Dev_Mode__Button" />
-
-    <Button
-        android:text="Disconnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode__Button"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        style="@android:style/Widget.Button"
-        android:layout_marginTop="26dp"
-        android:layout_below="@+id/ID_Dev_Mode_User_TextField"
-        android:layout_alignLeft="@+id/ID_Dev_Mode_Scan_Button"
-        android:layout_alignStart="@+id/ID_Dev_Mode_Scan_Button" />
-
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Connect"
-        tools:text="Connect"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        style="@android:style/Widget.Button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/ID_Dev_Mode_TestString_TextView" />
-
-    <TextView
-        android:text="Please insert a test string:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ID_Dev_Mode__Button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="17dp"
-        android:id="@+id/ID_Dev_Mode_TestString_TextView"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="TestString"
-        android:ems="10"
-        android:id="@+id/ID_Dev_Mode_TestString_TextField"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        android:layout_below="@+id/ID_Dev_Mode_TestString_TextView"
-        android:layout_alignRight="@+id/ID_Dev_Mode_TestString_TextView"
-        android:layout_alignEnd="@+id/ID_Dev_Mode_TestString_TextView"
-        android:textColor="@color/colorAccent"
-        tools:background="@android:color/background_light" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Username"
-        android:ems="10"
-        android:id="@+id/ID_Dev_Mode_User_TextField"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        android:selectAllOnFocus="false"
-        android:textAlignment="viewStart"
-        tools:background="@android:color/background_light"
-        android:layout_below="@+id/ID_Dev_Mode_User_TextView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Scan Network"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_Scan_Button"
-        style="@android:style/Widget.Button"
-        android:layout_alignBottom="@+id/ID_Dev_Mode_Spinner_DropDown"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:text="Send Order"
@@ -170,18 +84,6 @@
         android:textSize="12sp" />
 
     <Button
-        android:text="Load predefined Teststring"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_LoadTestString_Button"
-        style="@android:style/Widget.Button"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        android:layout_marginTop="39dp"
-        android:layout_below="@+id/ID_Dev_Mode_TestString_TextField"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ID_Dev_Mode_Help_Button"
@@ -207,5 +109,115 @@
         android:layout_marginTop="14dp"
         android:layout_below="@+id/ID_Dev_Mode_Help_Button"
         android:layout_toRightOf="@+id/ID_Dev_Mode_User_TextView"
-        android:layout_toEndOf="@+id/ID_Dev_Mode_User_TextView"
+        android:layout_toEndOf="@+id/ID_Dev_Mode_User_TextView" />
+
+    <Button
+        android:text="Load predefined Teststring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_LoadTestString_Button"
+        style="@android:style/Widget.Button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_above="@+id/ID_Dev_Mode_Order_Button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:text="Disconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode__Button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        style="@android:style/Widget.Button"
+        android:layout_alignBaseline="@+id/Connect"
+        android:layout_alignBottom="@+id/Connect"
+        android:layout_alignRight="@+id/ID_Dev_Mode_Scan_Button"
+        android:layout_alignEnd="@+id/ID_Dev_Mode_Scan_Button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Connect"
+        tools:text="Connect"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        style="@android:style/Widget.Button"
+        android:layout_marginBottom="43dp"
+        android:layout_above="@+id/ID_Dev_Mode_TestString_TextView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Scan Network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_Scan_Button"
+        style="@android:style/Widget.Button"
+        android:layout_below="@+id/ID_DevMode_Heading_TextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_DropDownWifi_Spinner"
+        android:layout_below="@+id/ID_Dev_Mode_Scan_Button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Please insert a test string:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_TestString_TextView"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_marginBottom="19dp"
+        android:layout_above="@+id/ID_Dev_Mode_TestString_TextField"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="TestString"
+        android:ems="10"
+        android:id="@+id/ID_Dev_Mode_TestString_TextField"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:textColor="@color/colorAccent"
+        tools:background="@android:color/background_light"
+        android:layout_above="@+id/ID_Dev_Mode_LoadTestString_Button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="9dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_User_TextView"
+        android:text="Type in your Username:"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_alignBottom="@+id/ID_Dev_Mode_DropDownWifi_Spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Username"
+        android:ems="10"
+        android:id="@+id/ID_Dev_Mode_User_TextField"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:selectAllOnFocus="false"
+        android:textAlignment="viewStart"
+        tools:background="@android:color/background_light"
+        android:layout_below="@+id/ID_Dev_Mode_DropDownWifi_Spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="11dp" />
 </RelativeLayout>
