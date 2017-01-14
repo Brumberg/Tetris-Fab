@@ -17,12 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".DragAndDrop"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".SeedBox"
+            android:label="@string/title_activity_seed_box"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

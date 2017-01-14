@@ -55,10 +55,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToSecondActivity(View view) { //is called by onClick function of Button in activity_main.xml
-
         Intent intent = new Intent(this, DragAndDrop.class);
-
         startActivity(intent);
+    }
 
+    public void goToThirdActivity(View view) { //is called by onClick function of Button in activity_main.xml
+        Intent intent = new Intent(this, SeedBox.class);
+        startActivity(intent);
     }
 }
