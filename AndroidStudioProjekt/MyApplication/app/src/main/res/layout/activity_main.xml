@@ -39,4 +39,15 @@
         android:id="@+id/SEEDBOX"
         android:onClick="goToThirdActivity" />
 
+    <Button
+        android:text="SeedBox 2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/seedboxview"
+        android:onClick="goToFourthActivity" />
+
 </RelativeLayout>
