@@ -10,11 +10,15 @@
     tools:context="com.example.crunky.smartminifab.DevelopmentModeActivity"
     android:layout_width="match_parent">
 
+    <!--
+        * Created by Alexander on 13.01.2017
+     -->
+
     <TextView
         android:text="Development Mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ID_DevMode_TextView"
+        android:id="@+id/ID_DevMode_Heading_TextView"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:fontFamily="sans-serif"
         android:textSize="18sp"
@@ -32,23 +36,6 @@
         android:id="@+id/ID_Dev_Mode_User_TextView"
         android:text="Type in your Username:"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_Spinner_DropDown"
-        android:spinnerMode="dropdown"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:fadeScrollbars="false"
-        android:background="@android:color/background_light"
-        android:minWidth="@android:dimen/thumbnail_width"
-        android:scrollbars="vertical"
-        android:dropDownWidth="match_parent"
-        android:layout_marginTop="36dp"
-        android:layout_below="@+id/ID_Dev_Mode_Help_Button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
     <ProgressBar
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
@@ -127,19 +114,6 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_Help_Button"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        android:visibility="visible"
-        android:elevation="0dp"
-        style="@android:style/Widget.Button"
-        android:text="Help"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
         android:text="Scan Network"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -206,4 +180,32 @@
         android:layout_below="@+id/ID_Dev_Mode_TestString_TextField"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_Help_Button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:visibility="visible"
+        android:elevation="0dp"
+        style="@android:style/Widget.Button"
+        android:text="Help"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ID_Dev_Mode_Connecting_ProcessBar"
+        android:layout_toEndOf="@+id/ID_Dev_Mode_Connecting_ProcessBar" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_Spinner_DropDown"
+        android:spinnerMode="dropdown"
+        android:fadeScrollbars="false"
+        android:background="@android:color/background_light"
+        android:minWidth="@android:dimen/thumbnail_width"
+        android:scrollbars="vertical"
+        android:dropDownWidth="match_parent"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/ID_Dev_Mode_Help_Button"
+        android:layout_toRightOf="@+id/ID_Dev_Mode_User_TextView"
+        android:layout_toEndOf="@+id/ID_Dev_Mode_User_TextView"
 </RelativeLayout>
