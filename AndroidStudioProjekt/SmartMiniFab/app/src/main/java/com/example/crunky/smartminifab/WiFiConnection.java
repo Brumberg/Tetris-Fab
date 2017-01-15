@@ -17,6 +17,8 @@ import java.net.*;
 
 /**
  * Created by Daniel on 31.12.2016.
+ * This class simply extends the TCPIP module. It was extracted from Daniel´s development branch.
+ * Can be modified as required. See TCPIP Module.
  */
 
 public class WiFiConnection {
