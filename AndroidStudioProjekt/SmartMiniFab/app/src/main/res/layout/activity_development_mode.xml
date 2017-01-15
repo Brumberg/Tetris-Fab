@@ -207,5 +207,5 @@
         android:layout_marginTop="14dp"
         android:layout_below="@+id/ID_Dev_Mode_Help_Button"
         android:layout_toRightOf="@+id/ID_Dev_Mode_User_TextView"
-        android:layout_toEndOf="@+id/ID_Dev_Mode_User_TextView"
+        android:layout_toEndOf="@+id/ID_Dev_Mode_User_TextView" />
 </RelativeLayout>
