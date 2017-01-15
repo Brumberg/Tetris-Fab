@@ -4,8 +4,21 @@ import android.graphics.*;
 
 /**
  * Created by Daniel on 31.12.2016.
+ * Point sucks. I got an uninitialized array. Figuring out what happend took me a while
+ *
  */
-
+class Point {
+    Point () {
+        x = 0;
+        y = 0;
+    }
+    Point(int tx, int ty) {
+        x = tx;
+        y = ty;
+    }
+    public int x;
+    public int y;
+}
 enum BlockRotation {DEGREES_0, DEGREES_90, DEGREES_180, DEGREES_270}
 
 public class Block extends BlockType {
@@ -21,7 +34,7 @@ public class Block extends BlockType {
             {{true, false}, {true, true}, {true, false}}, // MIRRORED_T_SHAPE
             {{true, true, false}, {false, true, true}}, // MIRRORRED_FOUR_SHAPE
     };
-    private static Point[] centerOfGravity = {
+    final static Point[] centerOfGravity = {
             new Point(0, 0), // SIMPLE_SQUARE
             new Point(0, 1), // QUADRUPLE_SQUARE
             new Point(0, 1), // I_SHAPE
@@ -96,16 +109,16 @@ public class Block extends BlockType {
                 center.y = y;
                 break;
             case DEGREES_90:
-                center.x = lengthx-1-y;
-                center.y = x;
+                center.x = y;
+                center.y = lengthx-x-1;
                 break;
             case DEGREES_180:
                 center.x = lengthx-1-x;
                 center.y = lengthy-1-y;
                 break;
             case DEGREES_270:
-                center.x = y;
-                center.y = lengthx-1-x;
+                center.x = lengthy-1-y;
+                center.y = x;
                 break;
             default:
                 center.x = x;
@@ -130,38 +143,38 @@ public class Block extends BlockType {
     boolean GetBlockData(int x,int y) {
         boolean retVal=false;
         boolean[][] shapetemplate = shapeDataTemplates[getShape().ordinal()];
+        int width = shapeDataTemplates[getShape().ordinal()].length;
+        int height = shapeDataTemplates[getShape().ordinal()][0].length;
         switch (m_rotation) {
             case DEGREES_0:
-                if (x>=0&&x<shapetemplate.length) {
-                    if (y>=0&&y<shapetemplate[x].length) {
+                if (x>=0&&x<width) {
+                    if (y>=0&&y<height) {
                         //valid enty
                         retVal = shapetemplate[x][y];
                     }
                 }
                 break;
             case DEGREES_90:
-                if (y>=0&&y<shapetemplate.length) {
-                    if (x>=0&&x<shapetemplate[0].length) {
+                if (y>=0&&y<width) {
+                    if (x>=0&&x<height) {
                         //valid enty
-                        retVal = shapetemplate[shapetemplate[0].length-y-1][x];
+                        retVal = shapetemplate[width-y-1][x];
                     }
                 }
                 break;
             case DEGREES_180:
-                if (x>=0&&x<shapetemplate.length) {
-                    if (y>=0&&y<shapetemplate[x].length) {
+                if (x>=0&&x<width) {
+                    if (y>=0&&y<height) {
                         //valid enty
-                        retVal = shapetemplate[shapetemplate.length-x-1]
-                                [shapetemplate[0].length-y-1];
+                        retVal = shapetemplate[width-x-1][height-y-1];
                     }
                 }
                 break;
             case DEGREES_270:
-                if (y>=0&&y<shapetemplate.length) {
-                    if (x>=0&&x<shapetemplate[0].length) {
+                if (y>=0&&y<width) {
+                    if (x>=0&&x<height) {
                         //valid enty
-                        retVal = shapetemplate[y]
-                                [shapetemplate[0].length-x-1];
+                        retVal = shapetemplate[y][height-x-1];
                     }
                 }
                 break;
