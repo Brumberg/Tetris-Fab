@@ -167,14 +167,6 @@
         app:srcCompat="@mipmap/ic_launcher"
         android:layout_marginTop="3dp"/>
 
-    <ImageView
-        android:id="@+id/ID_WarehouseMode_Z_Brick_ImageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/ID_WarehouseMode_L_Brick_ImageView"
-        android:layout_alignParentLeft="true"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginTop="3dp"/>
     <!-- 1 x 1 -->
     <Button
         android:id="@+id/ID_WarehouseMode_1x1_Black_Counter_Button"
@@ -238,33 +230,439 @@
 
 
     <!-- 2 x 2 -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_2x2_Black_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
+    <Button
+        android:id="@+id/ID_WarehouseMode_2x2_Red_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_2x2_Green_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_2x2_Blue_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_2x2_Yellow_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
     <!-- I -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_I_Black_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_I_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
+    <Button
+        android:id="@+id/ID_WarehouseMode_I_Red_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_I_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_I_Green_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_I_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_I_Blue_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_I_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_I_Yellow_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_I_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
 
     <!-- J -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_J_Black_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_J_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
+    <Button
+        android:id="@+id/ID_WarehouseMode_J_Red_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_J_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_J_Green_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_J_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_J_Blue_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_J_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_J_Yellow_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_J_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
 
     <!-- S -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_S_Black_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_S_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
+    <Button
+        android:id="@+id/ID_WarehouseMode_S_Red_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_S_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_S_Green_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_S_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_S_Blue_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_S_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_S_Yellow_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_S_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
 
     <!-- T -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_T_Black_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_T_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
+    <Button
+        android:id="@+id/ID_WarehouseMode_T_Red_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_T_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_T_Green_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_T_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_T_Blue_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_T_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_T_Yellow_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_T_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
 
     <!-- L -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_L_Black_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
+    <Button
+        android:id="@+id/ID_WarehouseMode_L_Red_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_L_Green_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_L_Blue_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_L_Yellow_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
     <!-- Z -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_Z_Black_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_Z_Red_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_Z_Green_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_Z_Blue_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_Z_Yellow_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
 
 
 
-
-<!-- Buttons for Warehouse -->
+<!-- Buttons and Sum for Warehouse -->
     <Button
         android:id="@+id/ID_WarehouseMode_Increase_Button"
         android:layout_width="30dp"
@@ -288,6 +686,17 @@
         style="@android:style/Widget.Button"
         android:textAlignment="center"
         android:padding="0dp"/>
+
+    <TextView
+        android:id="@+id/ID_WarehouseMode_Sum_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sum = 000"
+        android:layout_below="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_alignParentRight="true"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:textStyle="normal|bold"
+        android:textAllCaps="false" />
 
 
 <!-- Buttons for Navigation -->
@@ -316,5 +725,14 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/ID_WarehouseMode_FactorySelect_Button"
         android:layout_marginLeft="6dp"/>
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_below="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
