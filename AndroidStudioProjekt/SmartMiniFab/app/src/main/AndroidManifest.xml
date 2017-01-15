@@ -17,7 +17,8 @@
         </activity>
         <activity android:name=".DevelopmentModeActivity" />
         <activity android:name=".SeedBoxModeActivity" />
-        <activity android:name=".PlacementModeActivity"></activity>
+        <activity android:name=".PlacementModeActivity" />
+        <activity android:name=".WarehouseActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_warehouse"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.crunky.smartminifab.WarehouseActivity">
+    <!--
+        * Created by Alexander on 15.01.2017
+     -->
+
+    <TextView
+        android:id="@+id/ID_WarehouseMode_Heading_TextView"
+        android:text="Warehouse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
+        android:textAlignment="viewStart"
+        android:textStyle="normal|bold"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_Help_Button"
+        android:text="Help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/ID_WarehouseMode_Request_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please set your Warehouse:"
+        android:layout_below="@+id/ID_WarehouseMode_Heading_TextView"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_Load_Button"
+        android:text="Load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ID_WarehouseMode_Request_TextView"
+        android:layout_alignParentLeft="true" />
+    <!--
+        * Color ImageView Table
+     -->
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorBlack"
+        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
+        android:layout_marginStart="50dp"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorRed"
+        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
+        android:layout_toRightOf="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:layout_marginStart="20dp" />
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorGreen"
+        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
+        android:layout_toRightOf="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:layout_marginStart="20dp" />
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorBlue"
+        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
+        android:layout_toRightOf="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:layout_marginStart="20dp" />
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorYellow"
+        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
+        android:layout_toRightOf="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:layout_toEndOf="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:layout_marginStart="20dp" />
+    <!--
+        * Bricks ImageView Table
+     -->
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_below="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="3dp"/>
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginTop="3dp"/>
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_I_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginTop="3dp"/>
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_J_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_I_Brick_ImageView"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginTop="3dp" />
+
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_S_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_J_Brick_ImageView"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginTop="3dp"/>
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_T_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_S_Brick_ImageView"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginTop="3dp"/>
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_T_Brick_ImageView"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginTop="3dp"/>
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginTop="3dp"/>
+    <!-- 1 x 1 -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_1x1_Black_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_1x1_Red_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_1x1_Green_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_1x1_Blue_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_1x1_Yellow_Counter_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Yellow_Color_ImageView"
+        android:text="00"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+
+    <!-- 2 x 2 -->
+
+
+    <!-- I -->
+
+
+
+    <!-- J -->
+
+
+
+    <!-- S -->
+
+
+
+    <!-- T -->
+
+
+
+    <!-- L -->
+
+
+    <!-- Z -->
+
+
+
+
+<!-- Buttons for Warehouse -->
+    <Button
+        android:id="@+id/ID_WarehouseMode_Increase_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Blue_Color_ImageView"
+        android:text="+"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_Decrease_Button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:text="-"
+        android:textSize="18sp"
+        style="@android:style/Widget.Button"
+        android:textAlignment="center"
+        android:padding="0dp"/>
+
+
+<!-- Buttons for Navigation -->
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_FactorySelect_Button"
+        android:text="Factory Select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_SeedBox_Button"
+        android:text="Seed Box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+    <Button
+        android:id="@+id/ID_WarehouseMode_Store_Button"
+        android:text="Store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/ID_WarehouseMode_FactorySelect_Button"
+        android:layout_marginLeft="6dp"/>
+
+</RelativeLayout>
