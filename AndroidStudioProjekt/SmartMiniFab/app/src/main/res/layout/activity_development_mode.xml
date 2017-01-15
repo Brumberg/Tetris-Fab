@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_development_mode"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.crunky.smartminifab.DevelopmentModeActivity"
+    android:layout_width="match_parent">
+
+    <!--
+        * Created by Alexander on 13.01.2017
+     -->
+
+    <TextView
+        android:text="Development Mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_DevMode_Heading_TextView"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
+        android:textAlignment="viewStart"
+        android:textStyle="normal|bold"
+        android:textAllCaps="false" />
+
+    <ProgressBar
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_Connecting_ProcessBar"
+        android:layout_marginTop="11dp"
+        android:layout_alignRight="@+id/ID_Dev_Mode_OrderSucces_TextView"
+        android:layout_alignEnd="@+id/ID_Dev_Mode_OrderSucces_TextView"
+        android:layout_toRightOf="@+id/ID_Dev_Mode__Button"
+        android:layout_toEndOf="@+id/ID_Dev_Mode__Button" />
+
+    <Button
+        android:text="Send Order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_Order_Button"
+        style="@android:style/Widget.Button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/Connect"
+        android:layout_alignStart="@+id/Connect" />
+
+    <Button
+        android:text="Seed Tray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_SeedTray_Button"
+        style="@android:style/Widget.Button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_InOperation_ProcessBar"
+        android:visibility="visible"
+        android:indeterminate="false"
+        android:layout_alignTop="@+id/ID_Dev_Mode_SeedTray_Button"
+        android:layout_marginTop="15dp"
+        android:layout_alignRight="@+id/ID_Dev_Mode_Connecting_ProcessBar"
+        android:layout_alignEnd="@+id/ID_Dev_Mode_Connecting_ProcessBar"
+        android:layout_toRightOf="@+id/ID_Dev_Mode_SeedTray_Button"
+        android:layout_toEndOf="@+id/ID_Dev_Mode_SeedTray_Button" />
+
+    <TextView
+        android:text="Your order was successfull"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_OrderSucces_TextView"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_Help_Button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:visibility="visible"
+        android:elevation="0dp"
+        style="@android:style/Widget.Button"
+        android:text="Help"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ID_Dev_Mode_Connecting_ProcessBar"
+        android:layout_toEndOf="@+id/ID_Dev_Mode_Connecting_ProcessBar" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_Spinner_DropDown"
+        android:spinnerMode="dropdown"
+        android:fadeScrollbars="false"
+        android:background="@android:color/background_light"
+        android:minWidth="@android:dimen/thumbnail_width"
+        android:scrollbars="vertical"
+        android:dropDownWidth="match_parent"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/ID_Dev_Mode_Help_Button"
+        android:layout_toRightOf="@+id/ID_Dev_Mode_User_TextView"
+        android:layout_toEndOf="@+id/ID_Dev_Mode_User_TextView" />
+
+    <Button
+        android:text="Load predefined Teststring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_LoadTestString_Button"
+        style="@android:style/Widget.Button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_above="@+id/ID_Dev_Mode_Order_Button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:text="Disconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode__Button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        style="@android:style/Widget.Button"
+        android:layout_alignBaseline="@+id/Connect"
+        android:layout_alignBottom="@+id/Connect"
+        android:layout_alignRight="@+id/ID_Dev_Mode_Scan_Button"
+        android:layout_alignEnd="@+id/ID_Dev_Mode_Scan_Button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Connect"
+        tools:text="Connect"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        style="@android:style/Widget.Button"
+        android:layout_marginBottom="43dp"
+        android:layout_above="@+id/ID_Dev_Mode_TestString_TextView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Scan Network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_Scan_Button"
+        style="@android:style/Widget.Button"
+        android:layout_below="@+id/ID_DevMode_Heading_TextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_DropDownWifi_Spinner"
+        android:layout_below="@+id/ID_Dev_Mode_Scan_Button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Please insert a test string:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_TestString_TextView"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_marginBottom="19dp"
+        android:layout_above="@+id/ID_Dev_Mode_TestString_TextField"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="TestString"
+        android:ems="10"
+        android:id="@+id/ID_Dev_Mode_TestString_TextField"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:textColor="@color/colorAccent"
+        tools:background="@android:color/background_light"
+        android:layout_above="@+id/ID_Dev_Mode_LoadTestString_Button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="9dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_Dev_Mode_User_TextView"
+        android:text="Type in your Username:"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_alignBottom="@+id/ID_Dev_Mode_DropDownWifi_Spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Username"
+        android:ems="10"
+        android:id="@+id/ID_Dev_Mode_User_TextField"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:selectAllOnFocus="false"
+        android:textAlignment="viewStart"
+        tools:background="@android:color/background_light"
+        android:layout_below="@+id/ID_Dev_Mode_DropDownWifi_Spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="11dp" />
+</RelativeLayout>
