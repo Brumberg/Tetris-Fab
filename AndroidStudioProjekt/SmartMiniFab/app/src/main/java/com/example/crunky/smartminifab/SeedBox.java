@@ -43,6 +43,11 @@ public class SeedBox {
         setSize(SeedBoxSize.THREEBYTHREE);
     }
 
+    public Block[][] GetTestSeedBox() {
+        //only for testing
+        return m_seedBox;
+    }
+
     public void setSize(SeedBoxSize size) {
         m_size = size;
         switch (size) {
@@ -155,7 +160,7 @@ public class SeedBox {
      * @return removed block (call IDispatchBlock of the Factory to update storage)
      */
     public Block remove(int x, int y) {
-        if (m_seedBox.length<x&&m_seedBox[x].length<y) {
+        if (x<m_seedBox.length&&y<m_seedBox[x].length) {
             Block block = m_seedBox[x][y];
             if (block != null) {
                 for (int i = 0; i < m_seedBox.length; i++) {
