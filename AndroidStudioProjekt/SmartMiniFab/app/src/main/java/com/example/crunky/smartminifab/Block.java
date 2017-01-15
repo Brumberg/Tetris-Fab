@@ -31,10 +31,7 @@ public class Block extends BlockType {
             new Point(1, 0), // MIRRORED_T_SHAPE
             new Point(1, 1), // MIRRORRED_FOUR_SHAPE
     };
-    private int m_xFactor;
-    private int m_yFactor;
-    private int m_xShifting;
-    private int m_yShifting;
+
     private Point m_position;
 
     public Block(BlockShape shape, BlockColor color, BlockRotation rotation) {
@@ -43,9 +40,79 @@ public class Block extends BlockType {
         m_position = null;
     }
 
+    public int GetWidth() {
+        int width;
+        switch (m_rotation) {
+            case DEGREES_0:
+                width = shapeDataTemplates[getShape().ordinal()].length;
+                break;
+            case DEGREES_90:
+                width = shapeDataTemplates[getShape().ordinal()][0].length;
+                break;
+            case DEGREES_180:
+                width = shapeDataTemplates[getShape().ordinal()].length;
+                break;
+            case DEGREES_270:
+                width = shapeDataTemplates[getShape().ordinal()][0].length;
+                break;
+            default:
+                width = shapeDataTemplates[getShape().ordinal()][0].length;
+                break;
+        }
+        return width;
+    }
+
+    public int GetHeight() {
+        int height;
+        switch (m_rotation) {
+            case DEGREES_0:
+                height = shapeDataTemplates[getShape().ordinal()][0].length;
+                break;
+            case DEGREES_90:
+                height = shapeDataTemplates[getShape().ordinal()].length;
+                break;
+            case DEGREES_180:
+                height = shapeDataTemplates[getShape().ordinal()][0].length;
+                break;
+            case DEGREES_270:
+                height = shapeDataTemplates[getShape().ordinal()].length;
+                break;
+            default:
+                height = shapeDataTemplates[getShape().ordinal()].length;
+                break;
+        }
+        return height;
+    }
+
     public Point getCenterOfGravity() {
-        Point center = centerOfGravity[getShape().ordinal()];
-        return new Point(center.x * m_xFactor + m_xShifting, center.y * m_yFactor + m_yShifting);
+        Point center = new Point();
+        int lengthx = shapeDataTemplates[getShape().ordinal()].length;
+        int lengthy = shapeDataTemplates[getShape().ordinal()][0].length;
+        int x = centerOfGravity[getShape().ordinal()].x;
+        int y = centerOfGravity[getShape().ordinal()].y;
+        switch (m_rotation) {
+            case DEGREES_0:
+                center.x = x;
+                center.y = y;
+                break;
+            case DEGREES_90:
+                center.x = lengthx-1-y;
+                center.y = x;
+                break;
+            case DEGREES_180:
+                center.x = lengthx-1-x;
+                center.y = lengthy-1-y;
+                break;
+            case DEGREES_270:
+                center.x = y;
+                center.y = lengthx-1-x;
+                break;
+            default:
+                center.x = x;
+                center.y = y;
+                break;
+        }
+        return center;
     }
 
     public Point getPosition() {
@@ -56,34 +123,58 @@ public class Block extends BlockType {
         m_position = position;
     }
 
-    public boolean[][] getShapeData() {
-        boolean[][] template = shapeDataTemplates[getShape().ordinal()];
-        boolean[][] result = new boolean[template.length][template[0].length];
-        for (int i = 0; i < template.length; i++) {
-            for (int j = 0; j < template[0].length; j++) {
-                result[i * m_xFactor + m_xShifting][i * m_yFactor + m_yShifting] = template[i][j];
-            }
-        }
-        return result;
-    }
-
     public void setRotation(BlockRotation rotation) {
         m_rotation = rotation;
-        int count = m_rotation.ordinal();
-        if ((count == 0) || (count == 1)) {
-            m_xFactor = 1;
-            m_xShifting = 0;
-        } else {
-            m_xFactor = -1;
-            m_xShifting = shapeDataTemplates[getShape().ordinal()].length - 1;
+    }
+
+    boolean GetBlockData(int x,int y) {
+        boolean retVal=false;
+        boolean[][] shapetemplate = shapeDataTemplates[getShape().ordinal()];
+        switch (m_rotation) {
+            case DEGREES_0:
+                if (x>=0&&x<shapetemplate.length) {
+                    if (y>=0&&y<shapetemplate[x].length) {
+                        //valid enty
+                        retVal = shapetemplate[x][y];
+                    }
+                }
+                break;
+            case DEGREES_90:
+                if (y>=0&&y<shapetemplate.length) {
+                    if (x>=0&&x<shapetemplate[0].length) {
+                        //valid enty
+                        retVal = shapetemplate[shapetemplate[0].length-y-1][x];
+                    }
+                }
+                break;
+            case DEGREES_180:
+                if (x>=0&&x<shapetemplate.length) {
+                    if (y>=0&&y<shapetemplate[x].length) {
+                        //valid enty
+                        retVal = shapetemplate[shapetemplate.length-x-1]
+                                [shapetemplate[0].length-y-1];
+                    }
+                }
+                break;
+            case DEGREES_270:
+                if (y>=0&&y<shapetemplate.length) {
+                    if (x>=0&&x<shapetemplate[0].length) {
+                        //valid enty
+                        retVal = shapetemplate[y]
+                                [shapetemplate[0].length-x-1];
+                    }
+                }
+                break;
+            default:
+                if (x>=0&&x<shapetemplate.length) {
+                    if (y>=0&&y<shapetemplate[x].length) {
+                        //valid enty
+                        retVal = shapetemplate[x][y];
+                    }
+                }
+                break;
         }
-        if ((count == 0) || (count == 3)) {
-            m_yFactor = 0;
-            m_yShifting = 0;
-        } else {
-            m_yFactor = -1;
-            m_yShifting = shapeDataTemplates[getShape().ordinal()][0].length - 1;
-        }
+        return retVal;
     }
 
     public BlockRotation getRotation() {
