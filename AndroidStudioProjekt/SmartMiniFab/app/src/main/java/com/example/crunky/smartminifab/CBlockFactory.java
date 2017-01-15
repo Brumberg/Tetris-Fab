@@ -54,14 +54,32 @@ public class CBlockFactory implements IDispatchBlocks {
         m_NoBlocks = 0;                                     // initial number of blocks is zero
                                                             // populate lists
         m_AvailableBlocks = new ArrayList[BlockType.NODIFFERENTBLOCKTYPES]
-                [BlockType.NODIFFERENTBLOCKTYPES];
+                [BlockType.NOBLOCKCOLORS];
         m_DrawnBlocks = new ArrayList[BlockType.NODIFFERENTBLOCKTYPES]
-                [BlockType.NODIFFERENTBLOCKTYPES];
+                [BlockType.NOBLOCKCOLORS];
 
         for (int i = 0; i < Block.NODIFFERENTBLOCKTYPES; ++i) {
-            for (int j = 0; j < Block.NOBLOCKCOLORS; ++j)
+            for (int j = 0; j < Block.NOBLOCKCOLORS; ++j) {
                 m_AvailableBlocks[i][j] = new ArrayList<Block>();
+                m_DrawnBlocks[i][j] = new ArrayList<Block>();
+            }
         }
+    }
+
+    public static CBlockFactory getInstance() {
+        return fab;
+    }
+
+    public int GetNoBlocks() {
+        return m_NoBlocks;
+    }
+
+    public int GetNoBlocksAvailable(BlockShape blockshape, BlockColor color) {
+        return m_BlocksOnStock[blockshape.ordinal()][color.ordinal()];
+    }
+
+    public int GetNoBlocksDrawn(BlockShape blockshape, BlockColor color) {
+        return m_PlacedBlocks[blockshape.ordinal()][color.ordinal()];
     }
 
     /**
