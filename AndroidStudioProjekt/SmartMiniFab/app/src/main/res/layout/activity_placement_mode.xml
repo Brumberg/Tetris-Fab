@@ -224,7 +224,65 @@
         android:layout_alignParentRight="true"
         app:srcCompat="@mipmap/ic_launcher"
         android:layout_below="@+id/ID_PlacementMode_RotateRight_Button"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="15dp"/>
 
+    <SurfaceView
+        android:id="@+id/ID_PlacementMode_SeedBox_SurfaceView"
+        android:layout_toLeftOf="@+id/ID_PlacementMode_BrickPreview_ImageView"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/ID_PlacementMode_Placement_TextView"
+        android:layout_above="@+id/ID_PlacementMode_SeedBox_Button"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/ID_PlacementMode_Trash_ImageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ID_PlacementMode_BrickPreview_ImageView"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@android:drawable/ic_menu_delete"/>
+
+    <Button
+        android:id="@+id/ID_PlacementMode_SeedBox_Button"
+        android:text="Seed Box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
+    <Button
+        android:id="@+id/ID_PlacementMode_SendOrder_Button"
+        android:text="Send Order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/ID_PlacementMode_SeedBox_Button"
+        android:layout_marginStart="20dp"/>
+
+    <ProgressBar
+        android:id="@+id/ID_PlacementMode_OrderInProgress_ProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ID_PlacementMode_SeedBox_SurfaceView"
+        android:layout_toEndOf="@+id/ID_PlacementMode_SendOrder_Button"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/ID_PlacementMode_OrderSuccessful_TextView"
+        android:text="Successful Order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ID_PlacementMode_OrderInProgress_ProgressBar"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/ID_PlacementMode_SendOrder_Button"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:textSize="12sp"
+        android:textColor="@color/colorGreen" />
 
 </RelativeLayout>
