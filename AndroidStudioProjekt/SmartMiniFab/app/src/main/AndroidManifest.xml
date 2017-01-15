@@ -18,7 +18,9 @@
         <activity android:name=".DevelopmentModeActivity" />
         <activity android:name=".SeedBoxModeActivity" />
         <activity android:name=".PlacementModeActivity" />
-        <activity android:name=".WarehouseActivity"></activity>
+        <activity android:name=".WarehouseActivity" />
+        <activity android:name=".ErrorWindowActivity" />
+        <activity android:name=".HelpWindowActivity"></activity>
     </application>
 
 </manifest>
