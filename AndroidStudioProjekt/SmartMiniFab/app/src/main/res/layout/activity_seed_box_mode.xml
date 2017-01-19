@@ -63,7 +63,8 @@
         android:layout_alignTop="@+id/ID_SeedBoxMode_Warehouse_Button"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="7dp" />
+        android:layout_marginTop="7dp"
+        android:onClick="goToPlacementModeActivity"/>
 
     <Button
         android:text="Development Mode"
@@ -74,7 +75,8 @@
         android:visibility="visible"
         android:layout_above="@+id/ID_SeedBoxMode_Placement_Button"
         android:layout_toRightOf="@+id/ID_SeedBoxMode_Request_TextView"
-        android:layout_toEndOf="@+id/ID_SeedBoxMode_Request_TextView" />
+        android:layout_toEndOf="@+id/ID_SeedBoxMode_Request_TextView"
+        android:onClick="goToDevelopmentModeActivity"/>
 
     <ImageButton
         android:layout_width="wrap_content"
