@@ -50,7 +50,9 @@
         android:layout_height="30dp"
         android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
         android:layout_alignParentLeft="true"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/vi_quadrat_1x1"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick"/>
 
     <ImageButton
         android:id="@+id/ID_PlacementMode_2x2_Brick_ImageButton"
@@ -59,7 +61,9 @@
         android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
         android:layout_toEndOf="@+id/ID_PlacementMode_1x1_Brick_ImageButtonn"
         android:layout_marginStart="40dp"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/vi_quadrat_2x2"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick" />
 
     <ImageButton
         android:id="@+id/ID_PlacementMode_I_Brick_ImageButton"
@@ -68,7 +72,9 @@
         android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
         android:layout_toEndOf="@+id/ID_PlacementMode_2x2_Brick_ImageButton"
         android:layout_marginStart="10dp"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/vi_i"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick" />
 
     <ImageButton
         android:id="@+id/ID_PlacementMode_J_Brick_ImageButton"
@@ -77,7 +83,9 @@
         android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
         android:layout_toEndOf="@+id/ID_PlacementMode_I_Brick_ImageButton"
         android:layout_marginStart="10dp"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/vi_j"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick" />
 
     <ImageButton
         android:id="@+id/ID_PlacementMode_S_Brick_ImageButton"
@@ -86,7 +94,9 @@
         android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
         android:layout_toEndOf="@+id/ID_PlacementMode_J_Brick_ImageButton"
         android:layout_marginStart="10dp"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/vi_s"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick" />
 
     <ImageButton
         android:id="@+id/ID_PlacementMode_T_Brick_ImageButton"
@@ -95,7 +105,9 @@
         android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
         android:layout_toEndOf="@+id/ID_PlacementMode_S_Brick_ImageButton"
         android:layout_marginStart="10dp"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/vi_t"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick" />
 
     <ImageButton
         android:id="@+id/ID_PlacementMode_L_Brick_ImageButton"
@@ -104,7 +116,9 @@
         android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
         android:layout_toEndOf="@+id/ID_PlacementMode_T_Brick_ImageButton"
         android:layout_marginStart="10dp"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/vi_l"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick" />
 
     <ImageButton
         android:id="@+id/ID_PlacementMode_Z_Brick_ImageButton"
@@ -113,7 +127,9 @@
         android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
         android:layout_toEndOf="@+id/ID_PlacementMode_L_Brick_ImageButton"
         android:layout_marginStart="10dp"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/vi_z"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick" />
 
     <TextView
         android:text="2. Please select a color:"
@@ -133,6 +149,7 @@
         android:layout_below="@+id/ID_PlacementMode_Color_TextView"
         android:id="@+id/ID_PlacementMode_Black_Color_Button"
         android:background="@color/colorBlack"
+        android:onClick="changeColor"
         style="@style/Widget.AppCompat.Button.Borderless" />
 
     <Button
@@ -144,7 +161,8 @@
         android:background="@color/colorRed"
         android:layout_toRightOf="@+id/ID_PlacementMode_Black_Color_Button"
         android:layout_toEndOf="@+id/ID_PlacementMode_Black_Color_Button"
-        android:layout_marginStart="40dp" />
+        android:layout_marginStart="40dp"
+        android:onClick="changeColor"/>
 
     <Button
         android:layout_width="30dp"
@@ -155,9 +173,8 @@
         android:background="@color/colorGreen"
         android:layout_toRightOf="@+id/ID_PlacementMode_Red_Color_Button"
         android:layout_toEndOf="@+id/ID_PlacementMode_Red_Color_Button"
-        android:layout_marginStart="40dp" />
-
-
+        android:layout_marginStart="40dp"
+        android:onClick="changeColor"/>
 
     <Button
         android:layout_width="30dp"
@@ -168,7 +185,9 @@
         android:background="@color/colorBlue"
         android:layout_toRightOf="@+id/ID_PlacementMode_Green_Color_Button"
         android:layout_toEndOf="@+id/ID_PlacementMode_Green_Color_Button"
-        android:layout_marginStart="40dp"/>
+        android:layout_marginStart="40dp"
+        android:onClick="changeColor"/>
+
     <Button
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -178,7 +197,8 @@
         android:background="@color/colorYellow"
         android:layout_toRightOf="@+id/ID_PlacementMode_Blue_Color_Button"
         android:layout_toEndOf="@+id/ID_PlacementMode_Blue_Color_Button"
-        android:layout_marginStart="40dp"/>
+        android:layout_marginStart="40dp"
+        android:onClick="changeColor" />
 
     <TextView
         android:id="@+id/ID_PlacementMode_Alignment_TextView"
@@ -197,7 +217,8 @@
         android:layout_marginLeft="20dp"
         android:text="Rotate left"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:onClick="rotateImageCounterClockwise"/>
 
     <Button
         android:id="@+id/ID_PlacementMode_RotateRight_Button"
@@ -206,7 +227,8 @@
         android:layout_marginStart="20dp"
         android:text="Rotate right"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:onClick="rotateImageClockwise"/>
     <TextView
         android:id="@+id/ID_PlacementMode_Placement_TextView"
         android:text="4. Please place the brick (via drag and drop):"
@@ -217,72 +239,23 @@
         android:layout_marginTop="12dp"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
+    <com.example.crunky.smartminifab.SeedBoxSurface
+        android:layout_width="250dp"
+        android:id="@+id/TetrisGrid"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ID_PlacementMode_Placement_TextView"
+  />
+
     <ImageView
         android:id="@+id/ID_PlacementMode_BrickPreview_ImageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_below="@+id/ID_PlacementMode_RotateRight_Button"
-        android:layout_marginTop="15dp"/>
-
-    <SurfaceView
-        android:id="@+id/ID_PlacementMode_SeedBox_SurfaceView"
-        android:layout_toLeftOf="@+id/ID_PlacementMode_BrickPreview_ImageView"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/ID_PlacementMode_Placement_TextView"
-        android:layout_above="@+id/ID_PlacementMode_SeedBox_Button"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ImageButton
-        android:id="@+id/ID_PlacementMode_Trash_ImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/ID_PlacementMode_BrickPreview_ImageView"
         android:layout_marginTop="20dp"
+        app:srcCompat="@android:drawable/screen_background_light_transparent"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/TetrisGrid"
         android:layout_alignParentRight="true"
-        app:srcCompat="@android:drawable/ic_menu_delete"/>
+        android:layout_alignParentEnd="true" />
 
-    <Button
-        android:id="@+id/ID_PlacementMode_SeedBox_Button"
-        android:text="Seed Box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"/>
-
-    <Button
-        android:id="@+id/ID_PlacementMode_SendOrder_Button"
-        android:text="Send Order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/ID_PlacementMode_SeedBox_Button"
-        android:layout_marginStart="20dp"/>
-
-    <ProgressBar
-        android:id="@+id/ID_PlacementMode_OrderInProgress_ProgressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ID_PlacementMode_SeedBox_SurfaceView"
-        android:layout_toEndOf="@+id/ID_PlacementMode_SendOrder_Button"
-        android:layout_marginLeft="10dp"
-        android:layout_alignParentRight="true"/>
-
-    <TextView
-        android:id="@+id/ID_PlacementMode_OrderSuccessful_TextView"
-        android:text="Successful Order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ID_PlacementMode_OrderInProgress_ProgressBar"
-        android:layout_marginTop="12dp"
-        android:layout_toEndOf="@+id/ID_PlacementMode_SendOrder_Button"
-        android:layout_marginLeft="10dp"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        android:textSize="12sp"
-        android:textColor="@color/colorGreen" />
 
 </RelativeLayout>
