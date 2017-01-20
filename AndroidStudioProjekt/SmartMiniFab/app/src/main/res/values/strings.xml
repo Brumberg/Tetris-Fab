@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Smart MiniFab</string>
+    <string name="connection_failed">Verbindung fehlgeschlagen!</string>
+    <string name="wrong_password">Falsches Passwort!</string>
 </resources>

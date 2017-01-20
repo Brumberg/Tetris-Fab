@@ -49,6 +49,7 @@ public class CBlockFactory implements IDispatchBlocks {
     private List<Block>[][] m_AvailableBlocks;              // List of blocks on stock
     private List<Block>[][] m_DrawnBlocks;                  // List of placed blocks (just for
                                                             // balancing)
+    private IFabCommunication m_fabCommunication;
 
     private CBlockFactory() {
         m_NoBlocks = 0;                                     // initial number of blocks is zero
@@ -218,4 +219,12 @@ public class CBlockFactory implements IDispatchBlocks {
                 eFactoryState = FactoryState.INTERNALERROR;
             }
         }
+
+    public void setFabCommunication(IFabCommunication fabCommunication) {
+        m_fabCommunication=fabCommunication;
+    }
+
+    public IFabCommunication getFabCommunication() {
+        return m_fabCommunication;
+    }
 }

@@ -1,5 +1,7 @@
 package com.example.crunky.smartminifab;
 
+import java.net.*;
+
 /**
  * Created by oli on 10.01.2017.
  * The idea behind this interface is to provide a basic communication facility.
@@ -13,6 +15,7 @@ package com.example.crunky.smartminifab;
 
 
 public interface IFabCommunication {
+    InetAddress getHost();
     boolean connect();
     boolean disconnect();
     boolean status();
