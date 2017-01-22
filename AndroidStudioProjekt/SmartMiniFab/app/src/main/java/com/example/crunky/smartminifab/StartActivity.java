@@ -81,4 +81,14 @@ public class StartActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
+        Intent intent = new Intent(this, HelpWindowActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToHelpWarehouseActivity(View view) { //is called by onClick function of Button in activity_main.xml
+        Intent intent = new Intent(this, WarehouseActivity.class);
+        startActivity(intent);
+    }
+
 }

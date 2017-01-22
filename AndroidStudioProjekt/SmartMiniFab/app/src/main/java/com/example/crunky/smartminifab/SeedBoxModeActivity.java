@@ -22,4 +22,20 @@ public class SeedBoxModeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PlacementModeActivity.class);
         startActivity(intent);
     }
+
+    public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
+        Intent intent = new Intent(this, HelpWindowActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void goToSeedBoxModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
+        Intent intent = new Intent(this, SeedBoxModeActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToWarehouseActivity(View view) { //is called by onClick function of Button in activity_main.xml
+        Intent intent = new Intent(this, WarehouseActivity.class);
+        startActivity(intent);
+    }
 }

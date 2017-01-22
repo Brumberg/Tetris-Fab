@@ -33,7 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="goToHelpWindowActivity"/>
 
     <TextView
         android:id="@+id/ID_WarehouseMode_Request_TextView"
@@ -715,7 +716,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:onClick="goToSeedBoxModeActivity"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_Store_Button"
