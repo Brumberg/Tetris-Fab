@@ -1,14 +1,34 @@
 package com.example.crunky.smartminifab;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.*;
 
+/**
+ * StartActivity is the first Activity shown to the user and contains the functionality for scanning for factories and selecting the current one.
+ */
 public class StartActivity extends AppCompatActivity {
 
     String msg = "Android : ";
+    private Spinner WifiSpinner;
+    private Button ScanButton;
+    private TextView RequestIdentifier;
+    private EditText Identifier;
+    private Button ConnectButton;
+    private Button DisconnectButton;
+    private TextView ConnectionStatus;
+    private Button WarehouseButton;
+    private Button DevModeButton;
+    private Button PlacementButton;
+    private Button SeedBoxButton;
+    private TCPIPModuleManagement m_factoryManagement;
+    private TCPIPModule m_currentFactory;
+    private FabCommunicationListAdapter m_adapter;
 
     /**
      * Called when the activity is first created.
@@ -18,7 +38,196 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         Log.d(msg, "The onCreate() event");
+        // Initialize controls
+        ScanButton=(Button)(findViewById(R.id.ID_FactorySelectMode_Scan_Button));
+        ScanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ScanButton_onClick(v);
+            }
+        });
+        WifiSpinner=(Spinner)(findViewById(R.id.ID_FactorySelectMode_WIFI_Spinner));
+        WifiSpinner_setEnabled(false);
+        WifiSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                WifiSpinner_onItemSelected(parent, view, position, id);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                WifiSpinner_onNothingSelected(parent);
+            }
+        });
+        RequestIdentifier=(TextView)(findViewById(R.id.ID_FactorySelectMode_RequestIdentifier_TextView));
+        Identifier=(EditText)(findViewById(R.id.ID_FactorySelectMode_Identifier_PlainText));
+        ConnectButton=(Button)(findViewById(R.id.ID_FactorySelectMode_Connect_Button));
+        ConnectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectButton_onClick(v);
+            }
+        });
+        DisconnectButton=(Button)(findViewById(R.id.ID_FactorySelectMode_DisConnect_Button));
+        DisconnectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DisconnectButton_onClick(v);
+            }
+        });
+        ConnectionStatus=(TextView)(findViewById(R.id.ID_FactorySelectMode_ConnectionStatus_TextView));
+        WarehouseButton=(Button)(findViewById(R.id.ID_FactorySelectMode_Warehouse_Button));
+        DevModeButton=(Button)(findViewById(R.id.button));
+        PlacementButton=(Button)(findViewById(R.id.button4));
+        SeedBoxButton=(Button)(findViewById(R.id.button5));
+        // Initialize factory management
+        m_factoryManagement = new TCPIPModuleManagement((Context) (this));
+        m_factoryManagement.setIpScannedListener(new IIpScanningListener() {
+            public void onStartScanning(TCPIPModuleManagement sender) {
+                factoryManagement_onStartScanning(sender);
+            }
+
+            public void onIpScanned(TCPIPModuleManagement sender) {
+                factoryManagement_onIpScanned(sender);
+            }
+
+            public void onAllIpsScanned(TCPIPModuleManagement sender) {
+                factoryManagement_onAllIpsScanned(sender);
+            }
+        });
+    }
+
+    /**
+     * Handles the event if no IFabCommunication is selected in the WifiSpinner
+     */
+    private void WifiSpinner_onNothingSelected(AdapterView<?> parent) {
+        RequestIdentifier.setEnabled(false);
+        Identifier.setEnabled(false);
+        ConnectButton.setEnabled(false);
+        DisconnectButton.setEnabled(false);
+    }
+
+    /**
+     * Handles the event if a IFabCommunication is selected in the WifiSpinner
+     */
+    private void WifiSpinner_onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        RequestIdentifier.setEnabled(true);
+        Identifier.setEnabled(true);
+        ConnectButton.setEnabled(true);
+        DisconnectButton.setEnabled(false);
+    }
+
+    /**
+     * As setting the enabled-state of a Spinner needs a special practice and it is done multiple times it is stored in this method
+     */
+    private void WifiSpinner_setEnabled(boolean enabled) {
+        WifiSpinner.setEnabled(enabled);
+        View v = WifiSpinner.getSelectedView();
+        if(v!=null) {
+            v.setEnabled(enabled);
+        }
+    }
+
+    // TODO: Ask PO for showing scanning progress
+    /**
+     * Handles the event if the scanning for factories was started
+     */
+    private void factoryManagement_onStartScanning(TCPIPModuleManagement sender) {
+        if(m_currentFactory!=null) {
+            m_currentFactory.disconnect();
+        }
+        ScanButton.setEnabled(false);
+        WifiSpinner_setEnabled(false);
+        RequestIdentifier.setEnabled(false);
+        Identifier.setEnabled(false);
+        ConnectButton.setEnabled(false);
+        DisconnectButton.setEnabled(false);
+        ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+        ConnectionStatus.setText(getString(R.string.disconnected));
+//        pbScanProgress.setMax(sender.getCountOfIpsToBeScanned());
+//        pbScanProgress.setProgress(0);
+    }
+
+    /**
+     * Handles the event if an IP was scanned
+     */
+    private void factoryManagement_onIpScanned(TCPIPModuleManagement sender) {
+        /*pbScanProgress.setProgress(sender.getScannedIps());*/
+    }
+
+    /**
+     * Handles the event if all IPs were scanned
+     */
+    private void factoryManagement_onAllIpsScanned(TCPIPModuleManagement sender) {
+//        bButton.setVisibility(View.VISIBLE);
+//        pbScanProgress.setVisibility(View.INVISIBLE);
+        m_adapter=new FabCommunicationListAdapter(this, m_factoryManagement.getBlockFactories());
+        WifiSpinner.setAdapter(m_adapter);
+        // Check if any factory was found
+        if(WifiSpinner.getCount()>0) {
+            WifiSpinner_setEnabled(true);
+            WifiSpinner.setSelection(0);
+        }
+        else {
+            goToErrorWindowActivity(WifiSpinner, getString(R.string.no_factory_found));
+        }
+    }
+
+    /**
+     * Handles the event if the ScanButton is clicked
+     */
+    private void ScanButton_onClick(View v) {
+        m_factoryManagement.scanBlockFactories();
+    }
+
+    /**
+     * Handles the event if the ConnectButton is clicked
+     */
+    private void ConnectButton_onClick(View v)
+    {
+        // Try to connect to the factory
+        if(m_currentFactory.connect())
+        {
+            // Try to login to the factory
+            if(m_currentFactory.login(Identifier.getText().toString())) {
+                ConnectButton.setEnabled(false);
+                DisconnectButton.setEnabled(true);
+                WifiSpinner_setEnabled(false);
+                Identifier.setEnabled(false);
+                RequestIdentifier.setEnabled(false);
+                ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                ConnectionStatus.setText(getString(R.string.connected));
+                CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+            }
+            else {
+                // Show an error message if it does not work
+                m_currentFactory.disconnect();
+                ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                ConnectionStatus.setText(getString(R.string.disconnected));
+                goToErrorWindowActivity(ConnectButton, getString(R.string.wrong_password));
+                CBlockFactory.getInstance().setFabCommunication(null);
+            }
+        }
+        else {
+            // Show an error message if it does not work
+            ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+            ConnectionStatus.setText(getString(R.string.disconnected));
+            goToErrorWindowActivity(ConnectButton, getString(R.string.connection_failed));
+            CBlockFactory.getInstance().setFabCommunication(null);
+        }
+    }
+    
+    /**
+     * Handles the event if the DisconnectButton is clicked
+     */
+    private void DisconnectButton_onClick(View v)
+    {
+        m_currentFactory.disconnect();
+        ConnectButton.setEnabled(true);
+        DisconnectButton.setEnabled(false);
+        ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+        ConnectionStatus.setText(getString(R.string.disconnected));
+        CBlockFactory.getInstance().setFabCommunication(null);
     }
 
     /**
@@ -65,30 +274,53 @@ public class StartActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d(msg, "The onDestroy() event");
     }
-
+    
+    /**
+     * Goes to the DevelopmentModeActivity
+     */
     public void goToDevelopmentModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, DevelopmentModeActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Goes to the PlacementModeActivity
+     */
     public void goToPlacementModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, PlacementModeActivity.class);
         startActivity(intent);
     }
-
+    
+    /**
+     * Goes to the SeedBoxModeActivity
+     */
     public void goToSeedBoxModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, SeedBoxModeActivity.class);
         startActivity(intent);
     }
-
+    
+    /**
+     * Goes to the HelpWindowActivity
+     */
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, HelpWindowActivity.class);
         startActivity(intent);
     }
-
-    public void goToHelpWarehouseActivity(View view) { //is called by onClick function of Button in activity_main.xml
+    
+    /**
+     * Goes to the WarehouseActivity
+     */
+    public void goToWarehouseActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, WarehouseActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Goes to ErrorWindowActivity
+     */
+    public void goToErrorWindowActivity(View view, String message) {
+        Intent intent = new Intent(this, ErrorWindowActivity.class);
+        intent.putExtra("message", message);
+        startActivity(intent);
+    }
 }

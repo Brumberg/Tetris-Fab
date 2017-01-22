@@ -68,7 +68,8 @@
         android:text="Please enter your Identifier:"
         android:layout_below="@+id/ID_FactorySelectMode_WIFI_Spinner"
         android:layout_alignParentLeft="true"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        tools:enabled="false" />
 
     <EditText
         android:id="@+id/ID_FactorySelectMode_Identifier_PlainText"
@@ -78,7 +79,8 @@
         android:text="Type in your Identifier"
         android:ems="10"
         android:layout_below="@+id/ID_FactorySelectMode_RequestIdentifier_TextView"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:enabled="false" />
 
     <Button
     android:id="@+id/ID_FactorySelectMode_Connect_Button"
@@ -86,7 +88,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/ID_FactorySelectMode_Identifier_PlainText"
-    android:layout_alignParentLeft="true" />
+    android:layout_alignParentLeft="true"
+        android:enabled="false" />
 
     <Button
     android:id="@+id/ID_FactorySelectMode_DisConnect_Button"
@@ -94,18 +97,19 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/ID_FactorySelectMode_Identifier_PlainText"
-    android:layout_alignParentRight="true" />
+    android:layout_alignParentRight="true"
+        android:enabled="false" />
 
     <TextView
         android:id="@+id/ID_FactorySelectMode_ConnectionStatus_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connected to Factory"
+        android:text="@string/disconnected"
         android:layout_below="@+id/ID_FactorySelectMode_DisConnect_Button"
         android:layout_centerHorizontal="true"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:textAlignment="center"
-        android:textColor="@color/colorGreen" />
+        android:textColor="@color/colorRed"/>
 
     <Button
         android:id="@+id/ID_FactorySelectMode_Warehouse_Button"

@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Smart MiniFab</string>
-    <string name="connection_failed">Verbindung fehlgeschlagen!</string>
-    <string name="wrong_password">Falsches Passwort!</string>
+    <string name="connection_failed">Connection failed!</string>
+    <string name="wrong_password">Wrong Password!</string>
+    <string name="connected">Connected to Factory.</string>
+    <string name="disconnected">Disconnected from Factory.</string>
+    <string name="no_factory_found">No factory could be found.</string>
 </resources>
