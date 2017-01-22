@@ -5,4 +5,5 @@
     <string name="connected">Connected to Factory.</string>
     <string name="disconnected">Disconnected from Factory.</string>
     <string name="no_factory_found">No factory could be found.</string>
+    <string name="warehouse_file_name">warehouse.dat</string>
 </resources>

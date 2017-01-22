@@ -25,7 +25,6 @@
         <activity android:name=".WarehouseActivity" />
         <activity android:name=".ErrorWindowActivity" />
         <activity android:name=".HelpWindowActivity"></activity>
-        <activity android:name=".StorageActivity"/>
     </application>
 
 </manifest>
