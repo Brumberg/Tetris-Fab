@@ -56,17 +56,6 @@
         android:onClick="chooseBrick"/>
 
     <ImageButton
-        android:id="@+id/ID_PlacementMode_2x2_Brick_ImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
-        android:layout_toEndOf="@+id/ID_PlacementMode_1x1_Brick_ImageButtonn"
-        android:layout_marginStart="40dp"
-        app:srcCompat="@drawable/vi_quadrat_2x2"
-        android:background="@android:drawable/screen_background_light_transparent"
-        android:onClick="chooseBrick" />
-
-    <ImageButton
         android:id="@+id/ID_PlacementMode_I_Brick_ImageButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -245,8 +234,7 @@
         android:id="@+id/TetrisGrid"
         android:layout_height="250dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/ID_PlacementMode_Placement_TextView"
-  />
+        android:layout_below="@+id/ID_PlacementMode_Placement_TextView" />
 
     <ImageView
         android:id="@+id/ID_PlacementMode_BrickPreview_ImageView"
@@ -257,6 +245,19 @@
         android:layout_alignTop="@+id/TetrisGrid"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:id="@+id/ID_PlacementMode_2x2_Brick_ImageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        app:srcCompat="@drawable/vi_quadrat_2x2"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="chooseBrick"
+        android:layout_below="@+id/ID_PlacementMode_BrickChoos_TextView"
+        android:layout_toRightOf="@+id/ID_PlacementMode_1x1_Brick_ImageButton"
+        android:layout_toEndOf="@+id/ID_PlacementMode_1x1_Brick_ImageButton"
+        android:layout_marginLeft="10dp" />
 
 
 </RelativeLayout>

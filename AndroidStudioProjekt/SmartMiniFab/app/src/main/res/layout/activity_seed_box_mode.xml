@@ -72,7 +72,7 @@
         android:text="Development Mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/ID_SeedBoxMode_DevMode_Button"
         android:visibility="visible"
         android:layout_above="@+id/ID_SeedBoxMode_Placement_Button"
@@ -81,33 +81,34 @@
         android:onClick="goToDevelopmentModeActivity"/>
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star"
+        android:id="@+id/ID_SeedBoxMode_3x3_imageButton"
+        app:srcCompat="@drawable/vi_3x3_seed_box"
         android:layout_below="@+id/ID_SeedBoxMode_Request_TextView"
+        android:layout_marginTop="15dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:id="@+id/ID_SeedBoxMode_3x3_imageButton" />
+        android:background="@android:drawable/screen_background_light_transparent"/>
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
         android:id="@+id/ID_SeedBoxMode_4x3_imageButton"
+        app:srcCompat="@drawable/vi_4x3_seed_box"
+        android:layout_marginTop="30dp"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:background="@android:drawable/screen_background_light_transparent"
         android:layout_below="@+id/ID_SeedBoxMode_3x3_imageButton"
-        android:layout_alignLeft="@+id/ID_SeedBoxMode_3x3_imageButton"
-        android:layout_alignStart="@+id/ID_SeedBoxMode_3x3_imageButton"
-        android:layout_marginTop="29dp" />
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:layout_marginBottom="26dp"
         android:id="@+id/ID_SeedBoxMode_5x4_imageButton"
-        android:layout_above="@+id/ID_SeedBoxMode_DevMode_Button"
-        android:layout_alignLeft="@+id/ID_SeedBoxMode_4x3_imageButton"
-        android:layout_alignStart="@+id/ID_SeedBoxMode_4x3_imageButton" />
+        app:srcCompat="@drawable/vi_5x4_seed_box"
+        android:layout_below="@+id/ID_SeedBoxMode_4x3_imageButton"
+        android:layout_marginTop="30dp"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:background="@android:drawable/screen_background_light_transparent"/>
     <![CDATA[
 
 
