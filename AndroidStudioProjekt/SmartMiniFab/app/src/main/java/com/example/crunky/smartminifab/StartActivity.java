@@ -23,9 +23,9 @@ public class StartActivity extends AppCompatActivity {
     private Button DisconnectButton;
     private TextView ConnectionStatus;
     private Button WarehouseButton;
-    private Button DevModeButton;
-    private Button PlacementButton;
-    private Button SeedBoxButton;
+    //private Button DevModeButton;
+    //private Button PlacementButton;
+    //private Button SeedBoxButton;
     private TCPIPModuleManagement m_factoryManagement;
     private TCPIPModule m_currentFactory;
     private FabCommunicationListAdapter m_adapter;
@@ -77,9 +77,9 @@ public class StartActivity extends AppCompatActivity {
         });
         ConnectionStatus=(TextView)(findViewById(R.id.ID_FactorySelectMode_ConnectionStatus_TextView));
         WarehouseButton=(Button)(findViewById(R.id.ID_FactorySelectMode_Warehouse_Button));
-        DevModeButton=(Button)(findViewById(R.id.button));
-        PlacementButton=(Button)(findViewById(R.id.button4));
-        SeedBoxButton=(Button)(findViewById(R.id.button5));
+        //DevModeButton=(Button)(findViewById(R.id.button));
+        //PlacementButton=(Button)(findViewById(R.id.button4));
+        //SeedBoxButton=(Button)(findViewById(R.id.button5));
         // Initialize factory management
         m_factoryManagement = new TCPIPModuleManagement((Context) (this));
         m_factoryManagement.setIpScannedListener(new IIpScanningListener() {
@@ -278,26 +278,26 @@ public class StartActivity extends AppCompatActivity {
     /**
      * Goes to the DevelopmentModeActivity
      */
-    public void goToDevelopmentModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
+   /* public void goToDevelopmentModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, DevelopmentModeActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     /**
      * Goes to the PlacementModeActivity
      */
-    public void goToPlacementModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
+   /* public void goToPlacementModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, PlacementModeActivity.class);
         startActivity(intent);
-    }
+    }*/
     
     /**
      * Goes to the SeedBoxModeActivity
      */
-    public void goToSeedBoxModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
+   /* public void goToSeedBoxModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, SeedBoxModeActivity.class);
         startActivity(intent);
-    }
+    }*/
     
     /**
      * Goes to the HelpWindowActivity
