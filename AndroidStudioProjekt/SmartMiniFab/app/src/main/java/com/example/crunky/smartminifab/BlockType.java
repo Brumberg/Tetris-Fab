@@ -6,7 +6,7 @@ import java.util.Objects;
 enum BlockShape {SIMPLE_SQUARE, QUADRUPLE_SQUARE, I_SHAPE, MIRRORED_L_SHAPE, L_SHAPE,
     FOUR_SHAPE, MIRRORED_T_SHAPE, MIRRORRED_FOUR_SHAPE}
 
-enum BlockColor {BLACK, RED, GREEN, BLUE, YELLOW}
+enum BlockColor {BLACK, RED, GREEN, BLUE, YELLOW, TRANSPARENT}
 
 public class BlockType {
     public static final int NOBLOCKCOLORS=5;

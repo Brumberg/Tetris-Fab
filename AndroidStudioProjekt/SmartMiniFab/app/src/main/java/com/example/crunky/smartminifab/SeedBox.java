@@ -137,6 +137,38 @@ public class SeedBox {
     }
 
     /**
+     * Returns the block at a specific position
+     * @param x coords
+     * @param y coords
+     * @return color
+     */
+    public Block getBlock(int x, int y) {
+        if (x>=0 && x<m_seedBox.length) {
+            if (y>=0 && y<m_seedBox[0].length) {
+                return m_seedBox[x][y];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the block color at a specific position
+     * @param x coords
+     * @param y coords
+     * @return color
+     */
+    public BlockColor getBlockColor(int x, int y) {
+        BlockColor color = BlockColor.TRANSPARENT;
+        if (x>=0 && x<m_seedBox.length) {
+            if (y>=0 && y<m_seedBox[0].length) {
+                if (m_seedBox[x][y]!=null)
+                    return m_seedBox[x][y].getColor();
+            }
+        }
+        return color;
+    }
+
+    /**
      * Function can be used to remove a block from the seedbox. Block specify the
      * coordinates of the block to be removed.
      * @param block
