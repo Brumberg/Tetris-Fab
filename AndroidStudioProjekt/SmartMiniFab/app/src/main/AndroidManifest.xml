@@ -12,19 +12,32 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StartActivity">
+        <activity android:name=".StartActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DevelopmentModeActivity" />
-        <activity android:name=".SeedBoxModeActivity" />
-        <activity android:name=".PlacementModeActivity" />
-        <activity android:name=".WarehouseActivity" />
-        <activity android:name=".ErrorWindowActivity" />
-        <activity android:name=".HelpWindowActivity"></activity>
+        <activity android:name=".DevelopmentModeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".SeedBoxModeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".PlacementModeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".WarehouseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".ErrorWindowActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".HelpWindowActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
     </application>
 
 </manifest>
