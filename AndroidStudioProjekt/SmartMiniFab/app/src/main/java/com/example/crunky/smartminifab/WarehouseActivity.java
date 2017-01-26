@@ -13,6 +13,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.*;
 
+/*
+ * Warehouse activity for setting the warehousing stock
+ */
 public class WarehouseActivity extends AppCompatActivity {
 
     private Button[][] CountButtons;
