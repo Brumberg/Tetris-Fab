@@ -178,7 +178,7 @@
         android:id="@+id/ID_Dev_Mode_TestString_TextView"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:layout_marginBottom="19dp"
-        android:layout_above="@+id/ID_Dev_Mode_TestString_TextField"
+        android:layout_above="@+id/TestString"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -188,7 +188,7 @@
         android:inputType="textPersonName"
         android:text="TestString"
         android:ems="10"
-        android:id="@+id/ID_Dev_Mode_TestString_TextField"
+        android:id="@+id/TestString"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:textColor="@color/colorAccent"
         tools:background="@android:color/background_light"
