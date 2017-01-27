@@ -8,6 +8,13 @@ import com.example.crunky.smartminifab.SeedBox;
 
 import static org.junit.Assert.*;
 import com.example.crunky.smartminifab.CBlockFactory;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -136,5 +143,56 @@ public class ExampleUnitTest {
         assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.RED)==0);
 
         assert(dut.IsBlocktypeAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.RED)==false);
+
+        dut.AddBlocks(5, BlockShape.FOUR_SHAPE, BlockColor.BLACK);
+        dut.AddBlocks(2, BlockShape.L_SHAPE, BlockColor.GREEN);
+        dut.AddBlocks(3, BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN);
+        //serialization test
+        {
+            //one by one copy of serialization code see WarehouseActivity
+            //public void LoadButton_onClick(View v)
+            String filename = "serialize.ser";
+            CBlockFactory factory = CBlockFactory.getInstance();
+            try {
+                FileOutputStream fileOut =
+                        new FileOutputStream(filename);
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(factory);
+                out.close();
+                fileOut.close();
+                // message supi
+            } catch (IOException i) {
+                // message oh no...
+                // i.printStackTrace();
+            }
+
+            dut.DeleteBlock(BlockShape.L_SHAPE, BlockColor.GREEN);
+            assert(dut.IsBlocktypeAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLACK));
+            assert(dut.IsBlocktypeAvailable(BlockShape.L_SHAPE, BlockColor.GREEN));
+            assert(dut.IsBlocktypeAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN));
+            assert(dut.IsBlocktypeAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLACK)==false);
+            assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.GREEN)==1);
+
+            //deserialization see WarehouseActivity.java
+            //public void StoreButton_onClick(View v)
+            try {
+                FileInputStream fileIn = new FileInputStream(filename);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                factory = (CBlockFactory) in.readObject();
+                in.close();
+                fileIn.close();
+            } catch (IOException i) {
+                //oh no...
+                return;
+            } catch (ClassNotFoundException notfoundexcept) {
+                //oh no...
+                return;
+            }
+            assert(dut.GetNoBlocks()==10);
+            assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLACK)==5);
+            assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.GREEN)==2);
+            assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN)==3);
+            assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.RED)==0);
+        }
     }
 }
