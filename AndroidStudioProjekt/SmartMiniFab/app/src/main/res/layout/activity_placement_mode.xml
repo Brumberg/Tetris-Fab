@@ -232,6 +232,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="rotateImageClockwise"/>
+
     <TextView
         android:id="@+id/ID_PlacementMode_Placement_TextView"
         android:text="4. Please place the brick (via drag and drop):"
@@ -259,7 +260,41 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <!--
+        <Button
+            android:id="@+id/ID_PlacementMode_SeedBox_Button"
+            android:text="Seed Box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"/>
 
+        <Button
+            android:id="@+id/ID_PlacementMode_SendOrder_Button"
+            android:text="Send Order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/ID_PlacementMode_SeedBox_Button"
+            android:layout_marginLeft="6dp"/>
+
+        <TextView
+            android:id="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
+            android:text="Order was successfull!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
+
+        <ProgressBar
+            android:id="@+id/ID_PlacementModee_Order_progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
+            android:layout_alignParentRight="true" />
+    -->
 
 
 </RelativeLayout>
