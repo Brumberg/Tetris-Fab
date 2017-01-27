@@ -140,8 +140,7 @@
         android:id="@+id/ID_PlacementMode_Black_Color_Button"
         android:background="@color/colorBlack"
         android:onClick="changeColor"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:visibility="invisible" />
+        style="@style/Widget.AppCompat.Button.Borderless" />
 
     <ImageButton
         android:id="@+id/ID_PlacementMode_2x2_Brick_ImageButton"
@@ -166,8 +165,7 @@
         android:layout_toRightOf="@+id/ID_PlacementMode_Black_Color_Button"
         android:layout_toEndOf="@+id/ID_PlacementMode_Black_Color_Button"
         android:layout_marginStart="40dp"
-        android:onClick="changeColor"
-        android:visibility="invisible" />
+        android:onClick="changeColor" />
 
     <Button
         android:layout_width="30dp"
@@ -179,8 +177,7 @@
         android:layout_toRightOf="@+id/ID_PlacementMode_Red_Color_Button"
         android:layout_toEndOf="@+id/ID_PlacementMode_Red_Color_Button"
         android:layout_marginStart="40dp"
-        android:onClick="changeColor"
-        android:visibility="invisible" />
+        android:onClick="changeColor" />
 
     <Button
         android:layout_width="30dp"
@@ -192,8 +189,7 @@
         android:layout_toRightOf="@+id/ID_PlacementMode_Green_Color_Button"
         android:layout_toEndOf="@+id/ID_PlacementMode_Green_Color_Button"
         android:layout_marginStart="40dp"
-        android:onClick="changeColor"
-        android:visibility="invisible" />
+        android:onClick="changeColor" />
 
     <Button
         android:layout_width="30dp"
@@ -205,8 +201,7 @@
         android:layout_toRightOf="@+id/ID_PlacementMode_Blue_Color_Button"
         android:layout_toEndOf="@+id/ID_PlacementMode_Blue_Color_Button"
         android:layout_marginStart="40dp"
-        android:onClick="changeColor"
-        android:visibility="invisible" />
+        android:onClick="changeColor" />
 
     <TextView
         android:id="@+id/ID_PlacementMode_Alignment_TextView"

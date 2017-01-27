@@ -4,6 +4,7 @@ package com.example.crunky.smartminifab;
  * Created by Crunky on 18.01.2017.
  */
 
+import android.util.Log;
 import android.view.SurfaceView;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,12 +14,23 @@ import android.view.SurfaceHolder;
 import android.graphics.Paint;
 import android.graphics.Bitmap;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.R.attr.x;
+import static android.R.attr.y;
+import static com.example.crunky.smartminifab.SeedBoxSize.FIVEBYFOUR;
+import static com.example.crunky.smartminifab.SeedBoxSize.FOURBYTHREE;
+import static com.example.crunky.smartminifab.SeedBoxSize.THREEBYTHREE;
+
 
 public class SeedBoxSurface extends SurfaceView {
     private SurfaceHolder holder;
     Paint m_BackgroundColor = new Paint(Color.GREEN);
     private int m_SurfViewWidth;                                // size of the view
     private int m_SurfViewHeight;
+
+    private SeedBox objSeedBox = new SeedBox();
 
     public SeedBoxSurface(Context context) {
         super(context);
@@ -243,8 +255,8 @@ public class SeedBoxSurface extends SurfaceView {
         m_BackgroundColor.setStrokeWidth(10);
         canvas.drawRect(0,0,m_SurfViewWidth-1,m_SurfViewHeight-1,m_BackgroundColor);
 
-        int width = 5; //int width = m_Grid.GetWidth();
-        int height = 4; //m_Grid.GetHeight();
+        int width = 3; //int width = m_Grid.GetWidth();
+        int height = 3; //m_Grid.GetHeight();
 
         int xcord = m_SurfViewWidth/width;
         int ycord = m_SurfViewHeight/height;
@@ -258,7 +270,49 @@ public class SeedBoxSurface extends SurfaceView {
             canvas.drawLine(0, i*ycord, m_SurfViewWidth-1, i*ycord, m_BackgroundColor);
         }
 
-        CBlockFactory objBlockFactory = CBlockFactory.getInstance();
+        // map between BlockColor and print color
+        Map<BlockColor,Paint> map_blockcolor_to_int = new HashMap<>();
+
+        map_blockcolor_to_int.put(BlockColor.BLACK, new Paint(Color.BLACK));
+        map_blockcolor_to_int.put(BlockColor.BLUE, new Paint(Color.BLUE));
+        map_blockcolor_to_int.put(BlockColor.GREEN, new Paint(Color.GREEN));
+        map_blockcolor_to_int.put(BlockColor.RED, new Paint(Color.RED));
+        map_blockcolor_to_int.put(BlockColor.YELLOW, new Paint(Color.YELLOW));
+
+        SeedBoxSize size = objSeedBox.getSize();
+
+        int x = 0;
+        int y = 0;
+
+        switch (size){
+            case THREEBYTHREE:
+                x = 3;
+                y = 3;
+                break;
+            case FOURBYTHREE:
+                x = 4;
+                y = 3;
+                break;
+            case FIVEBYFOUR:
+                x = 5;
+                y = 4;
+                break;
+        }
+
+        //draw content of the seedbox
+        for (int i=0; i < height; ++i) {
+            for (int j=0; j < width; ++j) {
+                BlockColor color = objSeedBox.getBlockColor(i, j);
+                Log.d("Loop i:", Integer.toString(i));
+                Log.d("Loop j:", Integer.toString(j));
+                /*canvas.drawRect(j*xcord+1,i*ycord+1,
+                       (j+1)*xcord-1,(i+1)*ycord-1, map_blockcolor_to_int.get(color));*/
+            }
+        }
+
+
+
+        /*CBlockFactory objBlockFactory = CBlockFactory.getInstance();
 
         for (int i=0; i < BlockShape.values().length; ++i){
             for (int j=0; j < BlockColor.values().length; ++j) {
@@ -269,7 +323,7 @@ public class SeedBoxSurface extends SurfaceView {
                 }
 
             }
-        }
+        }*/
 
         /*
         //draw content of the seedbox
