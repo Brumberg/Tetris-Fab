@@ -243,7 +243,7 @@ public class SeedBoxSurface extends SurfaceView {
         m_BackgroundColor.setStrokeWidth(10);
         canvas.drawRect(0,0,m_SurfViewWidth-1,m_SurfViewHeight-1,m_BackgroundColor);
 
-        int width = 4; //int width = m_Grid.GetWidth();
+        int width = 5; //int width = m_Grid.GetWidth();
         int height = 4; //m_Grid.GetHeight();
 
         int xcord = m_SurfViewWidth/width;
@@ -256,6 +256,19 @@ public class SeedBoxSurface extends SurfaceView {
 
         for (int i=1;i<height;++i) {
             canvas.drawLine(0, i*ycord, m_SurfViewWidth-1, i*ycord, m_BackgroundColor);
+        }
+
+        CBlockFactory objBlockFactory = CBlockFactory.getInstance();
+
+        for (int i=0; i < BlockShape.values().length; ++i){
+            for (int j=0; j < BlockColor.values().length; ++j) {
+                int num = objBlockFactory.GetNoBlocksDrawn(BlockShape.values()[i], BlockColor.values()[j]);
+
+                for (int k = 0; k < num; k++) {
+                    // TODO
+                }
+
+            }
         }
 
         /*

@@ -63,6 +63,11 @@ public class SeedBox {
         }
     }
 
+    public SeedBoxSize getSize() {
+        return m_size;
+    }
+
+
     public void reset() {
         m_placedBlocks.clear();
         setSize(m_size);
