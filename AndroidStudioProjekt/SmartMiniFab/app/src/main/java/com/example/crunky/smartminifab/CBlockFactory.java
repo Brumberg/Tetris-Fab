@@ -1,4 +1,5 @@
 package com.example.crunky.smartminifab;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -17,12 +18,13 @@ interface IDispatchBlocks {
     public boolean IsBlocktypeAvailable(BlockShape blockshape, BlockColor color);
 }
 
-public class CBlockFactory implements IDispatchBlocks {
+public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
     public enum FactoryState{
         UNINITIALIZED,
         OK,
         OUTOFMEMORY,
         NOTABLOCKOBJECT,
+        BLOCKNOTAVAILABLE,
         MAXNOBLOCKSEXCEEDED,
         INTERNALERROR
     };  // indicates state of the fab
@@ -67,20 +69,44 @@ public class CBlockFactory implements IDispatchBlocks {
         }
     }
 
+    /**
+     * Serialization with Singletons
+     * @return
+     */
+    protected Object readRsolve() {
+        return fab;
+    }
+
     public static CBlockFactory getInstance() {
         return fab;
     }
 
     public int GetNoBlocks() {
         return m_NoBlocks;
-    }
+    }         //number of blocks o stock
 
     public int GetNoBlocksAvailable(BlockShape blockshape, BlockColor color) {
-        return m_BlocksOnStock[blockshape.ordinal()][color.ordinal()];
+        int retVal = 0;
+        if (m_BlocksOnStock!=null) {
+            if (blockshape.ordinal() < m_BlocksOnStock.length &&
+                    color.ordinal() < m_BlocksOnStock[0].length) {
+                retVal = m_BlocksOnStock[blockshape.ordinal()][color.ordinal()];
+            }
+        }
+        return retVal;
     }
 
-    public int GetNoBlocksDrawn(BlockShape blockshape, BlockColor color) {
+    public int GetNoBlocksDrawn(BlockShape blockshape, BlockColor color) { //number of blocks o stock
         return m_PlacedBlocks[blockshape.ordinal()][color.ordinal()];
+    }
+
+    /**
+     * returns the number of blocks in an array.
+     * Ugly... (are we really writing OO)
+     * @return
+     */
+    public int[][] GetStock() {
+        return m_BlocksOnStock;
     }
 
     /**
@@ -219,6 +245,25 @@ public class CBlockFactory implements IDispatchBlocks {
                 eFactoryState = FactoryState.INTERNALERROR;
             }
         }
+
+    /**
+     * DeleteBlock if available
+     * @param blocktype
+     * @param color
+     */
+    public boolean DeleteBlock(BlockShape blocktype, BlockColor color) {
+        boolean retVal=false;
+        List<Block> blocklist = m_AvailableBlocks[blocktype.ordinal()][color.ordinal()];
+        if (blocklist != null && !blocklist.isEmpty()) {
+            blocklist.remove(0);
+            --m_BlocksOnStock[blocktype.ordinal()][color.ordinal()];
+            --m_NoBlocks;
+            eFactoryState = FactoryState.OK;
+        } else {
+            eFactoryState = FactoryState.BLOCKNOTAVAILABLE;
+        }
+        return retVal;
+    }
 
     public void setFabCommunication(IFabCommunication fabCommunication) {
         m_fabCommunication=fabCommunication;
