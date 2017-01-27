@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.*;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
 
 /*
  * Warehouse activity for setting the warehousing stock
@@ -62,6 +64,20 @@ public class WarehouseActivity extends AppCompatActivity {
 
     public void LoadButton_onClick(View v) {
         CBlockFactory factory=CBlockFactory.getInstance();
+        String filename=getString(R.string.warehouse_file_name);
+        try {
+            FileOutputStream fileOut =
+                    new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(factory);
+            out.close();
+            fileOut.close();
+            // message supi
+        }catch(IOException i) {
+            // message oh no...
+            // i.printStackTrace();
+        }
+        /*
         try {
             ObjectInputStream stream = new ObjectInputStream(openFileInput(getString(R.string.warehouse_file_name)));
             // factory.SetBlockNumbers((int[][])(stream.readObject()));
@@ -70,6 +86,7 @@ public class WarehouseActivity extends AppCompatActivity {
         }
         catch(IOException e) {
         }
+        */
     }
 
     // TODO: Methods for getting and setting total number of blocks and for a specific blocktype in the storage must be implemented
@@ -86,17 +103,33 @@ public class WarehouseActivity extends AppCompatActivity {
         BlockType blockType=(BlockType)(m_currentButton.getTag());
         // factory.Allocate(blockType);
         // m_currentButton.setText(Integer.toString(factory.GetNoBlocks(blockType.getShape(), blockType.getColor())));
+        // factory.AddBlock(blockType.GetShape,blockType.getColor());
         SumTextView.setText(Integer.toString(factory.GetNoBlocks()));
     }
 
     public void StoreButton_onClick(View v) {
         CBlockFactory factory=CBlockFactory.getInstance();
+        String filename=getString(R.string.warehouse_file_name);
         try {
+            FileInputStream fileIn = new FileInputStream(filename);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            factory = (CBlockFactory) in.readObject();
+            in.close();
+            fileIn.close();
+        }catch(IOException i) {
+            //oh no...
+            return;
+        }catch(ClassNotFoundException c) {
+            //oh no...
+            return;
+        }
+
+        /*try {
             ObjectOutputStream stream=new ObjectOutputStream(openFileOutput(getString(R.string.warehouse_file_name), Context.MODE_PRIVATE));
             // stream.writeObject(factory.GetBlockNumbers());
         }
         catch(IOException e) {
-        }
+        }*/
     }
 
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
