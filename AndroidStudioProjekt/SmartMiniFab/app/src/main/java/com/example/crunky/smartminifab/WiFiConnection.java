@@ -14,6 +14,7 @@ import android.net.*;
 import java.io.*;
 import java.math.*;
 import java.net.*;
+import android.os.AsyncTask;
 
 /**
  * Created by Daniel on 31.12.2016.
@@ -45,30 +46,119 @@ public class WiFiConnection {
     public void connect()
             throws IOException
     {
-        if((m_socket!=null)&&(m_socket.isConnected())) {
-            close();
+        IOException result=null;
+        try {
+            result = new AsyncTask<String,String,IOException>() {
+                @Override
+                protected IOException doInBackground(String... message) {
+                    IOException result=null;
+                    try {
+                        if((m_socket!=null)&&(m_socket.isConnected())) {
+                            close();
+                        }
+                        m_socket = new Socket(m_host, m_port);
+                        m_reader=new BufferedReader(new InputStreamReader(m_socket.getInputStream()));
+                        m_writer=new OutputStreamWriter(m_socket.getOutputStream());
+                    }
+                    catch(IOException e) {
+                        result=e;
+                    }
+                    return result;
+                }
+            }.execute("").get();
         }
-        m_socket=new Socket(m_host, m_port);
-        m_reader=new BufferedReader(new InputStreamReader(m_socket.getInputStream()));
-        m_writer=new OutputStreamWriter(m_socket.getOutputStream());
+        catch(Exception e) {
+            result=new IOException(e);
+        }
+        if(result!=null)
+        {
+            throw result;
+        }
     }
 
-    public void writeLine(String line)
+    public void writeLine(final String line)
             throws IOException
     {
-        m_writer.write(line + "\r\n");
-        m_writer.flush();
+        IOException exception=null;
+        try {
+            exception = new AsyncTask<String,String,IOException>() {
+                @Override
+                protected IOException doInBackground(String... message) {
+                    IOException result=null;
+                    try {
+                        m_writer.write(line + "\r\n");
+                        m_writer.flush();
+                    }
+                    catch(IOException e) {
+                        result=e;
+                    }
+                    return result;
+                }
+            }.execute("").get();
+        }
+        catch(Exception e) {
+            exception=new IOException(e);
+        }
+        if(exception!=null)
+        {
+            throw exception;
+        }
     }
 
     public String readLine()
             throws IOException
     {
-        return m_reader.readLine();
+        Object result=null;
+        try {
+            result = new AsyncTask<String,String,Object>() {
+                @Override
+                protected Object doInBackground(String... message) {
+                    Object result=null;
+                    try {
+                        result=m_reader.readLine();
+                    }
+                    catch(IOException e) {
+                        result=e;
+                    }
+                    return result;
+                }
+            }.execute("").get();
+        }
+        catch(Exception e) {
+            result=new IOException(e);
+        }
+        if(result instanceof IOException)
+        {
+            throw ((IOException)(result));
+        }
+        return result.toString();
     }
 
     public void close()
             throws IOException
     {
-        m_socket.close();
+        IOException exception=null;
+        try {
+            exception = new AsyncTask<String,String,IOException>() {
+                @Override
+                protected IOException doInBackground(String... message) {
+                    IOException result=null;
+                    try {
+                        m_socket.close();
+                    }
+                    catch(IOException e) {
+                        result=e;
+                    }
+                    return result;
+                }
+            }.execute("").get();
+        }
+        catch(Exception e) {
+            exception=new IOException(e);
+        }
+        if(exception!=null)
+        {
+            throw exception;
+        }
     }
 }
