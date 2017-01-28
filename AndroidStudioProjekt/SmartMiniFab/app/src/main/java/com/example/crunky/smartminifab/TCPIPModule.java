@@ -52,8 +52,8 @@ public class TCPIPModule implements IFabCommunication {
     public boolean disconnect() {
         if (m_connected) {
             try {
-                m_connection.close();
                 m_connection.writeLine("BYE");
+                m_connection.close();
             } catch (IOException e) {
             }
             m_connected =
