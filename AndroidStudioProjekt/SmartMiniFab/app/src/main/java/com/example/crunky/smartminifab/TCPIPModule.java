@@ -78,11 +78,11 @@ public class TCPIPModule implements IFabCommunication {
         return m_loggedIn;
     }
 
-    public boolean transmit() {
+    public boolean transmit(String OrderString) {
         boolean transferred = false;
         if ((m_connected) && (m_loggedIn)) {
             try {
-                m_connection.writeLine("SEEDBOX " + toString());
+                m_connection.writeLine("SEEDBOX " + OrderString);
                 transferred = m_connection.readLine().equals("OK");
             } catch (IOException e) {
                 disconnect();

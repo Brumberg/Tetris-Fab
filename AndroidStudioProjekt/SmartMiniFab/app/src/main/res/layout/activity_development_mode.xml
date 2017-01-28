@@ -161,7 +161,9 @@
         android:layout_below="@+id/ID_DevMode_Heading_TextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:layout_toLeftOf="@+id/ID_Dev_Mode_OrderSucces_TextView"
+        android:layout_toStartOf="@+id/ID_Dev_Mode_OrderSucces_TextView" />
 
     <Spinner
         android:layout_width="match_parent"

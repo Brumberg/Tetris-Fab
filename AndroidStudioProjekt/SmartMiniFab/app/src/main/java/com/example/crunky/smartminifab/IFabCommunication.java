@@ -20,5 +20,5 @@ public interface IFabCommunication {
     boolean disconnect();
     boolean status();
     boolean login(String password);
-    boolean transmit();
+    boolean transmit(String orderString);
 }
