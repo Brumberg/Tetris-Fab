@@ -243,13 +243,6 @@
         android:layout_marginTop="12dp"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
-    <com.example.crunky.smartminifab.SeedBoxSurface
-        android:layout_width="250dp"
-        android:id="@+id/TetrisGrid"
-        android:layout_height="250dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/ID_PlacementMode_Placement_TextView" />
-
     <ImageView
         android:id="@+id/ID_PlacementMode_BrickPreview_ImageView"
         android:layout_marginTop="20dp"
@@ -259,6 +252,15 @@
         android:layout_alignTop="@+id/TetrisGrid"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <com.example.crunky.smartminifab.SeedBoxSurface
+        android:layout_width="250dp"
+        android:id="@+id/TetrisGrid"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ID_PlacementMode_Placement_TextView" />
 
     <!--
         <Button

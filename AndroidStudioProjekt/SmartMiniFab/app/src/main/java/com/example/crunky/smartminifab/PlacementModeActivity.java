@@ -26,9 +26,6 @@ public class PlacementModeActivity extends AppCompatActivity {
     // get block handler from factory
     CBlockFactory objBlockFactory = CBlockFactory.getInstance();
 
-    // create new seed box
-    SeedBox objSeedBox = new SeedBox();
-
     Block objBrickPreview = null;
 
     // map between shapes and Image Button id's
@@ -390,11 +387,11 @@ public class PlacementModeActivity extends AppCompatActivity {
                     //int x_cord = (int) event.getX();
                     //int y_cord = (int) event.getY();
 
-                    // CSeedBoxSurface surface = (CSeedBoxSurface) findViewById(R.id.TetrisGrid);
+                    SeedBoxSurface surface = (SeedBoxSurface) findViewById(R.id.TetrisGrid);
 
                     // do something
 
-                    handleDropOperation((int)event.getX(),(int)event.getY(), objBrickPreview);
+                    surface.handleDropOperation((int)event.getX(),(int)event.getY(), objBrickPreview);
                     view.setVisibility(View.VISIBLE);
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
@@ -407,82 +404,5 @@ public class PlacementModeActivity extends AppCompatActivity {
         }
     }
 
-    private void handleDropOperation(int x, int y, Block block) {
-        //determine placement of block in "logical" units
-
-        // get size of seedbox
-        SeedBoxSize seedBoxSize = objSeedBox.getSize();
-
-        int norm_factor_x = 0;
-        int norm_factor_y = 0;
-
-        objSeedBox.setSize(FIVEBYFOUR);
-
-        switch (seedBoxSize){
-            case THREEBYTHREE:
-                norm_factor_x = 3;
-                norm_factor_y = 3;
-                break;
-            case FOURBYTHREE:
-                norm_factor_x = 4;
-                norm_factor_y = 3;
-                break;
-            case FIVEBYFOUR:
-                norm_factor_x = 5;
-                norm_factor_y = 4;
-                break;
-        }
-
-        View v = findViewById(R.id.TetrisGrid);
-
-        int i_with_of_single_block = v.getWidth() / norm_factor_x;
-        int i_height_of_single_block = v.getHeight() / norm_factor_y;
-
-        // change point of origin from y to SeedBox convention (bottom = 0)
-        y = -y + v.getHeight();
-
-        int xcoord = x / i_with_of_single_block;
-        int ycoord = y / i_height_of_single_block;
-
-        boolean successful = objSeedBox.place(xcoord, ycoord, block);
-
-        Log.d("place", Boolean.toString(successful));
-
-        Log.d("x", Integer.toString(x));
-        Log.d("y", Integer.toString(y));
-
-        Log.d("getWith", Integer.toString(v.getWidth()));
-        Log.d("getHeight", Integer.toString(v.getHeight()));
-
-        Log.d("xcoord", Integer.toString(xcoord));
-        Log.d("ycoord", Integer.toString(ycoord));
-
-
-        /*
-        int xcord = x*m_Grid.GetWidth()/m_SurfViewWidth;
-        int ycord = y*m_Grid.GetHeight()/m_SurfViewHeight;
-
-
-
-        //block within grid?
-        if (xcord<m_Grid.GetWidth()&&ycord<m_Grid.GetHeight()) {
-            //valid coord, so is there a block
-            BlockComponent.CBlockFactory factory = BlockComponent.CBlockFactory.getInstance();
-            BlockComponent.CBlock block = factory.Allocate(BlockComponent.CBlock.eBlockType.L_SHAPE,
-                    BlockComponent.CBlock.eBlockColor.BLACK);
-            if (block!=null) {
-                //try to place block
-                if (m_Grid.PlaceBlock(block,BlockComponent.CBlock.eRotation.DEGREES_0,
-                        xcord,m_Grid.GetHeight()-ycord-1)) {
-                    //invalidate dislay
-                    m_UsedBlocks.add(block);
-                    invalidate();
-                } else {
-                    //can not place block - release block
-                    factory.ReleaseBlock(block);
-                }
-            }
-        }*/
-    }
 
 }
