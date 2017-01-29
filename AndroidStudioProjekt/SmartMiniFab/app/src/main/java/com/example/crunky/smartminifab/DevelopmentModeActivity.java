@@ -1,6 +1,7 @@
 package com.example.crunky.smartminifab;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ButtonBarLayout;
@@ -44,7 +45,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private TextView orderSuccess;
     public String Password;
     public String userTestString;
-    public String preDefTestString = "xxxStringxxx";
+    public String preDefTestString = "3;3;1,3100;3,3301;1,1002";
     private int passEmpty = 0;
     private int stringEmpty = 0;
     private Spinner wifiSpinner;
@@ -53,6 +54,12 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private TCPIPModuleManagement m_factoryManagement;
     private TCPIPModule m_currentFactory;
     private FabCommunicationListAdapter m_adapter;
+    private Boolean isConnected = false;
+    //public Handler handler;
+    //public Runnable timeout;
+    private TimeOutReconnectModule TimeOut;
+    private int delay = 1000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +126,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus == true) {
-                    Log.d("myTag", "Focus");
+                    //Log.d("myTag", "Focus");
                     if (inpPassword.getText().toString().compareTo("Username") == 0) {
                         inpPassword.setText("");
                         //Log.d("myTag", "setEmpty Pass");
@@ -132,7 +139,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus == true) {
-                    Log.d("myTag", "Focus");
+                    //Log.d("myTag", "Focus");
                     if (inpUserTestString.getText().toString().compareTo("TestString") == 0) {
                         inpUserTestString.setText("");
                         //Log.d("myTag", "setEmpty String");
@@ -213,8 +220,17 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         loadTestStringButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 inpUserTestString.setText(preDefTestString, TextView.BufferType.EDITABLE);
+
+                //Activate for testing the timer
+                /*isConnected = true;
+                TimeOut = new TimeOutReconnectModule();
+                TimeOut.TimeOut(delay, isConnected, inpPassword.getText.toString());*/
+
+
             }
         });
+
+
 
         m_factoryManagement = new TCPIPModuleManagement((Context) (this));
         m_factoryManagement.setIpScannedListener(new IIpScanningListener() {
@@ -230,6 +246,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                 factoryManagement_onAllIpsScanned(sender);
             }
         });
+
     }
 
         /**
@@ -334,6 +351,10 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                 //ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
                 // ConnectionStatus.setText(getString(R.string.connected));
                 CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+
+                /*isConnected = true;
+                TimeOut = new TimeOutReconnectModule();
+                TimeOut.TimeOut(delay, isConnected, inpPassword.getText().toString());*/
             } else {
                 // Show an error message if it does not work
                 m_currentFactory.disconnect();
@@ -341,6 +362,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                 //ConnectionStatus.setText(getString(R.string.disconnected));
                 goToErrorWindowActivity(connectButton, getString(R.string.wrong_password));
                 CBlockFactory.getInstance().setFabCommunication(null);
+                isConnected = false;
             }
         } else {
             // Show an error message if it does not work
@@ -348,6 +370,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             //ConnectionStatus.setText(getString(R.string.disconnected));
             goToErrorWindowActivity(connectButton, getString(R.string.connection_failed));
             CBlockFactory.getInstance().setFabCommunication(null);
+            isConnected = false;
         }
     }
 
@@ -385,6 +408,11 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             }
 
     }
+
+
+
+
+
     /**
      * Called when the activity is about to become visible.
      */
