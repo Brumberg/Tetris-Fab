@@ -66,7 +66,7 @@ public class WiFiConnection {
                     return result;
                 }
             }.execute("").get();
-        }+
+        }
         catch(Exception e) {
             result=new IOException(e);
         }
