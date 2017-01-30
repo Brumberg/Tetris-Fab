@@ -100,13 +100,12 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             }
         });
 
-        inpPassword = (EditText) findViewById(R.id.Username);
+        inpPassword = (EditText) findViewById(R.id.ID_Dev_Mode_Username_EditText);
         inpUserTestString = (EditText) findViewById(R.id.TestString);
         orderSuccess = (TextView) findViewById(R.id.ID_Dev_Mode_OrderSucces_TextView);
         wifiSpinner = (Spinner) findViewById(R.id.ID_Dev_Mode_DropDownWifi_Spinner);
         wifiSpinner_setEnabled(false);
-        connectStatus = (ProgressBar) findViewById(R.id.ID_Dev_Mode_Connecting_ProcessBar);
-        orderStatus = (ProgressBar) findViewById(R.id.ID_Dev_Mode_InOperation_ProcessBar);
+
 
         wifiSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
