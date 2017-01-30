@@ -186,6 +186,7 @@ public class SeedBoxSurface extends SurfaceView {
     protected void onSizeChanged (int w, int h, int oldw, int oldh) {
         m_SurfViewHeight = h;
         m_SurfViewWidth = w;
+        setWillNotDraw(false);
     }
 
     /**
@@ -238,7 +239,7 @@ public class SeedBoxSurface extends SurfaceView {
     }*/
 
 
-    public void handleDropOperation(int x, int y, Block block) {
+    public Boolean handleDropOperation(int x, int y, Block block) {
         //determine placement of block in "logical" units
 
         // get size of seedbox
@@ -287,6 +288,8 @@ public class SeedBoxSurface extends SurfaceView {
         Log.d("ycoord", Integer.toString(ycoord));
 
         invalidate();
+
+        return successful;
 
 
         /*
@@ -337,8 +340,7 @@ public class SeedBoxSurface extends SurfaceView {
         m_BackgroundColor.setStrokeWidth(10);
         canvas.drawRect(0,0,m_SurfViewWidth-1,m_SurfViewHeight-1,m_BackgroundColor);
 
-        objSeedBox.setSize(FIVEBYFOUR);
-        SeedBoxSize size = objSeedBox.getSize();
+       SeedBoxSize size = objSeedBox.getSize();
 
         int width = 0; //int width = m_Grid.GetWidth();
         int height = 0; //m_Grid.GetHeight();
@@ -388,7 +390,9 @@ public class SeedBoxSurface extends SurfaceView {
         for (int y=0; y < height; ++y) {
             for (int x=0; x < width; ++x) {
                 BlockColor color = BlockColor.TRANSPARENT;
-
+                Log.d("x=", Integer.toString(x));
+                Log.d("y=", Integer.toString(y));
+                Log.d("getBlock=", Boolean.toString(objSeedBox.getBlock(x, y) != null));
                 if (objSeedBox.getBlock(x, y) != null)
                 {
                     color = objSeedBox.getBlockColor(x, y);

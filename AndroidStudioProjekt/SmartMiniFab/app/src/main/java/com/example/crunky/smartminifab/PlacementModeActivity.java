@@ -11,14 +11,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.R.attr.id;
+import static android.R.drawable.screen_background_light_transparent;
 import static com.example.crunky.smartminifab.R.id.ID_PlacementMode_BrickPreview_ImageView;
-import static com.example.crunky.smartminifab.SeedBoxSize.FIVEBYFOUR;
-
-
 
 
 public class PlacementModeActivity extends AppCompatActivity {
@@ -47,9 +49,6 @@ public class PlacementModeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_placement_mode);
-
-        // Allowing a view to be dragged
-        findViewById(R.id.ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(new MyTouchListener());
 
         // Defining drop target
         findViewById(R.id.TetrisGrid).setOnDragListener(new MyDragListener());
@@ -94,7 +93,7 @@ public class PlacementModeActivity extends AppCompatActivity {
         objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.YELLOW);
         objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);
         objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
-
+        objBlockFactory.AddBlocks(3, BlockShape.SIMPLE_SQUARE, BlockColor.BLACK);
 
         updateView();
 
@@ -133,45 +132,7 @@ public class PlacementModeActivity extends AppCompatActivity {
                 }
             }
         }
-
-
-        /*for (int i=0; i < BlockShape.values().length; ++i) {
-            for (int j = 0; j < BlockColor.values().length; ++j) {
-                int num = objBlockFactory.GetNoBlocksAvailable(BlockShape.values()[i], BlockColor.values()[j]);
-
-                if (num > 0) {
-                    switch (BlockShape.values()[i]){
-                        case SIMPLE_SQUARE:
-                            findViewById(R.id.ID_PlacementMode_1x1_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case QUADRUPLE_SQUARE:
-                            findViewById(R.id.ID_PlacementMode_2x2_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case I_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_I_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case MIRRORED_L_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_J_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case L_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_L_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case FOUR_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_S_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case MIRRORED_T_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_T_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case MIRRORRED_FOUR_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_Z_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                    }
-                }
-
-            }
-        }*/
-
-    }
+     }
 
     // check if blockshape is available (independent of color)
     private boolean isBlockAvailable(BlockShape shape) {
@@ -196,6 +157,9 @@ public class PlacementModeActivity extends AppCompatActivity {
         // do nothing if block is not available
         if (isBlockAvailable(map_id_to_bricks.get(v.getId()))) {
 
+            TextView obj_text_view = (TextView) findViewById(R.id.ID_PlacementMode_BrickPreview_TextView);
+            obj_text_view.setVisibility(View.INVISIBLE);
+
             if (objBrickPreview != null) {
                 objBlockFactory.ReleaseBlock(objBrickPreview);
                 objBrickPreview = null;
@@ -204,7 +168,10 @@ public class PlacementModeActivity extends AppCompatActivity {
             ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
             img.setRotation(0);
-            img.setColorFilter(Color.BLACK);
+            img.setColorFilter(Color.GRAY);
+
+            // disable drag and drop
+            findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(null);
 
             switch (v.getId()) {
                 case R.id.ID_PlacementMode_1x1_Brick_ImageButton:
@@ -256,26 +223,32 @@ public class PlacementModeActivity extends AppCompatActivity {
     }
 
     public void changeColor(View v) {
-        ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        // release old brick
-        if (objBrickPreview != null) {
-            objBlockFactory.ReleaseBlock(objBrickPreview);
-            objBrickPreview = null;
-        }
+        if (i_act_id > 0) {
+            ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        // get actual selected shape
-        BlockShape block_shape = map_id_to_bricks.get(i_act_id);
+            // release old brick
+            if (objBrickPreview != null) {
+                objBlockFactory.ReleaseBlock(objBrickPreview);
+                objBrickPreview = null;
+            }
 
-        // get color from id
-        BlockColor block_color = map_id_to_color.get(v.getId());
+            // get actual selected shape
+            BlockShape block_shape = map_id_to_bricks.get(i_act_id);
 
-        // if block is available pick up
-        if (objBlockFactory.IsBlocktypeAvailable(block_shape, block_color)) {
-            img.setColorFilter(map_blockcolor_to_int.get(block_color));
-            objBrickPreview = objBlockFactory.Allocate(block_shape, block_color);
+            // get color from id
+            BlockColor block_color = map_id_to_color.get(v.getId());
+
+            // if block is available pick up
+            if (objBlockFactory.IsBlocktypeAvailable(block_shape, block_color)) {
+                img.setColorFilter(map_blockcolor_to_int.get(block_color));
+                objBrickPreview = objBlockFactory.Allocate(block_shape, block_color);
+                // Allowing a view to be dragged
+                findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(new MyTouchListener());
+            }
         }
         updateView();
+
     }
 
     public void rotateImageClockwise(View view) {
@@ -378,21 +351,25 @@ public class PlacementModeActivity extends AppCompatActivity {
                     // do nothing
                     break;
                 case DragEvent.ACTION_DROP:
-                    // Dropped, reassign View to ViewGroup
                     View view = (View) event.getLocalState();
-                    //ViewGroup owner = (ViewGroup) view.getParent();
-                    //owner.removeView(view);
-                    //LinearLayout container = (LinearLayout) v;
-                    //container.addView(view);
-                    //int x_cord = (int) event.getX();
-                    //int y_cord = (int) event.getY();
-
                     SeedBoxSurface surface = (SeedBoxSurface) findViewById(R.id.TetrisGrid);
+                    boolean successful = surface.handleDropOperation((int)event.getX(),
+                                                                     (int)event.getY(),
+                                                                     objBrickPreview);
+                    if (successful) {
+                        i_act_id = 0;
+                        ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
+                        img.setImageResource(R.drawable.shape_droptarget);
+                        img.setColorFilter(null);
+                        TextView obj_text_view = (TextView) findViewById(R.id.ID_PlacementMode_BrickPreview_TextView);
+                        obj_text_view.setVisibility(View.VISIBLE);
+                        // disable drag and drop
+                        findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(null);
+                    }
 
-                    // do something
-
-                    surface.handleDropOperation((int)event.getX(),(int)event.getY(), objBrickPreview);
                     view.setVisibility(View.VISIBLE);
+
+                    updateView();
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                     // do nothing

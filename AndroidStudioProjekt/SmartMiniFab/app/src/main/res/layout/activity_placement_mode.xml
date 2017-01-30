@@ -246,12 +246,26 @@
     <ImageView
         android:id="@+id/ID_PlacementMode_BrickPreview_ImageView"
         android:layout_marginTop="20dp"
-        app:srcCompat="@android:drawable/screen_background_light_transparent"
+        app:srcCompat="@drawable/shape_droptarget"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignTop="@+id/TetrisGrid"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/ID_PlacementMode_BrickPreview_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ID_PlacementMode_BrickPreview_ImageView"
+        android:layout_alignTop="@+id/ID_PlacementMode_BrickPreview_ImageView"
+        android:layout_alignRight="@+id/ID_PlacementMode_BrickPreview_ImageView"
+        android:layout_alignBottom="@+id/ID_PlacementMode_BrickPreview_ImageView"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="Brick Preview"
+        android:textColor="#000000" />
+
 
     <com.example.crunky.smartminifab.SeedBoxSurface
         android:layout_width="250dp"
