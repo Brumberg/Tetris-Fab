@@ -82,7 +82,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             }
         });
 
-        disconnectButton = (Button) findViewById(R.id.ID_Dev_Mode__Button);
+        disconnectButton = (Button) findViewById(R.id.ID_Dev_Mode_Disconnect_Button);
         disconnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

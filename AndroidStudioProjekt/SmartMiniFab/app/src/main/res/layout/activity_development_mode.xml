@@ -26,16 +26,7 @@
         android:textStyle="normal|bold"
         android:textAllCaps="false" />
 
-    <ProgressBar
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_Connecting_ProcessBar"
-        android:layout_marginTop="11dp"
-        android:layout_alignRight="@+id/ID_Dev_Mode_OrderSucces_TextView"
-        android:layout_alignEnd="@+id/ID_Dev_Mode_OrderSucces_TextView"
-        android:layout_toRightOf="@+id/ID_Dev_Mode__Button"
-        android:layout_toEndOf="@+id/ID_Dev_Mode__Button" />
+
 
     <Button
         android:text="Send Order"
@@ -60,19 +51,7 @@
         android:layout_alignParentStart="true"
         android:onClick="goToSeedBoxModeActivity"/>
 
-    <ProgressBar
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_InOperation_ProcessBar"
-        android:visibility="visible"
-        android:indeterminate="false"
-        android:layout_alignTop="@+id/ID_Dev_Mode_SeedTray_Button"
-        android:layout_marginTop="15dp"
-        android:layout_alignRight="@+id/ID_Dev_Mode_Connecting_ProcessBar"
-        android:layout_alignEnd="@+id/ID_Dev_Mode_Connecting_ProcessBar"
-        android:layout_toRightOf="@+id/ID_Dev_Mode_SeedTray_Button"
-        android:layout_toEndOf="@+id/ID_Dev_Mode_SeedTray_Button" />
+
 
     <TextView
         android:text="Your order was successfull"
@@ -85,17 +64,13 @@
         android:textSize="12sp" />
 
     <Button
+        android:id="@+id/ID_Dev_Mode_Help_Button"
+        android:text="Help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_Help_Button"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        android:visibility="visible"
-        android:elevation="0dp"
-        style="@android:style/Widget.Button"
-        android:text="Help"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ID_Dev_Mode_Connecting_ProcessBar"
-        android:layout_toEndOf="@+id/ID_Dev_Mode_Connecting_ProcessBar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:onClick="goToHelpWindowActivity"/>
 
     <Spinner
@@ -126,37 +101,44 @@
         android:layout_marginBottom="10dp" />
 
     <Button
+        android:id="@+id/ID_Dev_Mode_Disconnect_Button"
         android:text="Disconnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode__Button"
+        android:layout_above="@+id/ID_Dev_Mode_ConnectionStatus_TextView"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         style="@android:style/Widget.Button"
-        android:layout_alignBaseline="@+id/Connect"
-        android:layout_alignBottom="@+id/Connect"
-        android:layout_alignRight="@+id/ID_Dev_Mode_Scan_Button"
-        android:layout_alignEnd="@+id/ID_Dev_Mode_Scan_Button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
+        android:id="@+id/ID_Dev_Mode_Connect_Button"
         android:text="Connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Connect"
         tools:text="Connect"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         style="@android:style/Widget.Button"
-        android:layout_marginBottom="43dp"
-        android:layout_above="@+id/ID_Dev_Mode_TestString_TextView"
+        android:layout_above="@+id/ID_Dev_Mode_ConnectionStatus_TextView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <TextView
+        android:id="@+id/ID_Dev_Mode_ConnectionStatus_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/disconnected"
+        android:layout_above="@+id/ID_Dev_Mode_TestString_TextView"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:textAlignment="center"
+        android:textColor="@color/colorRed"/>
+
     <Button
+        android:id="@+id/ID_Dev_Mode_Scan_Button"
         android:text="Scan Network"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_Scan_Button"
         style="@android:style/Widget.Button"
         android:layout_below="@+id/ID_DevMode_Heading_TextView"
         android:layout_alignParentLeft="true"
@@ -200,9 +182,9 @@
         android:layout_marginBottom="9dp" />
 
     <TextView
+        android:id="@+id/ID_Dev_Mode_User_TextField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ID_Dev_Mode_User_TextField"
         android:text="Type in your Username:"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:layout_alignBottom="@+id/ID_Dev_Mode_DropDownWifi_Spinner"
@@ -210,12 +192,12 @@
         android:layout_alignParentStart="true" />
 
     <EditText
+        android:id="@+id/ID_Dev_Mode_Username_EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Username"
         android:ems="10"
-        android:id="@+id/Username"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:selectAllOnFocus="false"
         android:textAlignment="viewStart"
@@ -224,4 +206,35 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="11dp" />
+
+    <TextView
+        android:id="@+id/ID_Dev_Mode_IP_TextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type in the IP:"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_below="@+id/ID_Dev_Mode_Username_EditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/ID_Dev_Mode_IP_EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Insert IP here"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:selectAllOnFocus="false"
+        android:textAlignment="viewStart"
+        tools:background="@android:color/background_light"
+        android:layout_below="@+id/ID_Dev_Mode_IP_TextField"
+        android:layout_alignParentLeft="true" />
+    <Button
+        android:id="@+id/ID_Dev_Mode_LoadIP_Button"
+        android:text="Load predefined IP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.Button"
+        android:layout_below="@+id/ID_Dev_Mode_IP_EditText"
+        android:layout_alignParentLeft="true"/>
+
 </RelativeLayout>
