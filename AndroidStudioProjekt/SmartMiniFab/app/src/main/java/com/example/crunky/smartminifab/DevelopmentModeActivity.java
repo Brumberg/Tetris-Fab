@@ -39,13 +39,18 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private Button helpButton;
     private Button loadTestStringButton;
     private Button seedTrayButton;
+    private Button setPreDefIPButton;
     private Button sendOrderButton;
     private EditText inpPassword;
     private EditText inpUserTestString;
+    private EditText inpIP;
     private TextView orderSuccess;
+    private TextView connectSuccess;
     public String Password;
     public String userTestString;
     public String preDefTestString = "3;3;1,3100;3,3301;1,1002";
+    public String IP;
+    public String preDefIP = "1.2.3.4";
     private int passEmpty = 0;
     private int stringEmpty = 0;
     private Spinner wifiSpinner;
@@ -67,7 +72,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_development_mode);
 
         //Connect GUI elements to variables
-        connectButton = (Button) findViewById(R.id.Connect);
+        connectButton = (Button) findViewById(R.id.ID_Dev_Mode_Connect_Button);
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +96,8 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         });
         helpButton = (Button) findViewById(R.id.ID_Dev_Mode_Help_Button);
         loadTestStringButton = (Button) findViewById(R.id.ID_Dev_Mode_LoadTestString_Button);
+        setPreDefIPButton = (Button) findViewById(R.id.ID_Dev_Mode_LoadIP_Button);
+
         seedTrayButton = (Button) findViewById(R.id.ID_Dev_Mode_SeedTray_Button);
         sendOrderButton = (Button) findViewById(R.id.ID_Dev_Mode_Order_Button);
         sendOrderButton.setOnClickListener(new View.OnClickListener() {
@@ -101,8 +108,10 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         });
 
         inpPassword = (EditText) findViewById(R.id.ID_Dev_Mode_Username_EditText);
+        inpIP = (EditText) findViewById(R.id.ID_Dev_Mode_IP_EditText);
         inpUserTestString = (EditText) findViewById(R.id.TestString);
         orderSuccess = (TextView) findViewById(R.id.ID_Dev_Mode_OrderSucces_TextView);
+        connectSuccess = (TextView) findViewById(R.id.ID_Dev_Mode_ConnectionStatus_TextView);
         wifiSpinner = (Spinner) findViewById(R.id.ID_Dev_Mode_DropDownWifi_Spinner);
         wifiSpinner_setEnabled(false);
 
@@ -128,6 +137,19 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                     //Log.d("myTag", "Focus");
                     if (inpPassword.getText().toString().compareTo("Username") == 0) {
                         inpPassword.setText("");
+                        //Log.d("myTag", "setEmpty Pass");
+                    }
+                }
+            }
+        });
+
+        inpIP.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == true) {
+                    //Log.d("myTag", "Focus");
+                    if (inpIP.getText().toString().compareTo("Insert IP here") == 0) {
+                        inpIP.setText("");
                         //Log.d("myTag", "setEmpty Pass");
                     }
                 }
@@ -229,6 +251,15 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             }
         });
 
+        setPreDefIPButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                inpIP.setText(preDefIP, TextView.BufferType.EDITABLE);
+
+            }
+        });
+
+
+
 
 
         m_factoryManagement = new TCPIPModuleManagement((Context) (this));
@@ -294,11 +325,11 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         wifiSpinner_setEnabled(false);
         //RequestIdentifier.setEnabled(false);
         inpPassword.setEnabled(false);
-        connectButton.setEnabled(false);
-        disconnectButton.setEnabled(false);
-        // No Txtfield to show connection status in DevMode maybe include?
-        //ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-        // ConnectionStatus.setText(getString(R.string.disconnected));
+       connectButton.setEnabled(false);
+       disconnectButton.setEnabled(false);
+
+        connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+        connectSuccess.setText(getString(R.string.disconnected));
 //        pbScanProgress.setMax(sender.getCountOfIpsToBeScanned());
 //        pbScanProgress.setProgress(0);
     }
@@ -347,8 +378,8 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                 wifiSpinner_setEnabled(false);
                 inpPassword.setEnabled(false);
                 //RequestIdentifier.setEnabled(false);
-                //ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
-                // ConnectionStatus.setText(getString(R.string.connected));
+                connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                connectSuccess.setText(getString(R.string.connected));
                 CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
 
                 /*isConnected = true;
@@ -357,16 +388,16 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             } else {
                 // Show an error message if it does not work
                 m_currentFactory.disconnect();
-                //ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                //ConnectionStatus.setText(getString(R.string.disconnected));
+                //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                //connectSuccess.setText(getString(R.string.disconnected));
                 goToErrorWindowActivity(connectButton, getString(R.string.wrong_password));
                 CBlockFactory.getInstance().setFabCommunication(null);
                 isConnected = false;
             }
         } else {
             // Show an error message if it does not work
-            //ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-            //ConnectionStatus.setText(getString(R.string.disconnected));
+            connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+            connectSuccess.setText(getString(R.string.disconnected));
             goToErrorWindowActivity(connectButton, getString(R.string.connection_failed));
             CBlockFactory.getInstance().setFabCommunication(null);
             isConnected = false;
@@ -380,8 +411,8 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         m_currentFactory.disconnect();
         connectButton.setEnabled(true);
         disconnectButton.setEnabled(false);
-        //ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-        //ConnectionStatus.setText(getString(R.string.disconnected));
+        connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+        connectSuccess.setText(getString(R.string.disconnected));
         CBlockFactory.getInstance().setFabCommunication(null);
     }
 
