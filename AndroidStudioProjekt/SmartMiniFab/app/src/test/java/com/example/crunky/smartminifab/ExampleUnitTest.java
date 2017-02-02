@@ -9,11 +9,14 @@ import com.example.crunky.smartminifab.SeedBox;
 import static org.junit.Assert.*;
 import com.example.crunky.smartminifab.CBlockFactory;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Method;
+import android.view.View;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -151,9 +154,13 @@ public class ExampleUnitTest {
         {
             //one by one copy of serialization code see WarehouseActivity
             //public void LoadButton_onClick(View v)
-            String filename = "serialize.ser";
             CBlockFactory factory = CBlockFactory.getInstance();
+            String filename = "warehouse.dat";
+
             try {
+                File File = new File(filename);
+                File.createNewFile();
+
                 FileOutputStream fileOut =
                         new FileOutputStream(filename);
                 ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -161,9 +168,10 @@ public class ExampleUnitTest {
                 out.close();
                 fileOut.close();
                 // message supi
-            } catch (IOException i) {
+            }catch(IOException i) {
                 // message oh no...
                 // i.printStackTrace();
+                return;
             }
 
             dut.DeleteBlock(BlockShape.L_SHAPE, BlockColor.GREEN);
@@ -176,18 +184,23 @@ public class ExampleUnitTest {
             //deserialization see WarehouseActivity.java
             //public void StoreButton_onClick(View v)
             try {
+                CBlockFactory.getInstance().ResetFactory();
                 FileInputStream fileIn = new FileInputStream(filename);
                 ObjectInputStream in = new ObjectInputStream(fileIn);
                 factory = (CBlockFactory) in.readObject();
                 in.close();
                 fileIn.close();
-            } catch (IOException i) {
+            }catch(IOException i) {
                 //oh no...
                 return;
-            } catch (ClassNotFoundException notfoundexcept) {
+            }catch(ClassNotFoundException cd) {
                 //oh no...
                 return;
             }
+            if (factory.GetFactoryState()== CBlockFactory.FactoryState.UNINITIALIZED) {
+                factory.RecreateStock();
+            }
+            dut = CBlockFactory.getInstance();
             assert(dut.GetNoBlocks()==10);
             assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLACK)==5);
             assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.GREEN)==2);
