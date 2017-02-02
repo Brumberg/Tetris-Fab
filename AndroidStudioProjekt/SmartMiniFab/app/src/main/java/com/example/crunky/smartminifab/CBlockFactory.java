@@ -1,5 +1,7 @@
 package com.example.crunky.smartminifab;
 import java.io.Serializable;
+import java.io.ObjectStreamException;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -26,11 +28,11 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         NOTABLOCKOBJECT,
         BLOCKNOTAVAILABLE,
         MAXNOBLOCKSEXCEEDED,
-        INTERNALERROR
+        INTERNALERROR,
+        SERIALIZATIONERROR
     };  // indicates state of the fab
 
-    private final int MAXNOBLOCKS = 10; //maximum number of blocks/storae space
-
+    private final int MAXNOBLOCKS = Integer.MAX_VALUE; //maximum number of blocks/storae space
 
     private static CBlockFactory fab = new CBlockFactory(); // Meyers singleton
                                                             // there is only one class to administer
@@ -48,8 +50,8 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
             int [BlockType.NODIFFERENTBLOCKTYPES][BlockType.NOBLOCKCOLORS];
                                                             // number of bocks allocated by the
                                                             // seedbox. Ownership has the seedbox
-    private List<Block>[][] m_AvailableBlocks;              // List of blocks on stock
-    private List<Block>[][] m_DrawnBlocks;                  // List of placed blocks (just for
+    transient private List<Block>[][] m_AvailableBlocks;    // List of blocks on stock
+    transient private List<Block>[][] m_DrawnBlocks;        // List of placed blocks (just for
                                                             // balancing)
     private IFabCommunication m_fabCommunication;
 
@@ -73,12 +75,16 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
      * Serialization with Singletons
      * @return
      */
-    protected Object readRsolve() {
+    private Object readResolve() throws ObjectStreamException {
         return fab;
     }
 
     public static CBlockFactory getInstance() {
         return fab;
+    }
+
+    public FactoryState GetFactoryState() {
+         return eFactoryState;
     }
 
     public int GetNoBlocks() {
@@ -247,6 +253,56 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         }
 
     /**
+     * Used to create blocks. The number of blocks are managed by the factory.
+     * Allocating blocks decreases the number of available blocks
+     * Release blocks increases the number of available blocks
+     * Available blocks can be placed in the seedbox. This function just instantiates
+     * the number of specified blocks
+     * @param NoBlocks
+     * @param blocktype
+     * @param color
+     * @return
+     */
+    private int RecreateBlocks(int NoBlocks, BlockShape blocktype, BlockColor color) {
+        //lazy version
+        int NoBlocksRegistered=0;
+        if (NoBlocks>0 && NoBlocks < MAXNOBLOCKS) {
+            int i=0;
+            for (i=0; i < NoBlocks; ++i) {
+                RecreateBlock(blocktype, color);
+            }
+            NoBlocksRegistered = i;
+        }
+        return NoBlocksRegistered;
+    }
+
+    /**
+     * Recreate one block.
+     * @param blocktype
+     * @param color
+     */
+    private void RecreateBlock(BlockShape blocktype, BlockColor color) {
+        try {
+            Block block = new Block(blocktype, color, BlockRotation.DEGREES_0);
+            List<Block> blocklist = m_AvailableBlocks[blocktype.ordinal()][color.ordinal()];
+
+            if (block != null && blocklist != null) {
+                blocklist.add(block);
+                eFactoryState = FactoryState.OK;
+            } else {
+                eFactoryState = FactoryState.INTERNALERROR;
+            }
+        }
+        catch (OutOfMemoryError E) {
+            eFactoryState = FactoryState.OUTOFMEMORY;
+        }
+
+        catch (IndexOutOfBoundsException e) {
+            eFactoryState = FactoryState.INTERNALERROR;
+        }
+    }
+
+    /**
      * DeleteBlock if available
      * @param blocktype
      * @param color
@@ -263,6 +319,101 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
             eFactoryState = FactoryState.BLOCKNOTAVAILABLE;
         }
         return retVal;
+    }
+
+    /**
+     * RecreateStock
+     * @param blocktype
+     * @param color
+     */
+    public void RecreateStock() {
+        m_NoBlocks = 0;
+
+        m_AvailableBlocks = new ArrayList[BlockType.NODIFFERENTBLOCKTYPES]
+                [BlockType.NOBLOCKCOLORS];
+        m_DrawnBlocks = new ArrayList[BlockType.NODIFFERENTBLOCKTYPES]
+                [BlockType.NOBLOCKCOLORS];
+
+        for (int i = 0; i < Block.NODIFFERENTBLOCKTYPES; ++i) {
+            for (int j = 0; j < Block.NOBLOCKCOLORS; ++j) {
+                m_AvailableBlocks[i][j] = new ArrayList<Block>();
+                m_DrawnBlocks[i][j] = new ArrayList<Block>();
+            }
+        }
+
+        for (int i = 0;i < m_BlocksOnStock.length; ++i) {
+            for (int j=0;j<m_BlocksOnStock[i].length; ++j) {
+                m_BlocksOnStock[i][j] += m_PlacedBlocks[i][j];
+                m_NoBlocks += m_BlocksOnStock[i][j];
+                m_PlacedBlocks[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < m_AvailableBlocks.length; ++i) {
+            for (int j=0; j < m_AvailableBlocks[i].length; ++j)
+                m_AvailableBlocks[i][j].clear();
+        }
+
+        for (int i = 0; i<m_DrawnBlocks.length; ++i) {
+            for (int j = 0; j < m_DrawnBlocks[i].length; ++j)
+                m_DrawnBlocks[i][j].clear();
+        }
+
+        for (BlockShape shape : BlockShape.values()) {
+            for (BlockColor color : BlockColor.values())
+                if (m_BlocksOnStock[shape.ordinal()][color.ordinal()] > 0) {
+                    RecreateBlocks(m_BlocksOnStock[shape.ordinal()][color.ordinal()],
+                            shape, color);
+                }
+        }
+    }
+
+    /**
+     * handling for serialization
+     * @param out
+     * @throws IOException
+     */
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+        try {
+            out.writeObject(m_NoBlocks);
+            out.writeObject(m_BlocksOnStock);
+            out.writeObject(m_PlacedBlocks);
+        }
+        catch (IOException ioException) {
+            //ResetFactory();
+            CBlockFactory.getInstance().eFactoryState = FactoryState.SERIALIZATIONERROR;
+        }
+    }
+
+    /**
+     * Serialization
+     * @param in
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException{
+        try {
+            m_NoBlocks = (int) in.readObject();
+            m_BlocksOnStock = (int[][]) in.readObject();
+            m_PlacedBlocks = (int[][]) in.readObject();
+            eFactoryState = FactoryState.UNINITIALIZED;
+            fab = this;
+        }
+        catch (IOException i) {
+            fab = new CBlockFactory();
+            fab.ResetFactory();
+            fab.eFactoryState = FactoryState.UNINITIALIZED;
+        }
+    }
+
+    /**
+     * serialization if no objec is available
+     * @throws ObjectStreamException
+     */
+    private void readObjectNoData() throws ObjectStreamException {
+        fab = new CBlockFactory();
+        fab.ResetFactory();
+        fab.eFactoryState = FactoryState.UNINITIALIZED;
     }
 
     public void setFabCommunication(IFabCommunication fabCommunication) {
