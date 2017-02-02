@@ -9,7 +9,7 @@ enum BlockShape {SIMPLE_SQUARE, QUADRUPLE_SQUARE, I_SHAPE, MIRRORED_L_SHAPE, L_S
 enum BlockColor {BLACK, RED, GREEN, BLUE, YELLOW, TRANSPARENT}
 
 public class BlockType {
-    public static final int NOBLOCKCOLORS=5;
+    public static final int NOBLOCKCOLORS=6;
     public static final int NODIFFERENTBLOCKTYPES=8;
     private final BlockShape m_shape;
     private final BlockColor m_color;
