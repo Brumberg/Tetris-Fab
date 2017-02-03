@@ -157,22 +157,7 @@ public class ExampleUnitTest {
             CBlockFactory factory = CBlockFactory.getInstance();
             String filename = "warehouse.dat";
 
-            try {
-                File File = new File(filename);
-                File.createNewFile();
-
-                FileOutputStream fileOut =
-                        new FileOutputStream(filename);
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(factory);
-                out.close();
-                fileOut.close();
-                // message supi
-            }catch(IOException i) {
-                // message oh no...
-                // i.printStackTrace();
-                return;
-            }
+            factory.writeObject(filename);
 
             dut.DeleteBlock(BlockShape.L_SHAPE, BlockColor.GREEN);
             assert(dut.IsBlocktypeAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLACK));
@@ -181,25 +166,9 @@ public class ExampleUnitTest {
             assert(dut.IsBlocktypeAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLACK)==false);
             assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.GREEN)==1);
 
-            //deserialization see WarehouseActivity.java
-            //public void StoreButton_onClick(View v)
-            try {
-                CBlockFactory.getInstance().ResetFactory();
-                FileInputStream fileIn = new FileInputStream(filename);
-                ObjectInputStream in = new ObjectInputStream(fileIn);
-                factory = (CBlockFactory) in.readObject();
-                in.close();
-                fileIn.close();
-            }catch(IOException i) {
-                //oh no...
-                return;
-            }catch(ClassNotFoundException cd) {
-                //oh no...
-                return;
-            }
-            if (factory.GetFactoryState()== CBlockFactory.FactoryState.UNINITIALIZED) {
-                factory.RecreateStock();
-            }
+            factory.readObject(filename);
+            assert(factory.GetFactoryState()== CBlockFactory.FactoryState.OK);
+
             dut = CBlockFactory.getInstance();
             assert(dut.GetNoBlocks()==10);
             assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLACK)==5);
