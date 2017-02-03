@@ -1,7 +1,14 @@
 package com.example.crunky.smartminifab;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.ObjectStreamException;
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 import java.util.*;
 
 /**
@@ -29,8 +36,13 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         BLOCKNOTAVAILABLE,
         MAXNOBLOCKSEXCEEDED,
         INTERNALERROR,
-        SERIALIZATIONERROR
+        SERIALIZATIONERROR,
+        FILENOTFOUND
     };  // indicates state of the fab
+
+    private final int m_FactoryVersion=10000;
+    private final int m_FactoryID=0x5ac7081;
+    private final String m_FactoryDescription = new String("BlockFactory 00.00.1 Build 1");
 
     private final int MAXNOBLOCKS = Integer.MAX_VALUE; //maximum number of blocks/storae space
 
@@ -146,6 +158,11 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         return block;
     }
 
+    /**
+     * Required by seed box. If a block is deleted from the seed box you should call
+     * ReleaseBlock to update the stock (new block available). Balancing
+     * @param block
+     */
     public void ReleaseBlock(Block block) {
         List<Block> blocklist =
                 m_DrawnBlocks[block.getShape().ordinal()][block.getColor().ordinal()];
@@ -169,6 +186,9 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         }
     }
 
+    /**
+     * Determines if a bock is available for placing
+     */
     public boolean IsBlocktypeAvailable(BlockShape blockshape, BlockColor color) {
         return m_BlocksOnStock[blockshape.ordinal()][color.ordinal()] > 0;
     }
@@ -322,11 +342,12 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
     }
 
     /**
-     * RecreateStock
+     * RecreateStock - required for serialization. It turn out that the standard approach has
+     * several drawbacks that are not acceptable
      * @param blocktype
      * @param color
      */
-    public void RecreateStock() {
+    private void RecreateStock() {
         m_NoBlocks = 0;
 
         m_AvailableBlocks = new ArrayList[BlockType.NODIFFERENTBLOCKTYPES]
@@ -373,15 +394,28 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
      * @param out
      * @throws IOException
      */
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+    public void writeObject(String filename)  {
+
         try {
+            File File = new File(filename);
+            File.createNewFile();
+
+            FileOutputStream fileOut = new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeInt(m_FactoryID);
+            out.writeObject(m_FactoryDescription);
+            out.writeObject(m_FactoryVersion);
             out.writeObject(m_NoBlocks);
             out.writeObject(m_BlocksOnStock);
-            out.writeObject(m_PlacedBlocks);
-        }
-        catch (IOException ioException) {
-            //ResetFactory();
-            CBlockFactory.getInstance().eFactoryState = FactoryState.SERIALIZATIONERROR;
+            //out.writeObject(m_PlacedBlocks);
+            out.close();
+            fileOut.close();
+            // message supi
+        }catch(IOException i) {
+            // message oh no...
+            // i.printStackTrace();
+            eFactoryState = FactoryState.SERIALIZATIONERROR;
+            return;
         }
     }
 
@@ -391,29 +425,41 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException{
+    public void readObject(String filename) {
         try {
-            m_NoBlocks = (int) in.readObject();
-            m_BlocksOnStock = (int[][]) in.readObject();
-            m_PlacedBlocks = (int[][]) in.readObject();
-            eFactoryState = FactoryState.UNINITIALIZED;
-            fab = this;
+            FileInputStream fileIn = new FileInputStream(filename);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            int factoryid = in.readInt();
+            if (factoryid==m_FactoryID) {
+                String FactoryDescription = (String) in.readObject();
+                if (m_FactoryDescription.equals(FactoryDescription)) {
+                    int FactoryVersion = (int) in.readObject();
+                    if (FactoryVersion == m_FactoryVersion) {
+                        int NoBlocks = (int) in.readObject();
+                        int[][] BlocksOnStock = (int[][]) in.readObject();
+                        //m_PlacedBlocks = (int[][]) in.readObject();
+                        int[][] PlacedBlocks = new int[m_BlocksOnStock.length][m_BlocksOnStock[0].length];
+
+                        eFactoryState = FactoryState.UNINITIALIZED;
+                        m_NoBlocks = NoBlocks;
+                        m_BlocksOnStock = BlocksOnStock;
+                        m_PlacedBlocks = PlacedBlocks;
+                        RecreateStock();
+                        eFactoryState = FactoryState.OK;
+                    }
+                }
+            }
+            in.close();
+            fileIn.close();
+        }
+
+        catch (ClassNotFoundException cnf) {
+            eFactoryState = FactoryState.SERIALIZATIONERROR;
         }
         catch (IOException i) {
-            fab = new CBlockFactory();
-            fab.ResetFactory();
-            fab.eFactoryState = FactoryState.UNINITIALIZED;
+            //ResetFactory();
+            eFactoryState = FactoryState.FILENOTFOUND;
         }
-    }
-
-    /**
-     * serialization if no objec is available
-     * @throws ObjectStreamException
-     */
-    private void readObjectNoData() throws ObjectStreamException {
-        fab = new CBlockFactory();
-        fab.ResetFactory();
-        fab.eFactoryState = FactoryState.UNINITIALIZED;
     }
 
     public void setFabCommunication(IFabCommunication fabCommunication) {
