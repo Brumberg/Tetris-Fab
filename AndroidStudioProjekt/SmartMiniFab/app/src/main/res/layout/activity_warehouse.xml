@@ -187,7 +187,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_1x1_Red_Counter_Button"
@@ -199,7 +200,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_1x1_Green_Counter_Button"
@@ -211,7 +213,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_1x1_Blue_Counter_Button"
@@ -223,7 +226,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_1x1_Yellow_Counter_Button"
@@ -235,7 +239,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
 
     <!-- 2 x 2 -->
@@ -249,7 +254,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_2x2_Red_Counter_Button"
@@ -261,7 +267,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_2x2_Green_Counter_Button"
@@ -273,7 +280,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_2x2_Blue_Counter_Button"
@@ -285,7 +293,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_2x2_Yellow_Counter_Button"
@@ -297,7 +306,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <!-- I -->
     <Button
@@ -310,7 +320,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_I_Red_Counter_Button"
@@ -322,7 +333,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_I_Green_Counter_Button"
@@ -334,7 +346,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_I_Blue_Counter_Button"
@@ -346,7 +359,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_I_Yellow_Counter_Button"
@@ -358,7 +372,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
 
     <!-- J -->
@@ -372,7 +387,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_J_Red_Counter_Button"
@@ -384,7 +400,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_J_Green_Counter_Button"
@@ -396,7 +413,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_J_Blue_Counter_Button"
@@ -408,7 +426,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_J_Yellow_Counter_Button"
@@ -420,7 +439,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
 
     <!-- S -->
@@ -434,7 +454,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_S_Red_Counter_Button"
@@ -446,7 +467,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_S_Green_Counter_Button"
@@ -458,7 +480,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_S_Blue_Counter_Button"
@@ -470,7 +493,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_S_Yellow_Counter_Button"
@@ -482,7 +506,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
 
     <!-- T -->
@@ -496,7 +521,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_T_Red_Counter_Button"
@@ -508,7 +534,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_T_Green_Counter_Button"
@@ -520,7 +547,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_T_Blue_Counter_Button"
@@ -532,7 +560,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_T_Yellow_Counter_Button"
@@ -544,7 +573,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
 
     <!-- L -->
@@ -558,7 +588,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_L_Red_Counter_Button"
@@ -570,7 +601,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_L_Green_Counter_Button"
@@ -582,7 +614,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_L_Blue_Counter_Button"
@@ -594,7 +627,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_L_Yellow_Counter_Button"
@@ -606,7 +640,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <!-- Z -->
     <Button
@@ -619,7 +654,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_Z_Red_Counter_Button"
@@ -631,7 +667,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_Z_Green_Counter_Button"
@@ -643,7 +680,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_Z_Blue_Counter_Button"
@@ -655,7 +693,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_Z_Yellow_Counter_Button"
@@ -667,7 +706,8 @@
         android:textSize="18sp"
         style="@android:style/Widget.Button"
         android:textAlignment="center"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        android:onClick="selectBlock_onClick"/>
 
 
 
