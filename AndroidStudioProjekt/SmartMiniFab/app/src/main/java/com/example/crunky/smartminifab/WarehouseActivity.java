@@ -149,25 +149,12 @@ public class WarehouseActivity extends AppCompatActivity {
         String filename = getString(R.string.warehouse_file_name);
         String filePath = getFilesDir().getPath().toString() + "/";
         filename = filePath+filename;
-        try {
-            CBlockFactory.getInstance().ResetFactory();
-            FileInputStream fileIn = new FileInputStream(filename);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            factory = (CBlockFactory) in.readObject();
-            in.close();
-            fileIn.close();
-        }catch(IOException i) {
-            //oh no...
-            return;
-        }catch(ClassNotFoundException c) {
-            //oh no...
-            return;
-        }
-        if (factory.GetFactoryState()== CBlockFactory.FactoryState.UNINITIALIZED) {
-            factory.RecreateStock();
+
+        CBlockFactory.getInstance().readObject(filename);
+        if (CBlockFactory.getInstance().GetFactoryState()== CBlockFactory.FactoryState.UNINITIALIZED) {
+            //error while loading
         }
 
-        // not neccessary
         UpdateButtons();
         if (m_SelButton!=null) {
             HighlightButton(m_SelButton);
@@ -183,22 +170,12 @@ public class WarehouseActivity extends AppCompatActivity {
         String filename = getString(R.string.warehouse_file_name);
         String filePath = getFilesDir().getPath().toString() + "/";
         filename = filePath+filename;
-        try {
-            File File = new File(filename);
-            File.createNewFile();
-
-            FileOutputStream fileOut =
-                    new FileOutputStream(filename);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(factory);
-            out.close();
-            fileOut.close();
-            // message supi
-        }catch(IOException i) {
-            // message oh no...
-            // i.printStackTrace();
-            return;
+        CBlockFactory.getInstance().writeObject(filename);
+        if (CBlockFactory.getInstance().GetFactoryState()==
+                CBlockFactory.FactoryState.SERIALIZATIONERROR) {
+                //error occurred
         }
+
         if (m_SelButton!=null) {
             UpdateButtons();
             HighlightButton(m_SelButton);
