@@ -88,7 +88,8 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
-        android:background="@android:drawable/screen_background_light_transparent"/>
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="setSeedBoxSize"/>
 
     <ImageButton
         android:id="@+id/ID_SeedBoxMode_4x3_imageButton"
@@ -98,7 +99,8 @@
         android:layout_height="60dp"
         android:background="@android:drawable/screen_background_light_transparent"
         android:layout_below="@+id/ID_SeedBoxMode_3x3_imageButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="setSeedBoxSize"/>
 
     <ImageButton
         android:id="@+id/ID_SeedBoxMode_5x4_imageButton"
@@ -108,7 +110,8 @@
         android:layout_width="100dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
-        android:background="@android:drawable/screen_background_light_transparent"/>
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="setSeedBoxSize"/>
     <![CDATA[
 
 

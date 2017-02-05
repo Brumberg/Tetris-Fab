@@ -13,12 +13,16 @@ import android.graphics.Color;
 import android.view.SurfaceHolder;
 import android.graphics.Paint;
 import android.graphics.Bitmap;
+import android.view.View;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.R.attr.translateX;
+import static android.R.attr.width;
 import static android.R.attr.x;
 import static android.R.attr.y;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.example.crunky.smartminifab.SeedBoxSize.FIVEBYFOUR;
 import static com.example.crunky.smartminifab.SeedBoxSize.FOURBYTHREE;
 import static com.example.crunky.smartminifab.SeedBoxSize.THREEBYTHREE;
@@ -29,6 +33,7 @@ public class SeedBoxSurface extends SurfaceView {
     Paint m_BackgroundColor = new Paint(Color.GREEN);
     private int m_SurfViewWidth;                                // size of the view
     private int m_SurfViewHeight;
+    private Block obj_marked_block = null;
 
     private SeedBox objSeedBox = new SeedBox();
 
@@ -90,88 +95,6 @@ public class SeedBoxSurface extends SurfaceView {
         super(context, attrs, defStyleAttr);
     }
 
-    /*private SurfaceHolder holder;                               // for fancy additional stuff.
-    // Not directly required right now.
-    private Paint m_BackgroundColor = new Paint(Color.GREEN);   // color. Used in onDraw function.
-    // at the moment used for all
-    // aspects of drawing. There should
-    // be one for each task.
-    private BlockComponent.CGridCtrl m_Grid = new BlockComponent.CGridCtrl(BlockComponent.CBlockFactory.getInstance());
-    // model of the grid
-    private int m_SurfViewWidth;                                // size of the view
-    private int m_SurfViewHeight;                               // size of the view
-    private Bitmap m_Background;                                // not used
-    private List<BlockComponent.CBlock> m_UsedBlocks;           // list of placed objects
-
-    public int GetWidth() {return m_SurfViewWidth;}             //physical size of the view. Required?
-    public int GetHeight() {return m_SurfViewHeight;}           //physical size of the view. Required?
-
-    /**
-     * Plain constructor
-     * @param context
-     * @param attrs
-     * setup CSeedboxSurface - initialize the object (see Android spec - surfaceview)
-     */
-    /*public CSeedBoxSurface(Context context) {
-        super(context);
-        holder = getHolder();
-        m_UsedBlocks = new ArrayList<BlockComponent.CBlock>();
-        m_UsedBlocks.clear();
-        m_BackgroundColor.setColor(Color.GREEN);
-        holder.addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-            }
-
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                Canvas c = holder.lockCanvas(null);
-                onDraw(c);
-                holder.unlockCanvasAndPost(c);
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            }
-        });
-    }
-
-    /**
-     * Extended constructor (with attributes)
-     * @param context
-     * @param attrs
-     * setup CSeedboxSurface - initialize the object (see Android spec - surfaceview)
-     */
-    /*public CSeedBoxSurface(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        holder = getHolder();
-        m_UsedBlocks = new ArrayList<BlockComponent.CBlock>();
-        m_UsedBlocks.clear();
-        holder.addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-            }
-
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                Canvas c = holder.lockCanvas(null);
-                onDraw(c);
-                holder.unlockCanvasAndPost(c);
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            }
-        });
-        BlockComponent.CBlockFactory factory = BlockComponent.CBlockFactory.getInstance();
-        factory.AddBlock(BlockComponent.CBlock.eBlockType.L_SHAPE, BlockComponent.CBlock.eBlockColor.BLACK);
-    }
-    public CSeedBoxSurface(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-    public CSeedBoxSurface(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
 
     /**
      * onSizeChanged
@@ -184,56 +107,101 @@ public class SeedBoxSurface extends SurfaceView {
     protected void onSizeChanged (int w, int h, int oldw, int oldh) {
         m_SurfViewHeight = h;
         m_SurfViewWidth = w;
+        setWillNotDraw(false);
+    }
+
+    public void setSeedBoxSize (SeedBoxSize size) {
+        objSeedBox.setSize(size);
+    }
+
+    public Block handleTouchOperation(int x, int y) {
+
+        obj_marked_block = objSeedBox.getBlock(TranslateXcoord(x), TranslateYcoord(y));
+
+        return obj_marked_block;
+    }
+
+    public void deleteBrick(Block block) {
+        objSeedBox.remove(block);
+
+        // force surface to update view
+        invalidate();
+
+    }
+
+    public Boolean handleDropOperation(int x, int y, Block block) {
+        boolean successful = objSeedBox.place(TranslateXcoord(x), TranslateYcoord(y), block);
+
+        // force surface to update view
+        invalidate();
+
+        return successful;
+
     }
 
     /**
-     * FindBlock
-     * @param id
-     * @return block reference
-     * used to associate uiniqueblockid with block reference
-     */
-    /*private BlockComponent.CBlock FindBlock(int id) {
-        BlockComponent.CBlock found=null;
-        for (int i=0; i<m_UsedBlocks.size(); ++i) {
-            BlockComponent.CBlock block = m_UsedBlocks.get(i);
-            if (block.GetUniqueObjectId()==id) {
-                found = m_UsedBlocks.get(i);
+     * Translate coordinates from android standard to Seedbox standard
+      */
+
+    private int TranslateXcoord (int x) {
+        // get size of seedbox
+        SeedBoxSize seedBoxSize = objSeedBox.getSize();
+
+        int norm_factor_x = 0;
+
+        switch (seedBoxSize){
+            case THREEBYTHREE:
+                norm_factor_x = 3;
                 break;
-            }
+            case FOURBYTHREE:
+                norm_factor_x = 4;
+                break;
+            case FIVEBYFOUR:
+                norm_factor_x = 5;
+                break;
         }
-        return found;
+
+        View v = findViewById(R.id.TetrisGrid);
+
+        int i_with_of_single_block = v.getWidth() / norm_factor_x;
+
+        return x / i_with_of_single_block;
+
     }
 
     /**
-     * void HandleDropOperation(int x, int y)
-     * @param x
-     * @param y
-     * Test function. Get object from component factory (if available) and try o place it
+     * Translate coordinates from android standard to Seedbox standard
      */
-    /*public void HandleDropOperation(int x, int y) {
-        //determine placement of block in "logical" units
-        int xcord = x*m_Grid.GetWidth()/m_SurfViewWidth;
-        int ycord = y*m_Grid.GetHeight()/m_SurfViewHeight;
-        //block within grid?
-        if (xcord<m_Grid.GetWidth()&&ycord<m_Grid.GetHeight()) {
-            //valid coord, so is there a block
-            BlockComponent.CBlockFactory factory = BlockComponent.CBlockFactory.getInstance();
-            BlockComponent.CBlock block = factory.Allocate(BlockComponent.CBlock.eBlockType.L_SHAPE,
-                    BlockComponent.CBlock.eBlockColor.BLACK);
-            if (block!=null) {
-                //try to place block
-                if (m_Grid.PlaceBlock(block,BlockComponent.CBlock.eRotation.DEGREES_0,
-                        xcord,m_Grid.GetHeight()-ycord-1)) {
-                    //invalidate dislay
-                    m_UsedBlocks.add(block);
-                    invalidate();
-                } else {
-                    //can not place block - release block
-                    factory.ReleaseBlock(block);
-                }
-            }
+    private int TranslateYcoord (int y) {
+        // get size of seedbox
+        SeedBoxSize seedBoxSize = objSeedBox.getSize();
+
+        int norm_factor_y = 0;
+
+        switch (seedBoxSize){
+            case THREEBYTHREE:
+                norm_factor_y = 3;
+                break;
+            case FOURBYTHREE:
+                norm_factor_y = 3;
+                break;
+            case FIVEBYFOUR:
+                norm_factor_y = 4;
+                break;
         }
+
+        View v = findViewById(R.id.TetrisGrid);
+
+        int i_height_of_single_block = v.getHeight() / norm_factor_y;
+
+        // change point of origin from y to SeedBox convention (bottom = 0)
+        y = -y + v.getHeight();
+
+        return y / i_height_of_single_block;
+
     }
+
+
 
     /**
      * onDraw
@@ -255,8 +223,26 @@ public class SeedBoxSurface extends SurfaceView {
         m_BackgroundColor.setStrokeWidth(10);
         canvas.drawRect(0,0,m_SurfViewWidth-1,m_SurfViewHeight-1,m_BackgroundColor);
 
-        int width = 3; //int width = m_Grid.GetWidth();
-        int height = 3; //m_Grid.GetHeight();
+       SeedBoxSize size = objSeedBox.getSize();
+
+        int width = 0; //int width = m_Grid.GetWidth();
+        int height = 0; //m_Grid.GetHeight();
+
+        switch (size){
+            case THREEBYTHREE:
+                width = 3;
+                height = 3;
+                break;
+            case FOURBYTHREE:
+                width = 4;
+                height = 3;
+                break;
+            case FIVEBYFOUR:
+                width = 5;
+                height = 4;
+                break;
+        }
+
 
         int xcord = m_SurfViewWidth/width;
         int ycord = m_SurfViewHeight/height;
@@ -271,76 +257,40 @@ public class SeedBoxSurface extends SurfaceView {
         }
 
         // map between BlockColor and print color
-        Map<BlockColor,Paint> map_blockcolor_to_int = new HashMap<>();
+        Map<BlockColor, Integer> map_blockcolor_to_int = new HashMap<>();
 
-        map_blockcolor_to_int.put(BlockColor.BLACK, new Paint(Color.BLACK));
-        map_blockcolor_to_int.put(BlockColor.BLUE, new Paint(Color.BLUE));
-        map_blockcolor_to_int.put(BlockColor.GREEN, new Paint(Color.GREEN));
-        map_blockcolor_to_int.put(BlockColor.RED, new Paint(Color.RED));
-        map_blockcolor_to_int.put(BlockColor.YELLOW, new Paint(Color.YELLOW));
+        map_blockcolor_to_int.put(BlockColor.BLACK, Color.BLACK);
+        map_blockcolor_to_int.put(BlockColor.BLUE, Color.BLUE);
+        map_blockcolor_to_int.put(BlockColor.GREEN, Color.GREEN);
+        map_blockcolor_to_int.put(BlockColor.RED, Color.RED);
+        map_blockcolor_to_int.put(BlockColor.YELLOW, Color.YELLOW);
+        map_blockcolor_to_int.put(BlockColor.TRANSPARENT, Color.WHITE);
 
-        SeedBoxSize size = objSeedBox.getSize();
 
-        int x = 0;
-        int y = 0;
-
-        switch (size){
-            case THREEBYTHREE:
-                x = 3;
-                y = 3;
-                break;
-            case FOURBYTHREE:
-                x = 4;
-                y = 3;
-                break;
-            case FIVEBYFOUR:
-                x = 5;
-                y = 4;
-                break;
-        }
 
         //draw content of the seedbox
-        for (int i=0; i < height; ++i) {
-            for (int j=0; j < width; ++j) {
-                BlockColor color = objSeedBox.getBlockColor(i, j);
-                Log.d("Loop i:", Integer.toString(i));
-                Log.d("Loop j:", Integer.toString(j));
-                /*canvas.drawRect(j*xcord+1,i*ycord+1,
-                       (j+1)*xcord-1,(i+1)*ycord-1, map_blockcolor_to_int.get(color));*/
+        for (int y=0; y < height; ++y) {
+            for (int x=0; x < width; ++x) {
+                BlockColor color = BlockColor.TRANSPARENT;
+
+                if (objSeedBox.getBlock(x, y) != null)
+                {
+                    color = objSeedBox.getBlockColor(x, y);
+                }
+
+                m_BackgroundColor.setStyle(Paint.Style.FILL);
+                //set brush color - specified in block - use green
+                m_BackgroundColor.setColor(map_blockcolor_to_int.get(color));
+                m_BackgroundColor.setStrokeWidth(10);
+
+                int y_scaled = -y + height - 1;
+
+                canvas.drawRect(x * xcord + 5, y_scaled * ycord + 5, (x + 1) * xcord - 5,
+                                (y_scaled + 1) * ycord - 5, m_BackgroundColor);
+
             }
         }
 
-
-
-        /*CBlockFactory objBlockFactory = CBlockFactory.getInstance();
-
-        for (int i=0; i < BlockShape.values().length; ++i){
-            for (int j=0; j < BlockColor.values().length; ++j) {
-                int num = objBlockFactory.GetNoBlocksDrawn(BlockShape.values()[i], BlockColor.values()[j]);
-
-                for (int k = 0; k < num; k++) {
-                    // TODO
-                }
-
-            }
-        }*/
-
-        /*
-        //draw content of the seedbox
-        for (int i=0; i < height; ++i)
-            for (int j=0; j < width; ++j) {
-                int id = m_Grid.GetObjectId(j,height-i-1);
-                if (id!=0) {
-                    BlockComponent.CBlock block = FindBlock(id);
-
-                    m_BackgroundColor.setStyle(Paint.Style.FILL);
-                    //set brush color - specified in block - use green
-                    m_BackgroundColor.setColor(Color.BLUE);
-                    m_BackgroundColor.setStrokeWidth(10);
-                    canvas.drawRect(j*xcord+1,i*ycord+1,
-                            (j+1)*xcord-1,(i+1)*ycord-1,m_BackgroundColor);
-                }
-            }*/
         //pass control to parent
         super.onDraw(canvas);
     }

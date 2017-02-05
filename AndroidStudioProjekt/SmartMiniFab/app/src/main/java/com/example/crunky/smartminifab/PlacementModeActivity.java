@@ -11,14 +11,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.R.attr.id;
+import static android.R.attr.x;
+import static android.R.drawable.screen_background_light_transparent;
 import static com.example.crunky.smartminifab.R.id.ID_PlacementMode_BrickPreview_ImageView;
-import static com.example.crunky.smartminifab.SeedBoxSize.FIVEBYFOUR;
-
-
 
 
 public class PlacementModeActivity extends AppCompatActivity {
@@ -26,10 +29,11 @@ public class PlacementModeActivity extends AppCompatActivity {
     // get block handler from factory
     CBlockFactory objBlockFactory = CBlockFactory.getInstance();
 
-    // create new seed box
-    SeedBox objSeedBox = new SeedBox();
-
+    // actual choosen Brick
     Block objBrickPreview = null;
+
+    // actual marked Brick in seedbox
+    Block objMarkedBrickInSeedbox = null;
 
     // map between shapes and Image Button id's
     Map<BlockShape, Integer> map_bricks_to_id = new HashMap<BlockShape, Integer>();
@@ -42,6 +46,11 @@ public class PlacementModeActivity extends AppCompatActivity {
     // map between BlockColor and print color
     Map<BlockColor,Integer> map_blockcolor_to_int = new HashMap<>();
 
+    // map between Angle (in 90° steps) and BlockRotation
+    Map<Integer, BlockRotation> map_angle_to_blockrotation = new HashMap<>();
+
+    SeedBoxSurface surface;
+
     // remember chosen brick id
     int i_act_id = -1;
 
@@ -51,11 +60,18 @@ public class PlacementModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_placement_mode);
 
-        // Allowing a view to be dragged
-        findViewById(R.id.ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(new MyTouchListener());
-
         // Defining drop target
         findViewById(R.id.TetrisGrid).setOnDragListener(new MyDragListener());
+
+        // Defining clickListener for SeedBox
+        findViewById(R.id.TetrisGrid).setOnTouchListener(new SeedBoxTouchListener());
+
+        surface = (SeedBoxSurface) findViewById(R.id.TetrisGrid);
+
+
+        surface.setSeedBoxSize(((SmartMiniFab) this.getApplication()).getSeedBoxSize());
+        //surface.setSeedBoxSize(SeedBoxSize.THREEBYTHREE);
+
 
         // map between shapes -> Image Button id's
         map_bricks_to_id.put(BlockShape.FOUR_SHAPE, R.id.ID_PlacementMode_S_Brick_ImageButton);
@@ -91,13 +107,20 @@ public class PlacementModeActivity extends AppCompatActivity {
         map_blockcolor_to_int.put(BlockColor.RED, Color.RED);
         map_blockcolor_to_int.put(BlockColor.YELLOW, Color.YELLOW);
 
+        // map between Angle (in 90° steps) and BlockRotation
+        map_angle_to_blockrotation.put(0,BlockRotation.DEGREES_0);
+        map_angle_to_blockrotation.put(90,BlockRotation.DEGREES_90);
+        map_angle_to_blockrotation.put(180,BlockRotation.DEGREES_180);
+        map_angle_to_blockrotation.put(270,BlockRotation.DEGREES_270);
+
 
         // TODO: only for Test, needs to be deleted
+        objBlockFactory.ResetFactory();
         objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.RED);
-        objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.YELLOW);
+        objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.BLUE);
         objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);
-        objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
-
+        //objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
+        //objBlockFactory.AddBlocks(3, BlockShape.SIMPLE_SQUARE, BlockColor.BLACK);
 
         updateView();
 
@@ -136,45 +159,7 @@ public class PlacementModeActivity extends AppCompatActivity {
                 }
             }
         }
-
-
-        /*for (int i=0; i < BlockShape.values().length; ++i) {
-            for (int j = 0; j < BlockColor.values().length; ++j) {
-                int num = objBlockFactory.GetNoBlocksAvailable(BlockShape.values()[i], BlockColor.values()[j]);
-
-                if (num > 0) {
-                    switch (BlockShape.values()[i]){
-                        case SIMPLE_SQUARE:
-                            findViewById(R.id.ID_PlacementMode_1x1_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case QUADRUPLE_SQUARE:
-                            findViewById(R.id.ID_PlacementMode_2x2_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case I_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_I_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case MIRRORED_L_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_J_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case L_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_L_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case FOUR_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_S_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case MIRRORED_T_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_T_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                        case MIRRORRED_FOUR_SHAPE:
-                            findViewById(R.id.ID_PlacementMode_Z_Brick_ImageButton).setVisibility(View.VISIBLE);
-                            break;
-                    }
-                }
-
-            }
-        }*/
-
-    }
+     }
 
     // check if blockshape is available (independent of color)
     private boolean isBlockAvailable(BlockShape shape) {
@@ -199,6 +184,9 @@ public class PlacementModeActivity extends AppCompatActivity {
         // do nothing if block is not available
         if (isBlockAvailable(map_id_to_bricks.get(v.getId()))) {
 
+            TextView obj_text_view = (TextView) findViewById(R.id.ID_PlacementMode_BrickPreview_TextView);
+            obj_text_view.setVisibility(View.INVISIBLE);
+
             if (objBrickPreview != null) {
                 objBlockFactory.ReleaseBlock(objBrickPreview);
                 objBrickPreview = null;
@@ -207,7 +195,10 @@ public class PlacementModeActivity extends AppCompatActivity {
             ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
             img.setRotation(0);
-            img.setColorFilter(Color.BLACK);
+            img.setColorFilter(Color.GRAY);
+
+            // disable drag and drop
+            findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(null);
 
             switch (v.getId()) {
                 case R.id.ID_PlacementMode_1x1_Brick_ImageButton:
@@ -259,33 +250,57 @@ public class PlacementModeActivity extends AppCompatActivity {
     }
 
     public void changeColor(View v) {
-        ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        // release old brick
-        if (objBrickPreview != null) {
-            objBlockFactory.ReleaseBlock(objBrickPreview);
-            objBrickPreview = null;
-        }
+        if (i_act_id > 0) {
+            ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        // get actual selected shape
-        BlockShape block_shape = map_id_to_bricks.get(i_act_id);
+            // release old brick
+            if (objBrickPreview != null) {
+                objBlockFactory.ReleaseBlock(objBrickPreview);
+                objBrickPreview = null;
+            }
 
-        // get color from id
-        BlockColor block_color = map_id_to_color.get(v.getId());
+            // get actual selected shape
+            BlockShape block_shape = map_id_to_bricks.get(i_act_id);
 
-        // if block is available pick up
-        if (objBlockFactory.IsBlocktypeAvailable(block_shape, block_color)) {
-            img.setColorFilter(map_blockcolor_to_int.get(block_color));
-            objBrickPreview = objBlockFactory.Allocate(block_shape, block_color);
+            // get color from id
+            BlockColor block_color = map_id_to_color.get(v.getId());
+
+            // if block is available pick up
+            if (objBlockFactory.IsBlocktypeAvailable(block_shape, block_color)) {
+                img.setColorFilter(map_blockcolor_to_int.get(block_color));
+                objBrickPreview = objBlockFactory.Allocate(block_shape, block_color);
+                Log.d("Num of blocks in stack", Integer.toString(objBlockFactory.GetNoBlocksAvailable(block_shape, block_color)));
+                // Allowing a view to be dragged
+                findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(new BrickTouchListener());
+            }
         }
         updateView();
+
+    }
+
+    public void onDelete(View v) {
+        Log.d("num before", Integer.toString(objBlockFactory.GetNoBlocks()));
+        if (objMarkedBrickInSeedbox != null) {
+
+
+            surface.deleteBrick(objMarkedBrickInSeedbox);
+            objBlockFactory.ReleaseBlock(objMarkedBrickInSeedbox);
+            objMarkedBrickInSeedbox = null;
+            Log.d("num after", Integer.toString(objBlockFactory.GetNoBlocks()));
+            updateView();
+        }
     }
 
     public void rotateImageClockwise(View view) {
 
         View img = findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        img.setRotation(img.getRotation() + (float) 90.0);
+        float rotation = img.getRotation() + (float) 90.0;
+
+        img.setRotation(rotation);
+
+        objBrickPreview.setRotation(map_angle_to_blockrotation.get((int)rotation));
 
     }
 
@@ -293,12 +308,35 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         View img = findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        img.setRotation(img.getRotation() - (float) 90.0);
+        float rotation = img.getRotation() - (float) 90.0;
+
+        img.setRotation(rotation);
+
+        objBrickPreview.setRotation(map_angle_to_blockrotation.get((int)rotation));
 
     }
 
+
+    private final class SeedBoxTouchListener implements View.OnTouchListener {
+        public boolean onTouch(final View view, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                Log.d("x = ", Integer.toString((int)event.getX()));
+                Log.d("y = ", Integer.toString((int)event.getY()));
+
+                objMarkedBrickInSeedbox = surface.handleTouchOperation((int)event.getX(),
+                                                                (int)event.getY());
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
     // defines touch listener
-    private final class MyTouchListener implements View.OnTouchListener {
+    private final class BrickTouchListener implements View.OnTouchListener {
         public boolean onTouch(final View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 ClipData data = ClipData.newPlainText("", "");
@@ -369,35 +407,50 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
-            int action = event.getAction();
+            View view = (View) event.getLocalState();
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     // do nothing
+                    Log.d("Drag event:", "ACTION_DRAG_STARTED");
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     // do nothing
+                    Log.d("Drag event:", "ACTION_DRAG_ENTERED");
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
                     // do nothing
+                    Log.d("Drag event:", "ACTION_DRAG_EXITED");
                     break;
                 case DragEvent.ACTION_DROP:
-                    // Dropped, reassign View to ViewGroup
-                    View view = (View) event.getLocalState();
-                    //ViewGroup owner = (ViewGroup) view.getParent();
-                    //owner.removeView(view);
-                    //LinearLayout container = (LinearLayout) v;
-                    //container.addView(view);
-                    //int x_cord = (int) event.getX();
-                    //int y_cord = (int) event.getY();
+                    Log.d("Drag event:", "ACTION_DROP");
 
-                    // CSeedBoxSurface surface = (CSeedBoxSurface) findViewById(R.id.TetrisGrid);
+                    boolean successful = surface.handleDropOperation((int)event.getX(),
+                                                                     (int)event.getY(),
+                                                                     objBrickPreview);
+                    if (successful) {
+                        i_act_id = 0;
+                        objBrickPreview = null;
+                        ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
+                        img.setImageResource(R.drawable.shape_droptarget);
+                        img.setColorFilter(null);
+                        TextView obj_text_view = (TextView) findViewById(R.id.ID_PlacementMode_BrickPreview_TextView);
+                        obj_text_view.setVisibility(View.VISIBLE);
+                        // disable drag and drop
+                        findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(null);
+                    }
 
-                    // do something
-
-                    handleDropOperation((int)event.getX(),(int)event.getY(), objBrickPreview);
                     view.setVisibility(View.VISIBLE);
+
+                    updateView();
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
+                    Log.d("Drag event:", "ACTION_DRAG_ENDED");
+                    Log.d("Result of DragEvent:", Boolean.toString(event.getResult()));
+
+                    if (event.getResult() == false)
+                    {
+                        view.setVisibility(View.VISIBLE);
+                    }
                     // do nothing
                     break;
                 default:
@@ -407,82 +460,5 @@ public class PlacementModeActivity extends AppCompatActivity {
         }
     }
 
-    private void handleDropOperation(int x, int y, Block block) {
-        //determine placement of block in "logical" units
-
-        // get size of seedbox
-        SeedBoxSize seedBoxSize = objSeedBox.getSize();
-
-        int norm_factor_x = 0;
-        int norm_factor_y = 0;
-
-        objSeedBox.setSize(FIVEBYFOUR);
-
-        switch (seedBoxSize){
-            case THREEBYTHREE:
-                norm_factor_x = 3;
-                norm_factor_y = 3;
-                break;
-            case FOURBYTHREE:
-                norm_factor_x = 4;
-                norm_factor_y = 3;
-                break;
-            case FIVEBYFOUR:
-                norm_factor_x = 5;
-                norm_factor_y = 4;
-                break;
-        }
-
-        View v = findViewById(R.id.TetrisGrid);
-
-        int i_with_of_single_block = v.getWidth() / norm_factor_x;
-        int i_height_of_single_block = v.getHeight() / norm_factor_y;
-
-        // change point of origin from y to SeedBox convention (bottom = 0)
-        y = -y + v.getHeight();
-
-        int xcoord = x / i_with_of_single_block;
-        int ycoord = y / i_height_of_single_block;
-
-        boolean successful = objSeedBox.place(xcoord, ycoord, block);
-
-        Log.d("place", Boolean.toString(successful));
-
-        Log.d("x", Integer.toString(x));
-        Log.d("y", Integer.toString(y));
-
-        Log.d("getWith", Integer.toString(v.getWidth()));
-        Log.d("getHeight", Integer.toString(v.getHeight()));
-
-        Log.d("xcoord", Integer.toString(xcoord));
-        Log.d("ycoord", Integer.toString(ycoord));
-
-
-        /*
-        int xcord = x*m_Grid.GetWidth()/m_SurfViewWidth;
-        int ycord = y*m_Grid.GetHeight()/m_SurfViewHeight;
-
-
-
-        //block within grid?
-        if (xcord<m_Grid.GetWidth()&&ycord<m_Grid.GetHeight()) {
-            //valid coord, so is there a block
-            BlockComponent.CBlockFactory factory = BlockComponent.CBlockFactory.getInstance();
-            BlockComponent.CBlock block = factory.Allocate(BlockComponent.CBlock.eBlockType.L_SHAPE,
-                    BlockComponent.CBlock.eBlockColor.BLACK);
-            if (block!=null) {
-                //try to place block
-                if (m_Grid.PlaceBlock(block,BlockComponent.CBlock.eRotation.DEGREES_0,
-                        xcord,m_Grid.GetHeight()-ycord-1)) {
-                    //invalidate dislay
-                    m_UsedBlocks.add(block);
-                    invalidate();
-                } else {
-                    //can not place block - release block
-                    factory.ReleaseBlock(block);
-                }
-            }
-        }*/
-    }
 
 }
