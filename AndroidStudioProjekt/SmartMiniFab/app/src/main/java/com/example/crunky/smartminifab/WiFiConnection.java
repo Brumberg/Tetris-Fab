@@ -29,10 +29,9 @@ public class WiFiConnection {
     private final int m_port;
     private final InetAddress m_host;
 
-    public WiFiConnection(InetAddress host, int port)
-    {
-        m_host=host;
-        m_port=port;
+    public WiFiConnection(InetAddress host, int port) {
+        m_host = host;
+        m_port = port;
     }
 
     public InetAddress getHost() {
@@ -44,121 +43,31 @@ public class WiFiConnection {
     }
 
     public void connect()
-            throws IOException
-    {
-        IOException result=null;
-        try {
-            result = new AsyncTask<String,String,IOException>() {
-                @Override
-                protected IOException doInBackground(String... message) {
-                    IOException result=null;
-                    try {
-                        if((m_socket!=null)&&(m_socket.isConnected())) {
-                            close();
-                        }
-                        m_socket = new Socket(m_host, m_port);
-                        m_reader=new BufferedReader(new InputStreamReader(m_socket.getInputStream()));
-                        m_writer=new OutputStreamWriter(m_socket.getOutputStream());
-                    }
-                    catch(IOException e) {
-                        result=e;
-                    }
-                    return result;
-                }
-            }.execute("").get();
+            throws IOException {
+        if ((m_socket != null) && (m_socket.isConnected())) {
+            close();
         }
-        catch(Exception e) {
-            result=new IOException(e);
-        }
-        if(result!=null)
-        {
-            throw result;
-        }
+        // TODO: This line prevents an execution of AsyncTask.onPostExecute
+        m_socket = new Socket(m_host, m_port);
+        m_reader = new BufferedReader(new InputStreamReader(m_socket.getInputStream()));
+        m_writer = new OutputStreamWriter(m_socket.getOutputStream());
     }
 
     public void writeLine(final String line)
-            throws IOException
-    {
-        IOException exception=null;
-        try {
-            exception = new AsyncTask<String,String,IOException>() {
-                @Override
-                protected IOException doInBackground(String... message) {
-                    IOException result=null;
-                    try {
-                        m_writer.write(line + "\r\n");
-                        m_writer.flush();
-                    }
-                    catch(IOException e) {
-                        result=e;
-                    }
-                    return result;
-                }
-            }.execute("").get();
-        }
-        catch(Exception e) {
-            exception=new IOException(e);
-        }
-        if(exception!=null)
-        {
-            throw exception;
-        }
+            throws IOException {
+        m_writer.write(line + "\r\n");
+        m_writer.flush();
     }
 
     public String readLine()
-            throws IOException
-    {
-        Object result=null;
-        try {
-            result = new AsyncTask<String,String,Object>() {
-                @Override
-                protected Object doInBackground(String... message) {
-                    Object result=null;
-                    try {
-                        result=m_reader.readLine();
-                    }
-                    catch(IOException e) {
-                        result=e;
-                    }
-                    return result;
-                }
-            }.execute("").get();
-        }
-        catch(Exception e) {
-            result=new IOException(e);
-        }
-        if(result instanceof IOException)
-        {
-            throw ((IOException)(result));
-        }
-        return result.toString();
+            throws IOException {
+        return m_reader.readLine();
     }
 
     public void close()
-            throws IOException
-    {
-        IOException exception=null;
-        try {
-            exception = new AsyncTask<String,String,IOException>() {
-                @Override
-                protected IOException doInBackground(String... message) {
-                    IOException result=null;
-                    try {
-                        m_socket.close();
-                    }
-                    catch(IOException e) {
-                        result=e;
-                    }
-                    return result;
-                }
-            }.execute("").get();
-        }
-        catch(Exception e) {
-            exception=new IOException(e);
-        }
-        if(exception!=null)
-        {
-            throw exception;
-        }
+            throws IOException {
+        m_reader.close();
+        m_writer.close();
+        m_socket.close();
     }
 }

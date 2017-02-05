@@ -315,7 +315,12 @@ public class DevelopmentModeActivity extends AppCompatActivity {
      * Handles the event if the ScanButton is clicked
      */
     private void scanNetworkButton_onClick(View v) {
-        m_factoryManagement.scanBlockFactories();
+        try {
+            m_factoryManagement.scanBlockFactories();
+        }
+        catch(Exception e) {
+
+        }
     }
 
     /**

@@ -41,8 +41,9 @@ public class TCPIPModule implements IFabCommunication {
     public boolean connect() {
         try {
             m_connection.connect();
-            m_connection.writeLine("HELLO");
-            m_connected = m_connection.readLine().equals("ARDUINO");
+            // TODO: remove debug changes
+            //m_connection.writeLine("HELLO");
+            //m_connected = m_connection.readLine().equals("ARDUINO");
         } catch (IOException e) {
             m_connected = false;
         }

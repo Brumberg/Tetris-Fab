@@ -2,6 +2,7 @@ package com.example.crunky.smartminifab;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class StartActivity extends AppCompatActivity {
     private TCPIPModuleManagement m_factoryManagement;
     private TCPIPModule m_currentFactory;
     private FabCommunicationListAdapter m_adapter;
+    private ProgressBar ProgressBar;
+    private ScanNetworkAsyncTask m_task;
 
     /**
      * Called when the activity is first created.
@@ -39,14 +42,14 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         Log.d(msg, "The onCreate() event");
         // Initialize controls
-        ScanButton=(Button)(findViewById(R.id.ID_FactorySelectMode_Scan_Button));
+        ScanButton = (Button) (findViewById(R.id.ID_FactorySelectMode_Scan_Button));
         ScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ScanButton_onClick(v);
             }
         });
-        WifiSpinner=(Spinner)(findViewById(R.id.ID_FactorySelectMode_WIFI_Spinner));
+        WifiSpinner = (Spinner) (findViewById(R.id.ID_FactorySelectMode_WIFI_Spinner));
         WifiSpinner_setEnabled(false);
         WifiSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -59,42 +62,30 @@ public class StartActivity extends AppCompatActivity {
                 WifiSpinner_onNothingSelected(parent);
             }
         });
-        RequestIdentifier=(TextView)(findViewById(R.id.ID_FactorySelectMode_RequestIdentifier_TextView));
-        Identifier=(EditText)(findViewById(R.id.ID_FactorySelectMode_Identifier_PlainText));
-        ConnectButton=(Button)(findViewById(R.id.ID_FactorySelectMode_Connect_Button));
+        RequestIdentifier = (TextView) (findViewById(R.id.ID_FactorySelectMode_RequestIdentifier_TextView));
+        Identifier = (EditText) (findViewById(R.id.ID_FactorySelectMode_Identifier_PlainText));
+        ConnectButton = (Button) (findViewById(R.id.ID_FactorySelectMode_Connect_Button));
         ConnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ConnectButton_onClick(v);
             }
         });
-        DisconnectButton=(Button)(findViewById(R.id.ID_FactorySelectMode_DisConnect_Button));
+        DisconnectButton = (Button) (findViewById(R.id.ID_FactorySelectMode_DisConnect_Button));
         DisconnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DisconnectButton_onClick(v);
             }
         });
-        ConnectionStatus=(TextView)(findViewById(R.id.ID_FactorySelectMode_ConnectionStatus_TextView));
-        WarehouseButton=(Button)(findViewById(R.id.ID_FactorySelectMode_Warehouse_Button));
+        ConnectionStatus = (TextView) (findViewById(R.id.ID_FactorySelectMode_ConnectionStatus_TextView));
+        WarehouseButton = (Button) (findViewById(R.id.ID_FactorySelectMode_Warehouse_Button));
         //DevModeButton=(Button)(findViewById(R.id.button));
         //PlacementButton=(Button)(findViewById(R.id.button4));
         //SeedBoxButton=(Button)(findViewById(R.id.button5));
         // Initialize factory management
         m_factoryManagement = new TCPIPModuleManagement((Context) (this));
-        m_factoryManagement.setIpScannedListener(new IIpScanningListener() {
-            public void onStartScanning(TCPIPModuleManagement sender) {
-                factoryManagement_onStartScanning(sender);
-            }
-
-            public void onIpScanned(TCPIPModuleManagement sender) {
-                factoryManagement_onIpScanned(sender);
-            }
-
-            public void onAllIpsScanned(TCPIPModuleManagement sender) {
-                factoryManagement_onAllIpsScanned(sender);
-            }
-        });
+        ProgressBar = (ProgressBar) (findViewById(R.id.ID_FactorySelectMode_Scan_progressBar));
     }
 
     /**
@@ -123,53 +114,8 @@ public class StartActivity extends AppCompatActivity {
     private void WifiSpinner_setEnabled(boolean enabled) {
         WifiSpinner.setEnabled(enabled);
         View v = WifiSpinner.getSelectedView();
-        if(v!=null) {
+        if (v != null) {
             v.setEnabled(enabled);
-        }
-    }
-
-    // TODO: Ask PO for showing scanning progress
-    /**
-     * Handles the event if the scanning for factories was started
-     */
-    private void factoryManagement_onStartScanning(TCPIPModuleManagement sender) {
-        if(m_currentFactory!=null) {
-            m_currentFactory.disconnect();
-        }
-        ScanButton.setEnabled(false);
-        WifiSpinner_setEnabled(false);
-        RequestIdentifier.setEnabled(false);
-        Identifier.setEnabled(false);
-        ConnectButton.setEnabled(false);
-        DisconnectButton.setEnabled(false);
-        ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-        ConnectionStatus.setText(getString(R.string.disconnected));
-//        pbScanProgress.setMax(sender.getCountOfIpsToBeScanned());
-//        pbScanProgress.setProgress(0);
-    }
-
-    /**
-     * Handles the event if an IP was scanned
-     */
-    private void factoryManagement_onIpScanned(TCPIPModuleManagement sender) {
-        /*pbScanProgress.setProgress(sender.getScannedIps());*/
-    }
-
-    /**
-     * Handles the event if all IPs were scanned
-     */
-    private void factoryManagement_onAllIpsScanned(TCPIPModuleManagement sender) {
-//        bButton.setVisibility(View.VISIBLE);
-//        pbScanProgress.setVisibility(View.INVISIBLE);
-        m_adapter=new FabCommunicationListAdapter(this, m_factoryManagement.getBlockFactories());
-        WifiSpinner.setAdapter(m_adapter);
-        // Check if any factory was found
-        if(WifiSpinner.getCount()>0) {
-            WifiSpinner_setEnabled(true);
-            WifiSpinner.setSelection(0);
-        }
-        else {
-            goToErrorWindowActivity(WifiSpinner, getString(R.string.no_factory_found));
         }
     }
 
@@ -177,19 +123,24 @@ public class StartActivity extends AppCompatActivity {
      * Handles the event if the ScanButton is clicked
      */
     private void ScanButton_onClick(View v) {
-        m_factoryManagement.scanBlockFactories();
+        try {
+            // Create and start the background scanning task
+            m_task = new ScanNetworkAsyncTask((Context) (this));
+            m_task.execute("");
+        } catch (Exception e) {
+            // If an exception was thrown show an error message in the error window
+            goToErrorWindowActivity(v, getString(R.string.scanning_failed));
+        }
     }
 
     /**
      * Handles the event if the ConnectButton is clicked
      */
-    private void ConnectButton_onClick(View v)
-    {
+    private void ConnectButton_onClick(View v) {
         // Try to connect to the factory
-        if(m_currentFactory.connect())
-        {
+        if (m_currentFactory.connect()) {
             // Try to login to the factory
-            if(m_currentFactory.login(Identifier.getText().toString())) {
+            if (m_currentFactory.login(Identifier.getText().toString())) {
                 ConnectButton.setEnabled(false);
                 DisconnectButton.setEnabled(true);
                 WifiSpinner_setEnabled(false);
@@ -198,8 +149,7 @@ public class StartActivity extends AppCompatActivity {
                 ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
                 ConnectionStatus.setText(getString(R.string.connected));
                 CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
-            }
-            else {
+            } else {
                 // Show an error message if it does not work
                 m_currentFactory.disconnect();
                 ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
@@ -207,8 +157,7 @@ public class StartActivity extends AppCompatActivity {
                 goToErrorWindowActivity(ConnectButton, getString(R.string.wrong_password));
                 CBlockFactory.getInstance().setFabCommunication(null);
             }
-        }
-        else {
+        } else {
             // Show an error message if it does not work
             ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
             ConnectionStatus.setText(getString(R.string.disconnected));
@@ -216,12 +165,11 @@ public class StartActivity extends AppCompatActivity {
             CBlockFactory.getInstance().setFabCommunication(null);
         }
     }
-    
+
     /**
      * Handles the event if the DisconnectButton is clicked
      */
-    private void DisconnectButton_onClick(View v)
-    {
+    private void DisconnectButton_onClick(View v) {
         m_currentFactory.disconnect();
         ConnectButton.setEnabled(true);
         DisconnectButton.setEnabled(false);
@@ -273,8 +221,11 @@ public class StartActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(msg, "The onDestroy() event");
+        if (m_task != null) {
+            m_task.cancel(true);
+        }
     }
-    
+
     /**
      * Goes to the DevelopmentModeActivity
      */
@@ -290,7 +241,7 @@ public class StartActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PlacementModeActivity.class);
         startActivity(intent);
     }*/
-    
+
     /**
      * Goes to the SeedBoxModeActivity
      */
@@ -298,7 +249,7 @@ public class StartActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SeedBoxModeActivity.class);
         startActivity(intent);
     }*/
-    
+
     /**
      * Goes to the HelpWindowActivity
      */
@@ -306,7 +257,7 @@ public class StartActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HelpWindowActivity.class);
         startActivity(intent);
     }
-    
+
     /**
      * Goes to the WarehouseActivity
      */
@@ -322,5 +273,111 @@ public class StartActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ErrorWindowActivity.class);
         intent.putExtra("message", message);
         startActivity(intent);
+    }
+
+    /*
+     * AsyncTask class for representing the scanning background process
+     */
+    private class ScanNetworkAsyncTask extends AsyncTask<String, Integer, NullableAsyncTaskResult<Exception>> {
+        /*
+         * The context of the current StartActivity
+         */
+        private Context m_context;
+
+        /*
+         * Creates a new ScanNetworkAsyncTask
+         */
+        public ScanNetworkAsyncTask(Context context) {
+            super();
+            m_context = context;
+        }
+
+        /*
+         * Executes the background task
+         */
+        @Override
+        protected NullableAsyncTaskResult<Exception> doInBackground(String... message) {
+            Exception result = null;
+            try {
+                // Disconnect from the current factory if necessary
+                if (m_currentFactory != null) {
+                    m_currentFactory.disconnect();
+                }
+                // Add the listener for updating the progress bar
+                m_factoryManagement.setIpScannedListener(new IIpScanningListener() {
+                    @Override
+                    public void onIpScanned(TCPIPModuleManagement sender) {
+                        publishProgress(m_factoryManagement.getScannedIps(), m_factoryManagement.getCountOfIpsToBeScanned());
+                    }
+                });
+                // Scan
+                m_factoryManagement.scanBlockFactories();
+            } catch (Exception e) {
+                result = e;
+            }
+            // NullableAsyncTaskResult must be used as if null is returned by doInBackground the app crashes
+            return new NullableAsyncTaskResult<Exception>(result);
+        }
+
+        /*
+         * Sets the control properties to the state at starting the scan
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ScanButton.setEnabled(false);
+            WifiSpinner_setEnabled(false);
+            RequestIdentifier.setEnabled(false);
+            Identifier.setEnabled(false);
+            ConnectButton.setEnabled(false);
+            DisconnectButton.setEnabled(false);
+            ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+            ConnectionStatus.setText(getString(R.string.disconnected));
+            ProgressBar.setMax(m_factoryManagement.getCountOfIpsToBeScanned());
+        }
+
+        /*
+         * Updates the progress bar
+         */
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            ProgressBar.setProgress(values[0]);
+            ProgressBar.setMax(values[1]);
+        }
+
+        /*
+         * Stops the loop execution of the factory management while scanning
+         */
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            m_factoryManagement.cancelScanning();
+        }
+
+        /*
+         * Sets the controls to the state if the scan was fulfilled
+         */
+        @Override
+        protected void onPostExecute(NullableAsyncTaskResult<Exception> result) {
+            super.onPostExecute(result);
+            // If an error occured
+            if (result.Result != null) {
+                // Show it in the error window
+                goToErrorWindowActivity(ScanButton, getString(R.string.scanning_failed));
+            } else {
+                m_adapter = new FabCommunicationListAdapter(m_context, m_factoryManagement.getBlockFactories());
+                WifiSpinner.setAdapter(m_adapter);
+                // Check if any factory was found
+                if (WifiSpinner.getCount() > 0) {
+                    WifiSpinner_setEnabled(true);
+                    WifiSpinner.setSelection(0);
+                } else {
+                    goToErrorWindowActivity(WifiSpinner, getString(R.string.no_factory_found));
+                }
+            }
+            // TODO: remove debug changes
+            ConnectionStatus.setText(m_factoryManagement.debug);
+        }
     }
 }
