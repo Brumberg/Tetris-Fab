@@ -68,8 +68,9 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         surface = (SeedBoxSurface) findViewById(R.id.TetrisGrid);
 
-        /*SeedBoxSize size = ((SmartMiniFab) this.getApplication()).getSomeVariable();
-        surface.setSeedBoxSize(size);*/
+
+        surface.setSeedBoxSize(((SmartMiniFab) this.getApplication()).getSeedBoxSize());
+        //surface.setSeedBoxSize(SeedBoxSize.THREEBYTHREE);
 
 
         // map between shapes -> Image Button id's
@@ -117,7 +118,7 @@ public class PlacementModeActivity extends AppCompatActivity {
         objBlockFactory.ResetFactory();
         objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.RED);
         objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.BLUE);
-        //objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);
+        objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);
         //objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
         //objBlockFactory.AddBlocks(3, BlockShape.SIMPLE_SQUARE, BlockColor.BLACK);
 
