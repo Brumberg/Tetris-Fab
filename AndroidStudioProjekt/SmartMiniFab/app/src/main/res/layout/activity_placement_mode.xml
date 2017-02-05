@@ -245,7 +245,7 @@
 
     <ImageView
         android:id="@+id/ID_PlacementMode_BrickPreview_ImageView"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         app:srcCompat="@drawable/shape_droptarget"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -267,14 +267,25 @@
         android:textColor="#000000" />
 
 
+    <Button
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ID_PlacementMode_BrickPreview_ImageView"
+        android:layout_alignRight="@+id/ID_PlacementMode_BrickPreview_TextView"
+        android:layout_alignEnd="@+id/ID_PlacementMode_BrickPreview_TextView"
+        android:layout_marginTop="20dp"
+        android:id="@+id/ID_PlacementMode_Delete_Button"
+        android:onClick="onDelete"/>
+
     <com.example.crunky.smartminifab.SeedBoxSurface
-        android:layout_width="250dp"
+        android:layout_width="200dp"
         android:id="@+id/TetrisGrid"
-        android:layout_height="250dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="200dp"
+        android:layout_below="@+id/ID_PlacementMode_Placement_TextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/ID_PlacementMode_Placement_TextView" />
+        android:layout_marginTop="12dp" />
 
     <!--
         <Button

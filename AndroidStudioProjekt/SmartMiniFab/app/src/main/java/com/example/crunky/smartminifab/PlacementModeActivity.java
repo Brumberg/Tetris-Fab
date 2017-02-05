@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.R.attr.id;
+import static android.R.attr.x;
 import static android.R.drawable.screen_background_light_transparent;
 import static com.example.crunky.smartminifab.R.id.ID_PlacementMode_BrickPreview_ImageView;
 
@@ -28,7 +29,11 @@ public class PlacementModeActivity extends AppCompatActivity {
     // get block handler from factory
     CBlockFactory objBlockFactory = CBlockFactory.getInstance();
 
+    // actual choosen Brick
     Block objBrickPreview = null;
+
+    // actual marked Brick in seedbox
+    Block objMarkedBrickInSeedbox = null;
 
     // map between shapes and Image Button id's
     Map<BlockShape, Integer> map_bricks_to_id = new HashMap<BlockShape, Integer>();
@@ -41,6 +46,11 @@ public class PlacementModeActivity extends AppCompatActivity {
     // map between BlockColor and print color
     Map<BlockColor,Integer> map_blockcolor_to_int = new HashMap<>();
 
+    // map between Angle (in 90° steps) and BlockRotation
+    Map<Integer, BlockRotation> map_angle_to_blockrotation = new HashMap<>();
+
+    SeedBoxSurface surface;
+
     // remember chosen brick id
     int i_act_id = -1;
 
@@ -52,6 +62,15 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         // Defining drop target
         findViewById(R.id.TetrisGrid).setOnDragListener(new MyDragListener());
+
+        // Defining clickListener for SeedBox
+        findViewById(R.id.TetrisGrid).setOnTouchListener(new SeedBoxTouchListener());
+
+        surface = (SeedBoxSurface) findViewById(R.id.TetrisGrid);
+
+        /*SeedBoxSize size = ((SmartMiniFab) this.getApplication()).getSomeVariable();
+        surface.setSeedBoxSize(size);*/
+
 
         // map between shapes -> Image Button id's
         map_bricks_to_id.put(BlockShape.FOUR_SHAPE, R.id.ID_PlacementMode_S_Brick_ImageButton);
@@ -87,13 +106,20 @@ public class PlacementModeActivity extends AppCompatActivity {
         map_blockcolor_to_int.put(BlockColor.RED, Color.RED);
         map_blockcolor_to_int.put(BlockColor.YELLOW, Color.YELLOW);
 
+        // map between Angle (in 90° steps) and BlockRotation
+        map_angle_to_blockrotation.put(0,BlockRotation.DEGREES_0);
+        map_angle_to_blockrotation.put(90,BlockRotation.DEGREES_90);
+        map_angle_to_blockrotation.put(180,BlockRotation.DEGREES_180);
+        map_angle_to_blockrotation.put(270,BlockRotation.DEGREES_270);
+
 
         // TODO: only for Test, needs to be deleted
+        objBlockFactory.ResetFactory();
         objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.RED);
-        objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.YELLOW);
-        objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);
-        objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
-        objBlockFactory.AddBlocks(3, BlockShape.SIMPLE_SQUARE, BlockColor.BLACK);
+        objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.BLUE);
+        //objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);
+        //objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
+        //objBlockFactory.AddBlocks(3, BlockShape.SIMPLE_SQUARE, BlockColor.BLACK);
 
         updateView();
 
@@ -243,19 +269,37 @@ public class PlacementModeActivity extends AppCompatActivity {
             if (objBlockFactory.IsBlocktypeAvailable(block_shape, block_color)) {
                 img.setColorFilter(map_blockcolor_to_int.get(block_color));
                 objBrickPreview = objBlockFactory.Allocate(block_shape, block_color);
+                Log.d("Num of blocks in stack", Integer.toString(objBlockFactory.GetNoBlocksAvailable(block_shape, block_color)));
                 // Allowing a view to be dragged
-                findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(new MyTouchListener());
+                findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(new BrickTouchListener());
             }
         }
         updateView();
 
     }
 
+    public void onDelete(View v) {
+        Log.d("num before", Integer.toString(objBlockFactory.GetNoBlocks()));
+        if (objMarkedBrickInSeedbox != null) {
+
+
+            surface.deleteBrick(objMarkedBrickInSeedbox);
+            objBlockFactory.ReleaseBlock(objMarkedBrickInSeedbox);
+            objMarkedBrickInSeedbox = null;
+            Log.d("num after", Integer.toString(objBlockFactory.GetNoBlocks()));
+            updateView();
+        }
+    }
+
     public void rotateImageClockwise(View view) {
 
         View img = findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        img.setRotation(img.getRotation() + (float) 90.0);
+        float rotation = img.getRotation() + (float) 90.0;
+
+        img.setRotation(rotation);
+
+        objBrickPreview.setRotation(map_angle_to_blockrotation.get((int)rotation));
 
     }
 
@@ -263,12 +307,35 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         View img = findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        img.setRotation(img.getRotation() - (float) 90.0);
+        float rotation = img.getRotation() - (float) 90.0;
+
+        img.setRotation(rotation);
+
+        objBrickPreview.setRotation(map_angle_to_blockrotation.get((int)rotation));
 
     }
 
+
+    private final class SeedBoxTouchListener implements View.OnTouchListener {
+        public boolean onTouch(final View view, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                Log.d("x = ", Integer.toString((int)event.getX()));
+                Log.d("y = ", Integer.toString((int)event.getY()));
+
+                objMarkedBrickInSeedbox = surface.handleTouchOperation((int)event.getX(),
+                                                                (int)event.getY());
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
     // defines touch listener
-    private final class MyTouchListener implements View.OnTouchListener {
+    private final class BrickTouchListener implements View.OnTouchListener {
         public boolean onTouch(final View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 ClipData data = ClipData.newPlainText("", "");
@@ -339,25 +406,29 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
-            int action = event.getAction();
+            View view = (View) event.getLocalState();
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     // do nothing
+                    Log.d("Drag event:", "ACTION_DRAG_STARTED");
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     // do nothing
+                    Log.d("Drag event:", "ACTION_DRAG_ENTERED");
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
                     // do nothing
+                    Log.d("Drag event:", "ACTION_DRAG_EXITED");
                     break;
                 case DragEvent.ACTION_DROP:
-                    View view = (View) event.getLocalState();
-                    SeedBoxSurface surface = (SeedBoxSurface) findViewById(R.id.TetrisGrid);
+                    Log.d("Drag event:", "ACTION_DROP");
+
                     boolean successful = surface.handleDropOperation((int)event.getX(),
                                                                      (int)event.getY(),
                                                                      objBrickPreview);
                     if (successful) {
                         i_act_id = 0;
+                        objBrickPreview = null;
                         ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
                         img.setImageResource(R.drawable.shape_droptarget);
                         img.setColorFilter(null);
@@ -372,6 +443,13 @@ public class PlacementModeActivity extends AppCompatActivity {
                     updateView();
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
+                    Log.d("Drag event:", "ACTION_DRAG_ENDED");
+                    Log.d("Result of DragEvent:", Boolean.toString(event.getResult()));
+
+                    if (event.getResult() == false)
+                    {
+                        view.setVisibility(View.VISIBLE);
+                    }
                     // do nothing
                     break;
                 default:
