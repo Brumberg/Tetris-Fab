@@ -268,15 +268,14 @@
 
 
     <Button
-        android:text="Delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ID_PlacementMode_BrickPreview_ImageView"
-        android:layout_alignRight="@+id/ID_PlacementMode_BrickPreview_TextView"
-        android:layout_alignEnd="@+id/ID_PlacementMode_BrickPreview_TextView"
         android:layout_marginTop="20dp"
         android:id="@+id/ID_PlacementMode_Delete_Button"
-        android:onClick="onDelete"/>
+        android:layout_alignParentRight="true"
+        android:onClick="onDelete"
+        android:background="@android:drawable/ic_menu_delete" />
 
     <com.example.crunky.smartminifab.SeedBoxSurface
         android:layout_width="200dp"
@@ -287,7 +286,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="12dp" />
 
-    <!--
+
         <Button
             android:id="@+id/ID_PlacementMode_SeedBox_Button"
             android:text="Seed Box"
@@ -296,32 +295,32 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"/>
 
-        <Button
-            android:id="@+id/ID_PlacementMode_SendOrder_Button"
-            android:text="Send Order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/ID_PlacementMode_SeedBox_Button"
-            android:layout_marginLeft="6dp"/>
+            <Button
+                android:id="@+id/ID_PlacementMode_SendOrder_Button"
+                android:text="Send Order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/ID_PlacementMode_SeedBox_Button"
+                android:layout_marginLeft="6dp"/>
 
-        <TextView
-            android:id="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
-            android:text="Order was successfull!"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
+              <TextView
+                  android:id="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
+                  android:text="Order was successfull!"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:layout_alignParentBottom="true"
+                  android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
-        <ProgressBar
-            android:id="@+id/ID_PlacementModee_Order_progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
-            android:layout_alignParentRight="true" />
-    -->
+               <ProgressBar
+                   android:id="@+id/ID_PlacementModee_Order_progressBar"
+                   style="?android:attr/progressBarStyleHorizontal"
+                   android:layout_width="150dp"
+                   android:layout_height="wrap_content"
+                   android:layout_above="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
+                   android:layout_alignParentRight="true"/>
+
 
 
 </RelativeLayout>

@@ -18,24 +18,29 @@
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".DevelopmentModeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"/>
+
         <activity android:name=".SeedBoxModeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"/>
+
         <activity android:name=".PlacementModeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"/>
+
         <activity android:name=".WarehouseActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"/>
+
         <activity android:name=".ErrorWindowActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"/>
+
         <activity android:name=".HelpWindowActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"/>
