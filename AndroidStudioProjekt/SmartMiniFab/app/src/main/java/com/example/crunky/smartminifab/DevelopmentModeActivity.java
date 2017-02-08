@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.util.Log;
 import java.lang.String;
 import java.lang.Object;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.locks.Condition;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,8 +51,8 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     public String Password;
     public String userTestString;
     public String preDefTestString = "3;3;1,3100;3,3301;1,1002";
-    public String IP;
-    public String preDefIP = "1.2.3.4";
+    public InetAddress IP;
+    public String preDefIP = "192.168.0.105";
     private int passEmpty = 0;
     private int stringEmpty = 0;
     private Spinner wifiSpinner;
@@ -60,10 +62,11 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private TCPIPModule m_currentFactory;
     private FabCommunicationListAdapter m_adapter;
     private Boolean isConnected = false;
-    //public Handler handler;
+     //public Handler handler;
     //public Runnable timeout;
     private TimeOutReconnectModule TimeOut;
     private int delay = 1000;
+    private int port = 1000;
 
 
     @Override
@@ -374,38 +377,86 @@ public class DevelopmentModeActivity extends AppCompatActivity {
      * Handles the event if the ConnectButton is clicked
      */
     private void connectButton_onClick(View v) {
-        // Try to connect to the factory
-        if (m_currentFactory.connect()) {
-            // Try to login to the factory
-            if (m_currentFactory.login(inpPassword.getText().toString())) {
-                connectButton.setEnabled(false);
-                disconnectButton.setEnabled(true);
-                wifiSpinner_setEnabled(false);
-                inpPassword.setEnabled(false);
-                //RequestIdentifier.setEnabled(false);
-                connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
-                connectSuccess.setText(getString(R.string.connected));
-                CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
 
-                /*isConnected = true;
-                TimeOut = new TimeOutReconnectModule();
-                TimeOut.TimeOut(delay, isConnected, inpPassword.getText().toString());*/
+        if(preDefIP != "" && preDefIP != "Insert IP here") {
+
+            // Initialize IP of Factory with user input
+            try {
+                m_currentFactory = new TCPIPModule(InetAddress.getByName(inpIP.getText().toString()), port);
+                // Try to connect to the factory
+                if (m_currentFactory.connect()) {
+                    // Try to login to the factory
+                    if (m_currentFactory.login(inpPassword.getText().toString())) {
+                        connectButton.setEnabled(false);
+                        disconnectButton.setEnabled(true);
+                        wifiSpinner_setEnabled(false);
+                        inpPassword.setEnabled(false);
+                        //RequestIdentifier.setEnabled(false);
+                        connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                        connectSuccess.setText(getString(R.string.connected));
+                        CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+
+                    /*isConnected = true;
+                    TimeOut = new TimeOutReconnectModule();
+                    TimeOut.TimeOut(delay, isConnected, inpPassword.getText().toString());*/
+                    } else {
+                        // Show an error message if it does not work
+                        m_currentFactory.disconnect();
+                        //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                        //connectSuccess.setText(getString(R.string.disconnected));
+                        goToErrorWindowActivity(connectButton, getString(R.string.wrong_password));
+                        CBlockFactory.getInstance().setFabCommunication(null);
+                        isConnected = false;
+                    }
+                } else {
+                    // Show an error message if it does not work
+                    connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                    connectSuccess.setText(getString(R.string.disconnected));
+                    goToErrorWindowActivity(connectButton, getString(R.string.connection_failed));
+                    CBlockFactory.getInstance().setFabCommunication(null);
+                    isConnected = false;
+                }
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+                goToErrorWindowActivity(connectButton, "Wrong_IP");
+            }
+
+        } else {
+
+         // Try to connect to the factory
+            if (m_currentFactory.connect()) {
+                // Try to login to the factory
+                if (m_currentFactory.login(inpPassword.getText().toString())) {
+                    connectButton.setEnabled(false);
+                    disconnectButton.setEnabled(true);
+                    wifiSpinner_setEnabled(false);
+                    inpPassword.setEnabled(false);
+                    //RequestIdentifier.setEnabled(false);
+                    connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                    connectSuccess.setText(getString(R.string.connected));
+                    CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+
+                    /*isConnected = true;
+                    TimeOut = new TimeOutReconnectModule();
+                    TimeOut.TimeOut(delay, isConnected, inpPassword.getText().toString());*/
+                } else {
+                    // Show an error message if it does not work
+                    m_currentFactory.disconnect();
+                    //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                    //connectSuccess.setText(getString(R.string.disconnected));
+                    goToErrorWindowActivity(connectButton, getString(R.string.wrong_password));
+                    CBlockFactory.getInstance().setFabCommunication(null);
+                    isConnected = false;
+                }
             } else {
                 // Show an error message if it does not work
-                m_currentFactory.disconnect();
-                //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                //connectSuccess.setText(getString(R.string.disconnected));
-                goToErrorWindowActivity(connectButton, getString(R.string.wrong_password));
+                connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                connectSuccess.setText(getString(R.string.disconnected));
+                goToErrorWindowActivity(connectButton, getString(R.string.connection_failed));
                 CBlockFactory.getInstance().setFabCommunication(null);
                 isConnected = false;
             }
-        } else {
-            // Show an error message if it does not work
-            connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-            connectSuccess.setText(getString(R.string.disconnected));
-            goToErrorWindowActivity(connectButton, getString(R.string.connection_failed));
-            CBlockFactory.getInstance().setFabCommunication(null);
-            isConnected = false;
         }
     }
 
