@@ -114,6 +114,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         inpIP = (EditText) findViewById(R.id.ID_Dev_Mode_IP_EditText);
         inpUserTestString = (EditText) findViewById(R.id.TestString);
         orderSuccess = (TextView) findViewById(R.id.ID_Dev_Mode_OrderSucces_TextView);
+        orderSuccess.setEnabled(false);
         connectSuccess = (TextView) findViewById(R.id.ID_Dev_Mode_ConnectionStatus_TextView);
         wifiSpinner = (Spinner) findViewById(R.id.ID_Dev_Mode_DropDownWifi_Spinner);
         wifiSpinner_setEnabled(false);
