@@ -10,4 +10,5 @@ public class HelpWindowActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_window);
     }
+
 }

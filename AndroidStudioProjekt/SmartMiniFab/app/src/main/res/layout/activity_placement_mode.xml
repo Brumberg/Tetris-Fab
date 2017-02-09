@@ -306,20 +306,23 @@
 
               <TextView
                   android:id="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
-                  android:text="Order was successfull!"
+                  android:text="Order was \nsuccessfull!"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_alignParentRight="true"
                   android:layout_alignParentBottom="true"
+                  android:singleLine="false"
                   android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
                <ProgressBar
                    android:id="@+id/ID_PlacementModee_Order_progressBar"
                    style="?android:attr/progressBarStyleHorizontal"
-                   android:layout_width="150dp"
+                   android:layout_alignEnd="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
                    android:layout_height="wrap_content"
                    android:layout_above="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
-                   android:layout_alignParentRight="true"/>
+                   android:layout_width="wrap_content"
+                   android:layout_alignLeft="@+id/ID_PlacementMode_OrderSuccessfull_TextView"
+                   android:layout_alignStart="@+id/ID_PlacementMode_OrderSuccessfull_TextView" />
 
 
 

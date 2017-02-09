@@ -36,8 +36,7 @@
         style="@android:style/Widget.Button"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/Connect"
-        android:layout_alignStart="@+id/Connect" />
+        android:layout_alignParentRight="true"/>
 
     <Button
         android:text="Seed Tray"
@@ -48,13 +47,12 @@
         android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:onClick="goToSeedBoxModeActivity"/>
 
 
 
     <TextView
-        android:text="Your order was successfull"
+        android:text="Order was successfull"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ID_Dev_Mode_OrderSucces_TextView"
