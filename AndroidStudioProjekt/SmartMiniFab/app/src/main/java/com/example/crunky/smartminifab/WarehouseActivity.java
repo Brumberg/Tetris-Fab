@@ -267,9 +267,12 @@ public class WarehouseActivity extends AppCompatActivity {
             CBlockFactory factory = CBlockFactory.getInstance();
             BlockDescriptor block = FindBlockDescription(m_SelButton);
             if (block != null) {
-                factory.AddBlock(block.m_Shape, block.m_Color);
-                UpdateButtons();
-                HighlightButton(m_SelButton);
+                if (factory.GetNoBlocksAvailable(block.m_Shape, block.m_Color) <
+                        factory.m_MaxNoOfEachBlockType) {
+                    factory.AddBlock(block.m_Shape, block.m_Color);
+                    UpdateButtons();
+                    HighlightButton(m_SelButton);
+                }
             }
         }
     }
