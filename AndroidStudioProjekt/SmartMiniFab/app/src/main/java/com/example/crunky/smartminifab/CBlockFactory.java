@@ -39,7 +39,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         SERIALIZATIONERROR,
         FILENOTFOUND
     };  // indicates state of the fab
-
+    public final int m_MaxNoOfEachBlockType=99;
     private final int m_FactoryVersion=10000;
     private final int m_FactoryID=0x5ac7081;
     private final String m_FactoryDescription = new String("BlockFactory 00.00.1 Build 1");
