@@ -137,6 +137,7 @@ public class SeedBox {
             c.x += x;
             c.y += y;
             block.setPosition(c);
+            m_placedBlocks.add(block);
         }
         return placeable;
     }
@@ -208,6 +209,7 @@ public class SeedBox {
                     }
                 }
             }
+            m_placedBlocks.remove(block);
             return block;
         } else {
             return null;
@@ -215,7 +217,19 @@ public class SeedBox {
     }
 
     public String toString() {
-        String serialized = Integer.toString(m_placedBlocks.size()) + ";" + Integer.toString(m_size.ordinal());
+        String seedboxsize;
+        switch (m_size) {
+            case FIVEBYFOUR:
+                seedboxsize = "1";
+                break;
+            case FOURBYTHREE:
+                seedboxsize = "2";
+                break;
+            default:
+                seedboxsize = "3";
+                break;
+        }
+        String serialized = Integer.toString(m_placedBlocks.size()) + ";" + seedboxsize;
         for (Block b : m_placedBlocks) {
             serialized += ";" + b.toString();
         }
