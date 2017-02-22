@@ -176,5 +176,73 @@ public class ExampleUnitTest {
             assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN)==3);
             assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.RED)==0);
         }
+
+        //test of serialization
+        SeedBox testbox = new SeedBox();
+        testbox.setSize(SeedBoxSize.FIVEBYFOUR);
+        dut.ResetFactory();
+        dut.AddBlock(BlockShape.SIMPLE_SQUARE, BlockColor.YELLOW);
+        dut.AddBlock(BlockShape.QUADRUPLE_SQUARE, BlockColor.GREEN);
+        dut.AddBlock(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLACK);
+        dut.AddBlock(BlockShape.I_SHAPE, BlockColor.BLUE);
+        dut.AddBlock(BlockShape.MIRRORED_L_SHAPE, BlockColor.YELLOW);
+        dut.AddBlock(BlockShape.FOUR_SHAPE, BlockColor.RED);
+
+        Block four = dut.Allocate(BlockShape.FOUR_SHAPE, BlockColor.RED);
+        four.rotateClockwise();
+        testbox.place(0,0,four);
+
+        Block tshape = dut.Allocate(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLACK);
+        tshape.rotateClockwise();
+        testbox.place(0,1,tshape);
+
+        Block square = dut.Allocate(BlockShape.SIMPLE_SQUARE, BlockColor.YELLOW);
+        testbox.place(1,3,square);
+
+        Block quadsquare = dut.Allocate(BlockShape.QUADRUPLE_SQUARE, BlockColor.GREEN);
+        testbox.place(2,2,quadsquare);
+
+        Block I = dut.Allocate(BlockShape.I_SHAPE, BlockColor.BLUE);
+        I.rotateClockwise();
+        testbox.place(2,0,I);
+
+        Block L = dut.Allocate(BlockShape.MIRRORED_L_SHAPE, BlockColor.YELLOW);
+        testbox.place(3,1,L);
+
+        Block[][] seedboxcontent = testbox.GetTestSeedBox();
+        //checking for 4
+        assert(seedboxcontent[0][0]==four);
+        assert(seedboxcontent[1][0]==four);
+        assert(seedboxcontent[1][1]==four);
+        assert(seedboxcontent[2][1]==four);
+
+        //checking for tshape
+        assert(seedboxcontent[0][1]==tshape);
+        assert(seedboxcontent[0][2]==tshape);
+        assert(seedboxcontent[0][3]==tshape);
+        assert(seedboxcontent[1][2]==tshape);
+
+        //checking for square
+        assert(seedboxcontent[1][3]==square);
+
+        //checking for quadsquare
+        assert(seedboxcontent[2][2]==quadsquare);
+        assert(seedboxcontent[2][3]==quadsquare);
+        assert(seedboxcontent[3][2]==quadsquare);
+        assert(seedboxcontent[3][3]==quadsquare);
+
+        //checking for L
+        assert(seedboxcontent[3][1]==L);
+        assert(seedboxcontent[4][1]==L);
+        assert(seedboxcontent[4][2]==L);
+        assert(seedboxcontent[4][3]==L);
+
+        //checking for I
+        assert(seedboxcontent[2][0]==I);
+        assert(seedboxcontent[3][0]==I);
+        assert(seedboxcontent[4][0]==I);
+
+        String result = testbox.toString();
+        assert(result=="6;1;51221;61130;00244;10342;21413;30534");
     }
 }
