@@ -72,19 +72,18 @@
         android:text="Development Mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:id="@+id/ID_SeedBoxMode_DevMode_Button"
-        android:visibility="visible"
         android:layout_above="@+id/ID_SeedBoxMode_Placement_Button"
-        android:layout_toRightOf="@+id/ID_SeedBoxMode_Request_TextView"
-        android:layout_toEndOf="@+id/ID_SeedBoxMode_Request_TextView"
-        android:onClick="goToDevelopmentModeActivity"/>
+        android:layout_alignParentRight="true"
+        android:background="#00000000"
+        android:onClick="goToDevelopmentModeActivity"
+        android:textColor="#00000000" />
 
     <ImageButton
         android:id="@+id/ID_SeedBoxMode_3x3_imageButton"
         app:srcCompat="@drawable/vi_3x3_seed_box"
-        android:layout_below="@+id/ID_SeedBoxMode_Request_TextView"
-        android:layout_marginTop="15dp"
+        android:layout_above="@+id/ID_SeedBoxMode_4x3_imageButton"
+        android:layout_marginBottom="40dp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
@@ -94,11 +93,10 @@
     <ImageButton
         android:id="@+id/ID_SeedBoxMode_4x3_imageButton"
         app:srcCompat="@drawable/vi_4x3_seed_box"
-        android:layout_marginTop="30dp"
         android:layout_width="80dp"
         android:layout_height="60dp"
         android:background="@android:drawable/screen_background_light_transparent"
-        android:layout_below="@+id/ID_SeedBoxMode_3x3_imageButton"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:onClick="setSeedBoxSize"/>
 
@@ -106,7 +104,7 @@
         android:id="@+id/ID_SeedBoxMode_5x4_imageButton"
         app:srcCompat="@drawable/vi_5x4_seed_box"
         android:layout_below="@+id/ID_SeedBoxMode_4x3_imageButton"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_width="100dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"

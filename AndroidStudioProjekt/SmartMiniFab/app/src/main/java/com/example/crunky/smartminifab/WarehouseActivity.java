@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.File;
 
+
 /*
  * Warehouse activity for setting the warehousing stock
  */
@@ -293,6 +294,15 @@ public class WarehouseActivity extends AppCompatActivity {
      */
     public void goToSeedBoxModeActivity(View view) {
         Intent intent = new Intent(this, SeedBoxModeActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Proceed to activity_main.xml
+     * @param view
+     */
+    public void goToFactorySelectModeActivity(View view) {
+        Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
     }
 }
