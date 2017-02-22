@@ -61,34 +61,34 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/colorBlack"
-        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
-        android:layout_marginStart="50dp"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_marginBottom="5dp"
+        android:layout_toLeftOf="@+id/ID_WarehouseMode_Red_Color_ImageView"
+        android:layout_marginRight="20dp" />
 
     <ImageView
         android:id="@+id/ID_WarehouseMode_Red_Color_ImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/colorRed"
-        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
-        android:layout_toRightOf="@+id/ID_WarehouseMode_Black_Color_ImageView"
-        android:layout_marginStart="20dp" />
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:layout_toLeftOf="@+id/ID_WarehouseMode_Green_Color_ImageView"
+        android:layout_marginRight="20dp" />
 
     <ImageView
         android:id="@+id/ID_WarehouseMode_Green_Color_ImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/colorGreen"
-        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
-        android:layout_toRightOf="@+id/ID_WarehouseMode_Red_Color_ImageView"
-        android:layout_marginStart="20dp" />
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/ID_WarehouseMode_Blue_Color_ImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/colorBlue"
-        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Black_Color_ImageView"
         android:layout_toRightOf="@+id/ID_WarehouseMode_Green_Color_ImageView"
         android:layout_marginStart="20dp" />
 
@@ -97,7 +97,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/colorYellow"
-        android:layout_below="@+id/ID_WarehouseMode_Load_Button"
+        android:layout_alignBottom="@+id/ID_WarehouseMode_Black_Color_ImageView"
         android:layout_toRightOf="@+id/ID_WarehouseMode_Blue_Color_ImageView"
         android:layout_toEndOf="@+id/ID_WarehouseMode_Blue_Color_ImageView"
         android:layout_marginStart="20dp" />
@@ -110,39 +110,39 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:srcCompat="@drawable/vi_quadrat_1x1"
-        android:layout_below="@+id/ID_WarehouseMode_Black_Color_ImageView"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="3dp"
-        android:scaleType="center" />
+        android:layout_above="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
+        android:layout_marginBottom="3dp"
+        android:scaleType="center"
+        android:layout_toLeftOf="@+id/ID_WarehouseMode_Black_Color_ImageView"
+        android:layout_marginRight="20dp"/>
 
     <ImageView
         android:id="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
-        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/ID_WarehouseMode_I_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
         app:srcCompat="@drawable/vi_quadrat_2x2"
-        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
         android:scaleType="center" />
 
     <ImageView
         android:id="@+id/ID_WarehouseMode_I_Brick_ImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/ID_WarehouseMode_2x2_Brick_ImageView"
-        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/ID_WarehouseMode_J_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
         app:srcCompat="@drawable/vi_i"
-        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
         android:scaleType="center" />
 
     <ImageView
         android:id="@+id/ID_WarehouseMode_J_Brick_ImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/ID_WarehouseMode_I_Brick_ImageView"
-        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
         app:srcCompat="@drawable/vi_j"
-        android:layout_marginTop="3dp"
         android:scaleType="center" />
 
 
@@ -151,7 +151,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_below="@+id/ID_WarehouseMode_J_Brick_ImageView"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
         app:srcCompat="@drawable/vi_s"
         android:layout_marginTop="3dp"
         android:scaleType="center" />
@@ -161,7 +161,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_below="@+id/ID_WarehouseMode_S_Brick_ImageView"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
         app:srcCompat="@drawable/vi_t"
         android:layout_marginTop="3dp"
         android:scaleType="center" />
@@ -171,9 +171,18 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_below="@+id/ID_WarehouseMode_T_Brick_ImageView"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
         app:srcCompat="@drawable/vi_l"
         android:layout_marginTop="3dp"
+        android:scaleType="center" />
+
+    <ImageView
+        android:id="@+id/ID_WarehouseMode_Z_Brick_ImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/vi_z"
+        android:layout_below="@+id/ID_WarehouseMode_L_Brick_ImageView"
+        android:layout_alignLeft="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
         android:scaleType="center" />
 
     <!-- 1 x 1 -->
@@ -746,7 +755,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:onClick="goToFactorySelectModeActivity"/>
 
     <Button
         android:id="@+id/ID_WarehouseMode_SeedBox_Button"
@@ -767,15 +777,6 @@
         android:layout_marginLeft="6dp"
         android:onClick="StoreButton_onClick" />
 
-    <ImageView
-        android:id="@+id/ID_WarehouseMode_Z_Brick_ImageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/vi_z"
-        android:layout_below="@+id/ID_WarehouseMode_L_Brick_ImageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:scaleType="center" />
 
     <Button
         android:id="@+id/ID_WarehouseMode_Increase_Button"
