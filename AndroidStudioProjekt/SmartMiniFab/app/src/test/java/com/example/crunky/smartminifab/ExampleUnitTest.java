@@ -243,6 +243,6 @@ public class ExampleUnitTest {
         assert(seedboxcontent[4][0]==I);
 
         String result = testbox.toString();
-        assert(result=="6;1;51221;61130;00244;10342;21413;30534");
+        assert(result.matches("6;1;51221;61130;00244;10342;21413;30534"));
     }
 }
