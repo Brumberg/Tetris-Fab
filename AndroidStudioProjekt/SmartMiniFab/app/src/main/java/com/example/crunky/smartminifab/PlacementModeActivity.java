@@ -316,6 +316,11 @@ public class PlacementModeActivity extends AppCompatActivity {
 
     }
 
+    public void goToSeedBoxModeActivity(View view) { //is called by onClick function of Button
+        Intent intent = new Intent(this, SeedBoxModeActivity.class);
+        startActivity(intent);
+    }
+
 
     private final class SeedBoxTouchListener implements View.OnTouchListener {
         public boolean onTouch(final View view, MotionEvent event) {
