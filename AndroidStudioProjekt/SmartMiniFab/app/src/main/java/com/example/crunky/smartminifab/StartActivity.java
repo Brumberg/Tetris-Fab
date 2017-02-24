@@ -129,7 +129,7 @@ public class StartActivity extends AppCompatActivity {
             m_task.execute("");
         } catch (Exception e) {
             // If an exception was thrown show an error message in the error window
-            goToErrorWindowActivity(v, getString(R.string.scanning_failed));
+            ErrorWindowActivity.show(this, getString(R.string.scanning_failed));
         }
     }
 
@@ -154,14 +154,14 @@ public class StartActivity extends AppCompatActivity {
                 m_currentFactory.disconnect();
                 ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                 ConnectionStatus.setText(getString(R.string.disconnected));
-                goToErrorWindowActivity(ConnectButton, getString(R.string.wrong_password));
+                ErrorWindowActivity.show(this, getString(R.string.wrong_password));
                 CBlockFactory.getInstance().setFabCommunication(null);
             }
         } else {
             // Show an error message if it does not work
             ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
             ConnectionStatus.setText(getString(R.string.disconnected));
-            goToErrorWindowActivity(ConnectButton, getString(R.string.connection_failed));
+            ErrorWindowActivity.show(this, getString(R.string.connection_failed));
             CBlockFactory.getInstance().setFabCommunication(null);
         }
     }
@@ -266,15 +266,6 @@ public class StartActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
-     * Goes to ErrorWindowActivity
-     */
-    public void goToErrorWindowActivity(View view, String message) {
-        Intent intent = new Intent(this, ErrorWindowActivity.class);
-        intent.putExtra("message", message);
-        startActivity(intent);
-    }
-
     /*
      * AsyncTask class for representing the scanning background process
      */
@@ -364,7 +355,7 @@ public class StartActivity extends AppCompatActivity {
             // If an error occured
             if (result.Result != null) {
                 // Show it in the error window
-                goToErrorWindowActivity(ScanButton, getString(R.string.scanning_failed));
+                ErrorWindowActivity.show(m_context, getString(R.string.scanning_failed));
             } else {
                 m_adapter = new FabCommunicationListAdapter(m_context, m_factoryManagement.getBlockFactories());
                 WifiSpinner.setAdapter(m_adapter);
@@ -373,7 +364,7 @@ public class StartActivity extends AppCompatActivity {
                     WifiSpinner_setEnabled(true);
                     WifiSpinner.setSelection(0);
                 } else {
-                    goToErrorWindowActivity(WifiSpinner, getString(R.string.no_factory_found));
+                    ErrorWindowActivity.show(m_context, getString(R.string.no_factory_found));
                 }
             }
             // TODO: remove debug changes

@@ -1,5 +1,6 @@
 package com.example.crunky.smartminifab;
 
+import android.content.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,5 +22,14 @@ public class ErrorWindowActivity extends AppCompatActivity {
      */
     public void goBack(View v) { //is called by onClick function of Back Button in activity_help_window.xml
         super.onBackPressed();
+    }
+
+    /**
+     * Shows ErrorWindowActivity
+     */
+    public static void show(Context from, String message) {
+        Intent intent = new Intent(from, ErrorWindowActivity.class);
+        intent.putExtra("message", message);
+        from.startActivity(intent);
     }
 }
