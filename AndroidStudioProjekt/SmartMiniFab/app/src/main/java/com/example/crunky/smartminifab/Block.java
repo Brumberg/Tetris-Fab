@@ -199,7 +199,7 @@ public class Block extends BlockType {
     }
 
     public void rotateCounterClockwise() {
-        setRotation(blockRotationValues[(m_rotation.ordinal() - 1) % blockRotationValues.length]);
+        setRotation(blockRotationValues[(blockRotationValues.length + m_rotation.ordinal() - 1) % blockRotationValues.length]);
     }
 
     public String toString() {
