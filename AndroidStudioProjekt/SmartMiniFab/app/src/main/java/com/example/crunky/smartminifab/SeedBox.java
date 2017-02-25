@@ -50,6 +50,7 @@ public class SeedBox {
 
     public void setSize(SeedBoxSize size) {
         m_size = size;
+        m_placedBlocks.clear();
         switch (size) {
             case THREEBYTHREE:
                 m_seedBox = new Block[3][3];
@@ -69,7 +70,8 @@ public class SeedBox {
 
 
     public void reset() {
-        m_placedBlocks.clear();
+        //moved into SetSize
+        //m_placedBlocks.clear();
         setSize(m_size);
     }
 
