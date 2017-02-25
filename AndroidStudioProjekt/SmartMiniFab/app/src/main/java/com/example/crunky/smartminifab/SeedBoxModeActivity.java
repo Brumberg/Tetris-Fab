@@ -42,7 +42,13 @@ public class SeedBoxModeActivity extends AppCompatActivity {
     }
 
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button
-        String s = "\nSeedbox \n\n";
+        String s = "\nSeedbox \n\nHere you can select the size of the seedbox for your order.\n\n\n" +
+                "Select a seedbox by clicking on it. On selection the color of the grid will change " +
+                "from black to red.\n\nIn order to change the factory's stock go back to Warehouse by" +
+                " pressing the 'Warehouse'-Button. \n\nTo fill the selected seedbox with bricks, proceed" +
+                " to Placement by pressing the 'Placement'-Button.\n\nFor extended functions please" +
+                " proceed to Development Mode. Development Mode can be entered by clicking just above" +
+                " the 'Placement'-Button. ";
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
         startActivity(intent);
