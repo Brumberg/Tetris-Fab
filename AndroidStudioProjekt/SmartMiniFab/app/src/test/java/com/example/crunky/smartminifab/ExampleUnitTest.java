@@ -244,5 +244,72 @@ public class ExampleUnitTest {
 
         String result = testbox.toString();
         assert(result.matches("6;1;51221;61130;00244;10342;21413;30534"));
+
+        dut.ResetFactory();
+        testbox.reset();
+        dut.AddBlock(BlockShape.SIMPLE_SQUARE, BlockColor.RED);
+        dut.AddBlock(BlockShape.I_SHAPE, BlockColor.GREEN);
+        dut.AddBlock(BlockShape.L_SHAPE, BlockColor.BLACK);
+        dut.AddBlock(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN);
+        dut.AddBlock(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.RED);
+        dut.AddBlock(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLUE);
+
+        Block rsqare = dut.Allocate(BlockShape.SIMPLE_SQUARE, BlockColor.RED);
+        testbox.place(0,3,rsqare);
+
+        Block gi = dut.Allocate(BlockShape.I_SHAPE, BlockColor.GREEN);
+        testbox.place(0,0,gi);
+
+        Block sl = dut.Allocate(BlockShape.L_SHAPE, BlockColor.BLACK);
+        testbox.place(1,0,sl);
+
+        Block gt = dut.Allocate(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN);
+        gt.rotateClockwise();
+        gt.rotateClockwise();
+        testbox.place(1,2,gt);
+
+        Block ri4 = dut.Allocate(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.RED);
+        ri4.rotateClockwise();
+        ri4.rotateClockwise();
+        ri4.rotateClockwise();
+        testbox.place(2,0,ri4);
+
+        Block bt = dut.Allocate(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLUE);
+        bt.rotateCounterClockwise();
+        testbox.place(3,1,bt);
+
+        String res = testbox.toString();
+        assert(res.matches("6;1;00141;20122;40220;62342;73421;63533"));
+
+        dut.ResetFactory();
+        testbox.reset();
+        dut.AddBlock(BlockShape.L_SHAPE,BlockColor.BLUE);
+        dut.AddBlock(BlockShape.L_SHAPE,BlockColor.YELLOW);
+        dut.AddBlock(BlockShape.L_SHAPE,BlockColor.RED);
+        dut.AddBlock(BlockShape.QUADRUPLE_SQUARE,BlockColor.BLACK);
+        dut.AddBlock(BlockShape.MIRRORED_L_SHAPE,BlockColor.GREEN);
+        Block bl = dut.Allocate(BlockShape.L_SHAPE,BlockColor.BLUE);
+        testbox.place(0,0,bl);
+        bl = dut.Allocate(BlockShape.L_SHAPE,BlockColor.YELLOW);
+        bl.rotateClockwise();
+        bl.rotateClockwise();
+        testbox.place(0,1,bl);
+        bl = dut.Allocate(BlockShape.L_SHAPE,BlockColor.RED);
+        bl.rotateClockwise();
+        bl.rotateClockwise();
+        bl.rotateClockwise();
+        testbox.place(2,0,bl);
+        bl = dut.Allocate(BlockShape.QUADRUPLE_SQUARE,BlockColor.BLACK);
+        testbox.place(2,1,bl);
+        bl = dut.Allocate(BlockShape.MIRRORED_L_SHAPE,BlockColor.GREEN);
+        bl.rotateClockwise();
+        bl.rotateClockwise();
+        bl.rotateClockwise();
+        testbox.place(2,2,bl);
+
+        res = testbox.toString();
+        assert(res.matches("5;1;40123;42234;43411;10330;33442"));
+
+
     }
 }
