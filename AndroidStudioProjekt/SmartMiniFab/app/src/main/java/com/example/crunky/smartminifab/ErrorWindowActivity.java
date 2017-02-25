@@ -3,7 +3,9 @@ package com.example.crunky.smartminifab;
 import android.content.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
 
 public class ErrorWindowActivity extends AppCompatActivity {
 
@@ -15,6 +17,12 @@ public class ErrorWindowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_error_window);
         // the extra id "message" is already used in other activities
         message = getIntent().getStringExtra("message");
+        if (message!=null) {
+            TextView txtView = (TextView) findViewById(R.id.ID_ErrorWindow_Message_TextView);
+            txtView.setText(message);
+        } else {
+            //do nothing
+        }
     }
 
     /**
