@@ -37,8 +37,19 @@ public class SeedBoxSurface extends SurfaceView {
 
     private SeedBox objSeedBox = new SeedBox();
 
+    // map between BlockColor and print color
+    Map<BlockColor, Integer> map_blockcolor_to_int = new HashMap<>();
+
+
     public SeedBoxSurface(Context context) {
         super(context);
+        map_blockcolor_to_int.put(BlockColor.BLACK, Color.BLACK);
+        map_blockcolor_to_int.put(BlockColor.BLUE, Color.BLUE);
+        map_blockcolor_to_int.put(BlockColor.GREEN, Color.GREEN);
+        map_blockcolor_to_int.put(BlockColor.RED, Color.RED);
+        map_blockcolor_to_int.put(BlockColor.YELLOW, Color.YELLOW);
+        map_blockcolor_to_int.put(BlockColor.TRANSPARENT, Color.WHITE);
+
         holder = getHolder();
         /*m_UsedBlocks = new ArrayList<BlockComponent.CBlock>();
         m_UsedBlocks.clear();
@@ -59,6 +70,8 @@ public class SeedBoxSurface extends SurfaceView {
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             }
         });
+
+
     }
 
     /**
@@ -69,6 +82,13 @@ public class SeedBoxSurface extends SurfaceView {
      */
     public SeedBoxSurface(Context context, AttributeSet attrs) {
         super(context, attrs);
+        map_blockcolor_to_int.put(BlockColor.BLACK, Color.BLACK);
+        map_blockcolor_to_int.put(BlockColor.BLUE, Color.BLUE);
+        map_blockcolor_to_int.put(BlockColor.GREEN, Color.GREEN);
+        map_blockcolor_to_int.put(BlockColor.RED, Color.RED);
+        map_blockcolor_to_int.put(BlockColor.YELLOW, Color.YELLOW);
+        map_blockcolor_to_int.put(BlockColor.TRANSPARENT, Color.WHITE);
+
         holder = getHolder();
         /*m_UsedBlocks = new ArrayList<BlockComponent.CBlock>();
         m_UsedBlocks.clear();*/
@@ -93,6 +113,12 @@ public class SeedBoxSurface extends SurfaceView {
     }
     public SeedBoxSurface(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        map_blockcolor_to_int.put(BlockColor.BLACK, Color.BLACK);
+        map_blockcolor_to_int.put(BlockColor.BLUE, Color.BLUE);
+        map_blockcolor_to_int.put(BlockColor.GREEN, Color.GREEN);
+        map_blockcolor_to_int.put(BlockColor.RED, Color.RED);
+        map_blockcolor_to_int.put(BlockColor.YELLOW, Color.YELLOW);
+        map_blockcolor_to_int.put(BlockColor.TRANSPARENT, Color.WHITE);
     }
 
 
@@ -118,11 +144,15 @@ public class SeedBoxSurface extends SurfaceView {
 
         obj_marked_block = objSeedBox.getBlock(TranslateXcoord(x), TranslateYcoord(y));
 
+        // force surface to update view
+        invalidate();
+
         return obj_marked_block;
     }
 
     public void deleteBrick(Block block) {
         objSeedBox.remove(block);
+        obj_marked_block = null;
 
         // force surface to update view
         invalidate();
@@ -256,31 +286,26 @@ public class SeedBoxSurface extends SurfaceView {
             canvas.drawLine(0, i*ycord, m_SurfViewWidth-1, i*ycord, m_BackgroundColor);
         }
 
-        // map between BlockColor and print color
-        Map<BlockColor, Integer> map_blockcolor_to_int = new HashMap<>();
-
-        map_blockcolor_to_int.put(BlockColor.BLACK, Color.BLACK);
-        map_blockcolor_to_int.put(BlockColor.BLUE, Color.BLUE);
-        map_blockcolor_to_int.put(BlockColor.GREEN, Color.GREEN);
-        map_blockcolor_to_int.put(BlockColor.RED, Color.RED);
-        map_blockcolor_to_int.put(BlockColor.YELLOW, Color.YELLOW);
-        map_blockcolor_to_int.put(BlockColor.TRANSPARENT, Color.WHITE);
-
-
-
         //draw content of the seedbox
         for (int y=0; y < height; ++y) {
             for (int x=0; x < width; ++x) {
-                BlockColor color = BlockColor.TRANSPARENT;
+                BlockColor block_color = BlockColor.TRANSPARENT;
 
                 if (objSeedBox.getBlock(x, y) != null)
                 {
-                    color = objSeedBox.getBlockColor(x, y);
+                    block_color = objSeedBox.getBlockColor(x, y);
                 }
 
                 m_BackgroundColor.setStyle(Paint.Style.FILL);
-                //set brush color - specified in block - use green
-                m_BackgroundColor.setColor(map_blockcolor_to_int.get(color));
+
+                int colorval = 0;
+                if (objSeedBox.getBlock(x, y) == obj_marked_block) {
+                     colorval = adjustAlpha(map_blockcolor_to_int.get(block_color),0.5f);
+                } else {
+                     colorval = adjustAlpha(map_blockcolor_to_int.get(block_color),1.0f);
+                }
+
+                m_BackgroundColor.setColor(colorval);
                 m_BackgroundColor.setStrokeWidth(10);
 
                 int y_scaled = -y + height - 1;
@@ -293,6 +318,14 @@ public class SeedBoxSurface extends SurfaceView {
 
         //pass control to parent
         super.onDraw(canvas);
+    }
+
+    private int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
 }
 

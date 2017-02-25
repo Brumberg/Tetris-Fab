@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.R.attr.button;
 import static android.R.attr.id;
 import static android.R.attr.x;
 import static android.R.drawable.screen_background_light_transparent;
@@ -116,7 +117,7 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         // TODO: only for Test, needs to be deleted
         objBlockFactory.ResetFactory();
-        objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.RED);
+        objBlockFactory.AddBlocks(2, BlockShape.I_SHAPE, BlockColor.RED);
         objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.BLUE);
         objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);
         //objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
@@ -159,6 +160,17 @@ public class PlacementModeActivity extends AppCompatActivity {
                 }
             }
         }
+
+        Button deleteButton = (Button) findViewById(R.id.ID_PlacementMode_Delete_Button);
+
+        if (objMarkedBrickInSeedbox == null) {
+            deleteButton.setEnabled(false);
+            deleteButton.setAlpha(0.5f);
+        }
+        else {
+            deleteButton.setEnabled(true);
+            deleteButton.setAlpha(1.0f);
+        }
      }
 
     // check if blockshape is available (independent of color)
@@ -175,7 +187,21 @@ public class PlacementModeActivity extends AppCompatActivity {
     }
 
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
-        String s = "\nPlacementMode\n\n";
+        String s = "\nPlacementMode\n\n4 steps are required to choose and place a brick. " +
+                "In the brick preview the current selected setting of the brick is always shown. " +
+                "The following steps are only executable in this order:" +
+                "\n\n1. Choose a brick: Tap the desired brick. A brick is only shown in black if " +
+                "it is available in the stock. The unavailable bricks are greyed out and can not be " +
+                "selected.\n2. Choose a color for the brick: Tap the desired color. The respective color is " +
+                "only shown if the choosen Brick (from step 1)" +
+                " is available in this color. The unavailable colors are greyed out and can not be selected\n" +
+                "3. Set rotation: Rotate brick clockwise (right) or " +
+                "counterclockwise (left)\n4. Place brick via drag and drop: pick the brick from " +
+                "brick preview and place it via drag and drop in the seedbox. The center of " +
+                "gravity is always on the bottom left cornor (even if the brick is rotated)." +
+                "\n\nDelete a placed brick from seedbox: mark a brick via touching the desired " +
+                "brick in the seedbox and press the trashcan button";
+
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
         startActivity(intent);
@@ -283,16 +309,12 @@ public class PlacementModeActivity extends AppCompatActivity {
     }
 
     public void onDelete(View v) {
-        Log.d("num before", Integer.toString(objBlockFactory.GetNoBlocks()));
-        if (objMarkedBrickInSeedbox != null) {
-
-
-            surface.deleteBrick(objMarkedBrickInSeedbox);
-            objBlockFactory.ReleaseBlock(objMarkedBrickInSeedbox);
-            objMarkedBrickInSeedbox = null;
-            Log.d("num after", Integer.toString(objBlockFactory.GetNoBlocks()));
-            updateView();
-        }
+        // reset rotation (Bugfix for Bug #413)
+        objMarkedBrickInSeedbox.setRotation(BlockRotation.DEGREES_0);
+        surface.deleteBrick(objMarkedBrickInSeedbox);
+        objBlockFactory.ReleaseBlock(objMarkedBrickInSeedbox);
+        objMarkedBrickInSeedbox = null;
+        updateView();
     }
 
     public void rotateImageClockwise(View view) {
@@ -334,6 +356,7 @@ public class PlacementModeActivity extends AppCompatActivity {
 
                 objMarkedBrickInSeedbox = surface.handleTouchOperation((int)event.getX(),
                                                                 (int)event.getY());
+                updateView();
 
                 return true;
             }
