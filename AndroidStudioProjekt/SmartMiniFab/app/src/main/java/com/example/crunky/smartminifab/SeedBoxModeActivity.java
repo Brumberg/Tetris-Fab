@@ -42,7 +42,10 @@ public class SeedBoxModeActivity extends AppCompatActivity {
     }
 
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button
+        String s = "\nSeedbox \n\n";
         Intent intent = new Intent(this, HelpWindowActivity.class);
+        intent.putExtra("message", s);
+        startActivity(intent);
         startActivity(intent);
 
     }

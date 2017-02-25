@@ -175,7 +175,10 @@ public class PlacementModeActivity extends AppCompatActivity {
     }
 
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
+        String s = "\nPlacementMode\n\n";
         Intent intent = new Intent(this, HelpWindowActivity.class);
+        intent.putExtra("message", s);
+        startActivity(intent);
         startActivity(intent);
     }
 
