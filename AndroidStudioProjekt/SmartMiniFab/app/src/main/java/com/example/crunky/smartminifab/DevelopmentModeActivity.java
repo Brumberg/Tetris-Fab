@@ -546,7 +546,22 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     }
 
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
-        String s ="\n Developement Mode \n\n";
+        String s ="\n Developement Mode \n\nDevelopment Mode allows some short cuts or special functions.\n\n" +
+                "!There are limited safety checks available!\n\n To scan for available factory's press" +
+                " the 'Scan Network'-Button. Afterwards a factory can be selected.\nAlternatively the" +
+                " factory's IP can be entered directly. Also a predifined IP can be selected by pressing" +
+                " the 'Load Predefined IP'-Button. \n\nTo connect with the factory enter your password in" +
+                " the textfield 'Username'.\nAfterwards press the 'Connect'-Button. Disconnecting is" +
+                " possible via 'Disconnect'-Button.\n\nTo skip the placement a string for an order at " +
+                "the factory can be directly entered or alternatively a predefined testring by pressing" +
+                " the 'Load Predefined Teststring'-Button.\n\nThe predefined teststring features three " +
+                "elements in the smallest seedbox.\n\nTo send the order to the factory press 'Send Order'-" +
+                "Button. \n\n!!Please pay attention to this manually entered string. There are no" +
+                " plausibility checks available. You have to make sure, that enough brickets are in the stock," +
+                " the positioning of the brickets is correct (no over lays) and that the chosen seedbox is " +
+                "big enough for the order!!\n\n\nThis is how to configure a teststring:\n\n'Number of Brickets " +
+                "which have to be placed; Seedbox version; Placement of first bricket; Placement of second" +
+                " Bricket;...;'\n\nFor more details on teststring please refer to wiki in redmine.";
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
         startActivity(intent);
