@@ -151,9 +151,10 @@ public class WarehouseActivity extends AppCompatActivity {
         String filePath = getFilesDir().getPath().toString() + "/";
         filename = filePath+filename;
 
-        CBlockFactory.getInstance().readObject(filename);
-        if (CBlockFactory.getInstance().GetFactoryState()== CBlockFactory.FactoryState.UNINITIALIZED) {
+
+        if (!CBlockFactory.getInstance().readObject(filename)) {
             //error while loading
+            goToErrorWindowActivity(v, CBlockFactory.getInstance().GetIOStatusMessage());
         }
 
         UpdateButtons();
@@ -172,9 +173,9 @@ public class WarehouseActivity extends AppCompatActivity {
         String filePath = getFilesDir().getPath().toString() + "/";
         filename = filePath+filename;
         CBlockFactory.getInstance().writeObject(filename);
-        if (CBlockFactory.getInstance().GetFactoryState()==
-                CBlockFactory.FactoryState.SERIALIZATIONERROR) {
-                //error occurred
+        if (!CBlockFactory.getInstance().writeObject(filename)) {
+            //error occurred
+            goToErrorWindowActivity(v, CBlockFactory.getInstance().GetIOStatusMessage());
         }
 
         if (m_SelButton!=null) {
@@ -303,6 +304,15 @@ public class WarehouseActivity extends AppCompatActivity {
      */
     public void goToFactorySelectModeActivity(View view) {
         Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Goes to ErrorWindowActivity
+     */
+    public void goToErrorWindowActivity(View view, String message) {
+        Intent intent = new Intent(this, ErrorWindowActivity.class);
+        intent.putExtra("message", message);
         startActivity(intent);
     }
 }
