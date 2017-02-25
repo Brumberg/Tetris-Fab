@@ -37,12 +37,19 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         MAXNOBLOCKSEXCEEDED,
         INTERNALERROR,
         SERIALIZATIONERROR,
-        FILENOTFOUND
+        FILENOTFOUND,
+        INVALIDFILEFORMAT,
+        INVALIDFILEVERSION,
     };  // indicates state of the fab
     public final int m_MaxNoOfEachBlockType=99;
     private final int m_FactoryVersion=10000;
     private final int m_FactoryID=0x5ac7081;
     private final String m_FactoryDescription = new String("BlockFactory 00.00.1 Build 1");
+    private final String DEF_IO_MSG = "No error.";
+    private final String UNKNOWNFILEFORMAT = "File format is unknown.";
+    private final String UNKNOWNFILEDESCRIPION = "Factory description is unknown.";
+    private final String UNKNOWNFACTORYVERSION = "Factory version is unknown.";
+    private String m_IOError;
 
     private final int MAXNOBLOCKS = Integer.MAX_VALUE; //maximum number of blocks/storae space
 
@@ -69,6 +76,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
 
     private CBlockFactory() {
         m_NoBlocks = 0;                                     // initial number of blocks is zero
+        m_IOError = DEF_IO_MSG;
                                                             // populate lists
         m_AvailableBlocks = new ArrayList[BlockType.NODIFFERENTBLOCKTYPES]
                 [BlockType.NOBLOCKCOLORS];
@@ -98,6 +106,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
     public FactoryState GetFactoryState() {
          return eFactoryState;
     }
+    public String GetIOStatusMessage() {return m_IOError;}
 
     public int GetNoBlocks() {
         return m_NoBlocks;
@@ -198,7 +207,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
      */
     public void ResetFactory() {
         m_NoBlocks = 0;
-
+        m_IOError = DEF_IO_MSG;
         for (int i = 0;i < m_BlocksOnStock.length; ++i) {
             for (int j=0;j<m_BlocksOnStock[i].length; ++j)
                 m_BlocksOnStock[i][j] = 0;
@@ -394,8 +403,9 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
      * @param out
      * @throws IOException
      */
-    public void writeObject(String filename)  {
-
+    public boolean writeObject(String filename)  {
+        boolean retVal = false;
+        m_IOError = DEF_IO_MSG;
         try {
             File File = new File(filename);
             File.createNewFile();
@@ -410,13 +420,15 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
             //out.writeObject(m_PlacedBlocks);
             out.close();
             fileOut.close();
+            retVal = true;
             // message supi
         }catch(IOException i) {
             // message oh no...
             // i.printStackTrace();
             eFactoryState = FactoryState.SERIALIZATIONERROR;
-            return;
+            m_IOError = i.getMessage();
         }
+        return retVal;
     }
 
     /**
@@ -425,7 +437,9 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public void readObject(String filename) {
+    public boolean readObject(String filename) {
+        boolean retVal = false;
+        m_IOError = DEF_IO_MSG;
         try {
             FileInputStream fileIn = new FileInputStream(filename);
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -446,8 +460,18 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
                         m_PlacedBlocks = PlacedBlocks;
                         RecreateStock();
                         eFactoryState = FactoryState.OK;
+                        retVal = true;
+                    } else {
+                        m_IOError = UNKNOWNFACTORYVERSION;
+                        eFactoryState = FactoryState.INVALIDFILEVERSION;
                     }
+                } else {
+                    m_IOError = UNKNOWNFILEDESCRIPION;
+                    eFactoryState = FactoryState.INVALIDFILEFORMAT;
                 }
+            } else {
+                m_IOError = UNKNOWNFILEFORMAT;
+                eFactoryState = FactoryState.INVALIDFILEFORMAT;
             }
             in.close();
             fileIn.close();
@@ -455,11 +479,14 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
 
         catch (ClassNotFoundException cnf) {
             eFactoryState = FactoryState.SERIALIZATIONERROR;
+            m_IOError = cnf.getMessage();
         }
         catch (IOException i) {
             //ResetFactory();
             eFactoryState = FactoryState.FILENOTFOUND;
+            m_IOError = i.getMessage();
         }
+        return retVal;
     }
 
     public void setFabCommunication(IFabCommunication fabCommunication) {
