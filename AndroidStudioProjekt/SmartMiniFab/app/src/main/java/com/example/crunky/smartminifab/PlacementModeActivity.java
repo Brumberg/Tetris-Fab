@@ -60,6 +60,10 @@ public class PlacementModeActivity extends AppCompatActivity {
         // Defining drop target
         findViewById(R.id.TetrisGrid).setOnDragListener(new MyDragListener());
 
+        //Dummy drag listener for whole activity_placement_mode to avoid exceptions when brick is
+        // dropped outside of seedboxgrid
+        findViewById(R.id.activity_placement_mode).setOnDragListener(new DummyDragListener());
+
         // Defining clickListener for SeedBox
         findViewById(R.id.TetrisGrid).setOnTouchListener(new SeedBoxTouchListener());
 
@@ -487,6 +491,43 @@ public class PlacementModeActivity extends AppCompatActivity {
     }
 
     /**
+     * Dummy drag listener for whole activity_placement_mode to avoid exceptions when brick is
+     * dropped outside of seedboxgrid
+     */
+    public class DummyDragListener implements View.OnDragListener {
+
+        @Override
+        public boolean onDrag(View v, DragEvent event) {
+            View view = (View) event.getLocalState();
+            switch (event.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    // do nothing
+                    Log.d("ACTION_DRAG_STARTED", "jo");
+                    break;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    // do nothing
+                    Log.d("ACTION_DRAG_ENTERED", "jo");
+                    break;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    // do nothing
+                    Log.d("ACTION_DRAG_EXITED", "jo");
+                    break;
+                case DragEvent.ACTION_DROP:
+                    Log.d("ACTION_DROP", "jo");
+                    view.setVisibility(View.VISIBLE);
+                    break;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    Log.d("ACTION_DRAG_ENDED", "jo");
+                    updateView();
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+    /**
      * Defines drag and drop listener to brick preview.
      */
     public class MyDragListener implements View.OnDragListener {
@@ -497,14 +538,18 @@ public class PlacementModeActivity extends AppCompatActivity {
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     // do nothing
+                    Log.d("ACTION_DRAG_STARTED", "jo");
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     // do nothing
+                    Log.d("ACTION_DRAG_ENTERED", "jo");
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
                     // do nothing
+                    Log.d("ACTION_DRAG_EXITED", "jo");
                     break;
                 case DragEvent.ACTION_DROP:
+                    Log.d("ACTION_DROP", "jo");
                     if (objBrickPreview == null) {
                         //TODO:Fehlerbehandlung
 
@@ -530,14 +575,11 @@ public class PlacementModeActivity extends AppCompatActivity {
 
                     view.setVisibility(View.VISIBLE);
 
-                    updateView();
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    if (event.getResult() == false)
-                    {
-                        view.setVisibility(View.VISIBLE);
-                    }
-                    // do nothing
+                    Log.d("ACTION_DRAG_ENDED", "jo");
+                    updateView();
+
                     break;
                 default:
                     break;
@@ -545,6 +587,4 @@ public class PlacementModeActivity extends AppCompatActivity {
             return true;
         }
     }
-
-
 }
