@@ -230,6 +230,34 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
     }
 
     /**
+     * removes all blocks
+     */
+    public boolean RestoreBlockFactory() {
+        //transient private List<Block>[][] m_AvailableBlocks;    // List of blocks on stock
+        //transient private List<Block>[][] m_DrawnBlocks;        // List of placed blocks (just for
+        boolean retVal = true;
+        for (int i = 0; i < m_DrawnBlocks.length; ++i) {
+            for (int j = 0; j < m_DrawnBlocks[i].length; ++j) {
+                if (m_DrawnBlocks[i][j]!=null) {
+                    List<Block> lblock = m_AvailableBlocks[i][j];
+                    if (lblock!=null) {
+                        lblock.addAll(m_DrawnBlocks[i][j]);
+                        int size = m_DrawnBlocks[i][j].size();
+                        m_BlocksOnStock[i][j] += size;
+                        m_PlacedBlocks[i][j] -= size;
+                        m_DrawnBlocks[i][j].clear();
+                        if (m_PlacedBlocks[i][j]!=0) {
+                            eFactoryState = FactoryState.INTERNALERROR;
+                            retVal = false;
+                        }
+                    }
+                }
+            }
+        }
+        return retVal;
+    }
+
+    /**
      * Used to create blocks. The number of blocks are managed by the factory.
      * Allocating blocks decreases the number of available blocks
      * Release blocks increases the number of available blocks
