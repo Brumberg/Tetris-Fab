@@ -231,7 +231,7 @@
         android:text="Rotate left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="rotateImageCounterClockwise"/>
+        android:onClick="rotateImage"/>
 
     <Button
         android:id="@+id/ID_PlacementMode_RotateRight_Button"
@@ -241,7 +241,7 @@
         android:text="Rotate right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="rotateImageClockwise"/>
+        android:onClick="rotateImage"/>
 
     <TextView
         android:id="@+id/ID_PlacementMode_Placement_TextView"

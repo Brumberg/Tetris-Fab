@@ -7,22 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.R.attr.button;
-import static android.R.attr.id;
-import static android.R.attr.x;
-import static android.R.drawable.screen_background_light_transparent;
 import static com.example.crunky.smartminifab.R.id.ID_PlacementMode_BrickPreview_ImageView;
+import static java.lang.Math.abs;
 
 
 public class PlacementModeActivity extends AppCompatActivity {
@@ -54,6 +48,8 @@ public class PlacementModeActivity extends AppCompatActivity {
 
     // remember chosen brick id
     int i_act_id = -1;
+
+    boolean b_brick_is_placeable = false;
 
 
     @Override
@@ -116,10 +112,10 @@ public class PlacementModeActivity extends AppCompatActivity {
 
 
         // TODO: only for Test, needs to be deleted
-        objBlockFactory.ResetFactory();
-        objBlockFactory.AddBlocks(2, BlockShape.I_SHAPE, BlockColor.RED);
+        //objBlockFactory.ResetFactory();
+        /*objBlockFactory.AddBlocks(2, BlockShape.I_SHAPE, BlockColor.RED);
         objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.BLUE);
-        objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);
+        objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);*/
         //objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
         //objBlockFactory.AddBlocks(3, BlockShape.SIMPLE_SQUARE, BlockColor.BLACK);
 
@@ -161,8 +157,8 @@ public class PlacementModeActivity extends AppCompatActivity {
             }
         }
 
+        // disable/enable delete button in case if a brick is marked or not
         Button deleteButton = (Button) findViewById(R.id.ID_PlacementMode_Delete_Button);
-
         if (objMarkedBrickInSeedbox == null) {
             deleteButton.setEnabled(false);
             deleteButton.setAlpha(0.5f);
@@ -170,6 +166,15 @@ public class PlacementModeActivity extends AppCompatActivity {
         else {
             deleteButton.setEnabled(true);
             deleteButton.setAlpha(1.0f);
+        }
+
+        // disable/enable rotation buttons in case if brick is ready to be placed
+        if (b_brick_is_placeable) {
+            findViewById(R.id.ID_PlacementMode_RotateLeft_Button).setEnabled(true);
+            findViewById(R.id.ID_PlacementMode_RotateRight_Button).setEnabled(true);
+        } else {
+            findViewById(R.id.ID_PlacementMode_RotateLeft_Button).setEnabled(false);
+            findViewById(R.id.ID_PlacementMode_RotateRight_Button).setEnabled(false);
         }
      }
 
@@ -219,6 +224,7 @@ public class PlacementModeActivity extends AppCompatActivity {
             if (objBrickPreview != null) {
                 objBlockFactory.ReleaseBlock(objBrickPreview);
                 objBrickPreview = null;
+                b_brick_is_placeable = false;
             }
 
             ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
@@ -287,6 +293,7 @@ public class PlacementModeActivity extends AppCompatActivity {
             if (objBrickPreview != null) {
                 objBlockFactory.ReleaseBlock(objBrickPreview);
                 objBrickPreview = null;
+                b_brick_is_placeable = false;
             }
 
             // get actual selected shape
@@ -299,9 +306,12 @@ public class PlacementModeActivity extends AppCompatActivity {
             if (objBlockFactory.IsBlocktypeAvailable(block_shape, block_color)) {
                 img.setColorFilter(map_blockcolor_to_int.get(block_color));
                 objBrickPreview = objBlockFactory.Allocate(block_shape, block_color);
-                Log.d("Num of blocks in stack", Integer.toString(objBlockFactory.GetNoBlocksAvailable(block_shape, block_color)));
+
                 // Allowing a view to be dragged
                 findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(new BrickTouchListener());
+
+                // set flag that brick is placeable
+                b_brick_is_placeable = true;
             }
         }
         updateView();
@@ -309,41 +319,50 @@ public class PlacementModeActivity extends AppCompatActivity {
     }
 
     public void onDelete(View v) {
-        // reset rotation (Bugfix for Bug #413)
-        objMarkedBrickInSeedbox.setRotation(BlockRotation.DEGREES_0);
+
+        objMarkedBrickInSeedbox.setRotation(BlockRotation.DEGREES_0); // reset rotation (Bugfix for Bug #413)
         surface.deleteBrick(objMarkedBrickInSeedbox);
         objBlockFactory.ReleaseBlock(objMarkedBrickInSeedbox);
         objMarkedBrickInSeedbox = null;
         updateView();
     }
 
-    public void rotateImageClockwise(View view) {
+    public void rotateImage(View view) {
 
         View img = findViewById(ID_PlacementMode_BrickPreview_ImageView);
 
-        float rotation = img.getRotation() + (float) 90.0;
+        float rotation;
 
+        if (view.getId() == R.id.ID_PlacementMode_RotateLeft_Button) {
+            rotation = img.getRotation() - (float) 90.0;
+        }
+        else { // rotate right
+            rotation = img.getRotation() + (float) 90.0;
+        }
+
+        // set rotation of visualized brick preview
         img.setRotation(rotation);
 
-        objBrickPreview.setRotation(map_angle_to_blockrotation.get((int)rotation));
+        BlockRotation block_rotation = map_angle_to_blockrotation.get(((int)rotation+360)%360);
+
+        // set rotation in block object
+        objBrickPreview.setRotation(block_rotation);
 
     }
 
-    public void rotateImageCounterClockwise(View view) {
-
-        View img = findViewById(ID_PlacementMode_BrickPreview_ImageView);
-
-        float rotation = img.getRotation() - (float) 90.0;
-
-        img.setRotation(rotation);
-
-        objBrickPreview.setRotation(map_angle_to_blockrotation.get((int)rotation));
-
-    }
 
     public void goToSeedBoxModeActivity(View view) { //is called by onClick function of Button
         Intent intent = new Intent(this, SeedBoxModeActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(this, SeedBoxModeActivity.class);
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 
@@ -377,8 +396,8 @@ public class PlacementModeActivity extends AppCompatActivity {
                 double rotationRad = Math.toRadians(view.getRotation()); // get rotation in rad
 
                 // get new scale factor for rotation
-                double s = Math.abs(Math.sin(rotationRad));
-                double c = Math.abs(Math.cos(rotationRad));
+                double s = abs(Math.sin(rotationRad));
+                double c = abs(Math.cos(rotationRad));
 
                 // scale new width and height
                 final int width = (int) (w * c + h * s);
@@ -455,19 +474,28 @@ public class PlacementModeActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     Log.d("Drag event:", "ACTION_DROP");
 
-                    boolean successful = surface.handleDropOperation((int)event.getX(),
-                                                                     (int)event.getY(),
-                                                                     objBrickPreview);
-                    if (successful) {
-                        i_act_id = 0;
-                        objBrickPreview = null;
-                        ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
-                        img.setImageResource(R.drawable.shape_droptarget);
-                        img.setColorFilter(null);
-                        TextView obj_text_view = (TextView) findViewById(R.id.ID_PlacementMode_BrickPreview_TextView);
-                        obj_text_view.setVisibility(View.VISIBLE);
-                        // disable drag and drop
-                        findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(null);
+                    Log.d("objBrickPreview=Null", Boolean.toString(objBrickPreview==null));
+
+                    if (objBrickPreview == null) {
+                        //TODO:Fehlerbehandlung
+
+                    } else {
+                        boolean successful = surface.handleDropOperation((int) event.getX(),
+                                (int) event.getY(),
+                                objBrickPreview);
+
+                        if (successful) {
+                            i_act_id = 0;
+                            objBrickPreview = null;
+                            b_brick_is_placeable = false;
+                            ImageView img = (ImageView) findViewById(ID_PlacementMode_BrickPreview_ImageView);
+                            img.setImageResource(R.drawable.shape_droptarget);
+                            img.setColorFilter(null);
+                            TextView obj_text_view = (TextView) findViewById(R.id.ID_PlacementMode_BrickPreview_TextView);
+                            obj_text_view.setVisibility(View.VISIBLE);
+                            // disable drag and drop
+                            findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(null);
+                        }
                     }
 
                     view.setVisibility(View.VISIBLE);
