@@ -310,6 +310,206 @@ public class ExampleUnitTest {
         res = testbox.toString();
         assert(res.matches("5;1;40123;42234;43411;10330;33442"));
 
+        assert (dut.GetNoBlocks()==5);
+
+        //available blocks
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.RED)==0);
+
+        //placed blocks
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.BLACK)==1);
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.GREEN)==1);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.BLUE)==1);
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.YELLOW)==1);
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.RED)==1);
+
+        assert(dut.RestoreBlockFactory());
+        assert (dut.GetNoBlocks()==5);
+
+        //placed blocks
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.SIMPLE_SQUARE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.QUADRUPLE_SQUARE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.I_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_L_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORED_T_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.FOUR_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksDrawn(BlockShape.L_SHAPE, BlockColor.RED)==0);
+
+        //available blocks
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.SIMPLE_SQUARE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.BLACK)==1);
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.QUADRUPLE_SQUARE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.I_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.GREEN)==1);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_L_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORED_T_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.FOUR_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.BLUE)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.YELLOW)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.MIRRORRED_FOUR_SHAPE, BlockColor.RED)==0);
+
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.BLACK)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.BLUE)==1);
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.YELLOW)==1);
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.GREEN)==0);
+        assert(dut.GetNoBlocksAvailable(BlockShape.L_SHAPE, BlockColor.RED)==1);
 
     }
 }
