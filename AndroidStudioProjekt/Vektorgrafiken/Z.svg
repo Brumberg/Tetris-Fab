@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -9,37 +7,39 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="126.85925mm"
-   height="87.422783mm"
-   viewBox="0 0 449.5016 309.76583"
-   id="svg2"
    version="1.1"
+   id="svg2"
+   viewBox="0 0 309.76603 451.04217"
+   height="127.2941mm"
+   width="87.422798mm"
    inkscape:version="0.91 r13725"
    sodipodi:docname="Z.svg">
-  <defs
-     id="defs4" />
   <sodipodi:namedview
-     id="base"
      pagecolor="#ffffff"
      bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="-110.04845"
-     inkscape:cy="152.57304"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
+     id="namedview4160"
+     showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     inkscape:zoom="0.96102277"
+     inkscape:cx="128.24978"
+     inkscape:cy="243.02628"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <defs
+     id="defs4" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -53,36 +53,31 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-501.50008,-359.41441)">
+     transform="matrix(0,-1,-0.99999999,0,669.22092,951.5157)"
+     id="layer1">
     <rect
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.46929565px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="scale(-1,1)"
+       y="365.47855"
+       x="-791.034"
+       height="300.69672"
+       width="135.19276"
        id="rect3346"
-       width="135.245"
-       height="300.69662"
-       x="660.32886"
-       y="365.43796" />
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.46920508px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <rect
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.46121457px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(-1.2678363e-4,0.99999999,0.99999996,2.8900969e-4,0,0)"
+       y="655.31842"
+       x="359.49838"
+       height="296.01013"
+       width="135.24858"
        id="rect3346-3"
-       width="135.25304"
-       height="290.41284"
-       x="359.87833"
-       y="-792.09882"
-       inkscape:transform-center-x="-44.514162"
-       inkscape:transform-center-y="-634.81717"
-       transform="matrix(1.2438215e-4,0.99999999,-0.99999996,2.9458967e-4,0,0)" />
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.46563032px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <rect
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.46121457px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(-1.2433408e-4,0.99999999,0.99999996,2.9470357e-4,0,0)"
+       y="500.78714"
+       x="533.50409"
+       height="290.30069"
+       width="135.25308"
        id="rect3346-3-9"
-       width="135.25304"
-       height="290.41284"
-       x="533.89111"
-       y="-950.68787"
-       inkscape:transform-center-x="-44.514162"
-       inkscape:transform-center-y="-634.81717"
-       transform="matrix(1.2438215e-4,0.99999999,-0.99999996,2.9458967e-4,0,0)" />
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.46112558px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
 </svg>

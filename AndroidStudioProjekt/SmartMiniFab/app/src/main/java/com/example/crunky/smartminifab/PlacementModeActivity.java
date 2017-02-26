@@ -65,10 +65,7 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         surface = (SeedBoxSurface) findViewById(R.id.TetrisGrid);
 
-
         surface.setSeedBoxSize(((SmartMiniFab) this.getApplication()).getSeedBoxSize());
-        //surface.setSeedBoxSize(SeedBoxSize.THREEBYTHREE);
-
 
         // map between shapes -> Image Button id's
         map_bricks_to_id.put(BlockShape.FOUR_SHAPE, R.id.ID_PlacementMode_S_Brick_ImageButton);
@@ -110,19 +107,13 @@ public class PlacementModeActivity extends AppCompatActivity {
         map_angle_to_blockrotation.put(180,BlockRotation.DEGREES_180);
         map_angle_to_blockrotation.put(270,BlockRotation.DEGREES_270);
 
-
-        // TODO: only for Test, needs to be deleted
-        //objBlockFactory.ResetFactory();
-        /*objBlockFactory.AddBlocks(2, BlockShape.I_SHAPE, BlockColor.RED);
-        objBlockFactory.AddBlocks(1, BlockShape.I_SHAPE, BlockColor.BLUE);
-        objBlockFactory.AddBlocks(1, BlockShape.L_SHAPE, BlockColor.GREEN);*/
-        //objBlockFactory.AddBlocks(2, BlockShape.MIRRORED_L_SHAPE, BlockColor.BLUE);
-        //objBlockFactory.AddBlocks(3, BlockShape.SIMPLE_SQUARE, BlockColor.BLACK);
-
         updateView();
 
     }
 
+    /**
+     * Update actual view according to warehouse content, actual chosen brick and actual marked brick
+     */
     private void updateView(){
 
         // set all bricks to grey
@@ -178,7 +169,9 @@ public class PlacementModeActivity extends AppCompatActivity {
         }
      }
 
-    // check if blockshape is available (independent of color)
+    /**
+     * check if blockshape is available (independent of color)
+     */
     private boolean isBlockAvailable(BlockShape shape) {
         boolean result = false;
 
@@ -191,6 +184,10 @@ public class PlacementModeActivity extends AppCompatActivity {
         return result;
     }
 
+    /**
+     * Helpwindowbutton Text
+     * @param view
+     */
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
         String s = "\nPlacementMode\n\n4 steps are required to choose and place a brick. " +
                 "In the brick preview the current selected setting of the brick is always shown. " +
@@ -213,6 +210,11 @@ public class PlacementModeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * function for brick choosing. Determines chosen brick by id of respective brick image button in
+     * activity_placement_mode.xml
+     * @param v
+     */
     public void chooseBrick(View v) {
 
         // do nothing if block is not available
@@ -284,6 +286,10 @@ public class PlacementModeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * set desired color to brick preview. In this function the brick will be allocated from stock
+     * @param v
+     */
     public void changeColor(View v) {
 
         if (i_act_id > 0) {
@@ -318,6 +324,10 @@ public class PlacementModeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Delete marked brick. Is only callable when a brick is marked in seedbox
+     * @param v
+     */
     public void onDelete(View v) {
 
         objMarkedBrickInSeedbox.setRotation(BlockRotation.DEGREES_0); // reset rotation (Bugfix for Bug #413)
@@ -327,6 +337,10 @@ public class PlacementModeActivity extends AppCompatActivity {
         updateView();
     }
 
+    /**
+     * Set rotation of brick preview. Clockwise and Counterclockwise are possible
+     * @param view
+     */
     public void rotateImage(View view) {
 
         View img = findViewById(ID_PlacementMode_BrickPreview_ImageView);
@@ -340,25 +354,41 @@ public class PlacementModeActivity extends AppCompatActivity {
             rotation = img.getRotation() + (float) 90.0;
         }
 
+        // set rotation in positive range in order to use map_angle_to_blockrotation correctly (Bugfix #414)
+        if (rotation < 0) {
+            rotation = rotation + 360f;
+        }
+
         // set rotation of visualized brick preview
         img.setRotation(rotation);
 
-        BlockRotation block_rotation = map_angle_to_blockrotation.get(((int)rotation+360)%360);
+        BlockRotation block_rotation = map_angle_to_blockrotation.get(((int)rotation)%360);
 
         // set rotation in block object
         objBrickPreview.setRotation(block_rotation);
 
     }
 
-
+    /**
+     * Restore block factory and go to SeedBoxModeActivity
+     * @param view
+     */
     public void goToSeedBoxModeActivity(View view) { //is called by onClick function of Button
+        objBlockFactory.RestoreBlockFactory();
         Intent intent = new Intent(this, SeedBoxModeActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Override android back button. Restore block factory and go to SeedBoxModeActivity
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            objBlockFactory.RestoreBlockFactory();
             Intent intent = new Intent(this, SeedBoxModeActivity.class);
             startActivity(intent);
         }
@@ -366,13 +396,12 @@ public class PlacementModeActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Add touch listener to mark a brick in the seedbox. Needed to delete a brick from seedbox.
+     */
     private final class SeedBoxTouchListener implements View.OnTouchListener {
         public boolean onTouch(final View view, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                Log.d("x = ", Integer.toString((int)event.getX()));
-                Log.d("y = ", Integer.toString((int)event.getY()));
-
                 objMarkedBrickInSeedbox = surface.handleTouchOperation((int)event.getX(),
                                                                 (int)event.getY());
                 updateView();
@@ -385,7 +414,10 @@ public class PlacementModeActivity extends AppCompatActivity {
         }
     }
 
-    // defines touch listener
+
+    /**
+     * Defines touch listener including drag shadow on brick preview for drag and drop operation.
+     */
     private final class BrickTouchListener implements View.OnTouchListener {
         public boolean onTouch(final View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -453,6 +485,9 @@ public class PlacementModeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Defines drag and drop listener to brick preview.
+     */
     public class MyDragListener implements View.OnDragListener {
 
         @Override
@@ -461,29 +496,23 @@ public class PlacementModeActivity extends AppCompatActivity {
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     // do nothing
-                    Log.d("Drag event:", "ACTION_DRAG_STARTED");
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     // do nothing
-                    Log.d("Drag event:", "ACTION_DRAG_ENTERED");
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
                     // do nothing
-                    Log.d("Drag event:", "ACTION_DRAG_EXITED");
                     break;
                 case DragEvent.ACTION_DROP:
-                    Log.d("Drag event:", "ACTION_DROP");
-
-                    Log.d("objBrickPreview=Null", Boolean.toString(objBrickPreview==null));
-
                     if (objBrickPreview == null) {
                         //TODO:Fehlerbehandlung
 
                     } else {
+                        // drop brick
                         boolean successful = surface.handleDropOperation((int) event.getX(),
-                                (int) event.getY(),
-                                objBrickPreview);
+                                (int) event.getY(), objBrickPreview);
 
+                        // if brick is successfully droped, restore all memorized values for brick preview
                         if (successful) {
                             i_act_id = 0;
                             objBrickPreview = null;
@@ -503,9 +532,6 @@ public class PlacementModeActivity extends AppCompatActivity {
                     updateView();
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    Log.d("Drag event:", "ACTION_DRAG_ENDED");
-                    Log.d("Result of DragEvent:", Boolean.toString(event.getResult()));
-
                     if (event.getResult() == false)
                     {
                         view.setVisibility(View.VISIBLE);
