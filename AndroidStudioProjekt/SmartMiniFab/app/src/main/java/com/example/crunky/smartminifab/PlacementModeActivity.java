@@ -312,6 +312,7 @@ public class PlacementModeActivity extends AppCompatActivity {
             if (objBlockFactory.IsBlocktypeAvailable(block_shape, block_color)) {
                 img.setColorFilter(map_blockcolor_to_int.get(block_color));
                 objBrickPreview = objBlockFactory.Allocate(block_shape, block_color);
+                objBrickPreview.setRotation(BlockRotation.DEGREES_0);
 
                 // Allowing a view to be dragged
                 findViewById(ID_PlacementMode_BrickPreview_ImageView).setOnTouchListener(new BrickTouchListener());
