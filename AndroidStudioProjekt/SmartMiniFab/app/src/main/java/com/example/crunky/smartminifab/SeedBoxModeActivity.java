@@ -52,7 +52,6 @@ public class SeedBoxModeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
         startActivity(intent);
-        startActivity(intent);
 
     }
 

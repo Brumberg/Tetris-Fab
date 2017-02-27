@@ -565,7 +565,6 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
         startActivity(intent);
-        startActivity(intent);
     }
 
     public void goToSeedBoxModeActivity(View view) { //is called by onClick function of Button in activity_main.xml
