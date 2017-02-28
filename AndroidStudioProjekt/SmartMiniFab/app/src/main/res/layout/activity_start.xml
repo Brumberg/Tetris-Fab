@@ -37,73 +37,72 @@
         android:layout_alignParentEnd="true"
         android:onClick="goToHelpWindowActivity"/>
 
-    <!--<Button
-        android:id="@+id/ID_FactorySelectMode_Scan_Button"
-        android:text="Scan Network"
+
+
+    <TextView
+        android:id="@+id/ID_FactorySelectMode_RequestUrl_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ID_FactorySelectMode_Request_TextView"
-        android:layout_centerHorizontal="true" />
+        android:text="Please type in the IP of your Factory:"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_below="@+id/ID_FactorySelectMode_Help_Button"
+        android:layout_alignParentStart="true" />
 
-    <ProgressBar
-        android:id="@+id/ID_FactorySelectMode_Scan_progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ID_FactorySelectMode_Scan_Button"
-        android:layout_centerHorizontal="true"
-        />
-
-    <Spinner
-        android:id="@+id/ID_FactorySelectMode_WIFI_Spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ID_FactorySelectMode_Scan_progressBar"
-        android:layout_marginTop="16dp" />-->
 
     <EditText
         android:id="@+id/ID_FactorySelectMode_Url_PlainText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Type in the URL"
+        android:inputType="numberDecimal"
+        android:text="192.168.0."
+        android:digits="0123456789."
         android:layout_below="@+id/ID_FactorySelectMode_RequestUrl_TextView"
         android:layout_alignParentLeft="true" />
+
+    <Button
+        android:id="@+id/ID_FactorySelectMode_LoadIP_Button"
+        android:text="Load predefined IP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_below="@+id/ID_FactorySelectMode_Url_PlainText"
+        android:layout_centerHorizontal="true"
+        android:onClick="goLoadPredDefIP"/>
 
     <TextView
         android:id="@+id/ID_FactorySelectMode_RequestIdentifier_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Please enter your Identifier:"
-        android:layout_below="@+id/ID_FactorySelectMode_Url_PlainText"
+        android:layout_below="@+id/ID_FactorySelectMode_LoadIP_Button"
         android:layout_alignParentLeft="true"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        tools:enabled="false" />
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
 
     <EditText
         android:id="@+id/ID_FactorySelectMode_Identifier_PlainText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Type in your Identifier"
+        android:hint="Type in your Identifier"
         android:ems="10"
         android:layout_below="@+id/ID_FactorySelectMode_RequestIdentifier_TextView"
         android:layout_alignParentLeft="true" />
 
     <Button
-    android:id="@+id/ID_FactorySelectMode_Connect_Button"
-    android:text="Connect"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/ID_FactorySelectMode_Identifier_PlainText"
-    android:layout_alignParentLeft="true" />
+        android:id="@+id/ID_FactorySelectMode_Connect_Button"
+        android:text="Connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ID_FactorySelectMode_Identifier_PlainText"
+        android:layout_alignParentLeft="true" />
 
     <Button
-    android:id="@+id/ID_FactorySelectMode_DisConnect_Button"
-    android:text="Disconnect"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/ID_FactorySelectMode_Identifier_PlainText"
-    android:layout_alignParentRight="true"
+        android:id="@+id/ID_FactorySelectMode_DisConnect_Button"
+        android:text="Disconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ID_FactorySelectMode_Identifier_PlainText"
+        android:layout_alignParentRight="true"
         android:enabled="false" />
 
     <TextView
@@ -126,14 +125,21 @@
         android:layout_alignParentRight="true"
         android:onClick="goToWarehouseActivity"/>
 
-    <TextView
-        android:id="@+id/ID_FactorySelectMode_RequestUrl_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please choose a Factory:"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
-        android:layout_below="@+id/ID_FactorySelectMode_Help_Button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <!--
+        <ProgressBar
+            android:id="@+id/ID_FactorySelectMode_Scan_progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ID_FactorySelectMode_Scan_Button"
+            android:layout_centerHorizontal="true"
+            />
+
+        <Spinner
+            android:id="@+id/ID_FactorySelectMode_WIFI_Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ID_FactorySelectMode_Scan_progressBar"
+            android:layout_marginTop="16dp" />-->
 
 </RelativeLayout>

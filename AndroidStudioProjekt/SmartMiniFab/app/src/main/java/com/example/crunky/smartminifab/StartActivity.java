@@ -56,7 +56,16 @@ public class StartActivity extends AppCompatActivity {
         ConnectionStatus = (TextView) (findViewById(R.id.ID_FactorySelectMode_ConnectionStatus_TextView));
         WarehouseButton = (Button) (findViewById(R.id.ID_FactorySelectMode_Warehouse_Button));
     }
-
+    /**
+     * Handles the event if the LoadPredefinedIPButton is clicked
+     */
+    private void goLoadPredDefIP_onClick(View v) {
+        try {
+            //
+        } catch (Exception e) {
+          //
+        }
+    }
     /**
      * Handles the event if the ConnectButton is clicked
      */

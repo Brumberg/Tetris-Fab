@@ -183,6 +183,7 @@
         app:srcCompat="@drawable/vi_z"
         android:layout_below="@+id/ID_WarehouseMode_L_Brick_ImageView"
         android:layout_alignLeft="@+id/ID_WarehouseMode_1x1_Brick_ImageView"
+        android:layout_marginTop="3dp"
         android:scaleType="center" />
 
     <!-- 1 x 1 -->
