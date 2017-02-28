@@ -206,7 +206,7 @@ public class PlacementModeActivity extends AppCompatActivity {
                 "brick preview and place it via drag and drop in the seedbox. The center of " +
                 "gravity is always on the bottom left cornor (even if the brick is rotated)." +
                 "\n\nDelete a placed brick from seedbox: mark a brick via touching the desired " +
-                "brick in the seedbox and press the trashcan button";
+                "brick in the seedbox and press the trashcan button.";
 
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
