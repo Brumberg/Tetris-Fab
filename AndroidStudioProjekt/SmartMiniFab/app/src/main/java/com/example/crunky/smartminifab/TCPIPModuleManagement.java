@@ -24,7 +24,7 @@ interface IIpScanningListener {
  */
 public class TCPIPModuleManagement extends ContextDependentObject {
     private LinkedList<IFabCommunication> m_fabCommunications;
-    private static final int port=1000;
+    public static final int Port=1000;
     private int m_countOfIpsToBeScanned;
     private int m_scannedIps;
     private IIpScanningListener m_ipScannedListener;
@@ -85,7 +85,7 @@ public class TCPIPModuleManagement extends ContextDependentObject {
         // Scan each IP address in the subnet
         long netPart = localHost & subnetMask;
         for (long hostPart = 0L; shouldScanningBeResumed(hostPart, hostpartMax); hostPart++) {
-            IFabCommunication fabCommunication = new TCPIPModule(InetAddress.getByName(toIpString(netPart | hostPart)), port);
+            IFabCommunication fabCommunication = new TCPIPModule(InetAddress.getByName(toIpString(netPart | hostPart)), Port);
             // If a factory is accessible at the current IP
             // TODO: remove debug changes
             boolean c = fabCommunication.connect();

@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Smart MiniFab</string>
     <string name="connection_failed">Connection failed!</string>
-    <string name="wrong_password">Wrong Password!</string>
+    <string name="wrong_identifier">Wrong Identifier!</string>
     <string name="connected">Connected to Factory.</string>
     <string name="disconnected">Disconnected from Factory.</string>
     <string name="no_factory_found">No factory could be found.</string>
     <string name="warehouse_file_name">warehouse.dat</string>
     <string name="scanning_failed">Scanning for factories failed.</string>
+    <string name="unknown_host">You entered an unknown host.</string>
 </resources>

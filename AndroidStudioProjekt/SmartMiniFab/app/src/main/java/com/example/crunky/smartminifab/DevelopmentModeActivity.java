@@ -1,33 +1,24 @@
 package com.example.crunky.smartminifab;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ButtonBarLayout;
-import android.text.TextUtils;
-import android.text.TextUtils.EllipsizeCallback;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.util.Log;
 import java.lang.String;
-import java.lang.Object;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.concurrent.locks.Condition;
+
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.content.ContextCompat;
-import android.widget.*;
 
 
 public class DevelopmentModeActivity extends AppCompatActivity {
@@ -405,7 +396,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                         m_currentFactory.disconnect();
                         //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                         //connectSuccess.setText(getString(R.string.disconnected));
-                        goToErrorWindowActivity(connectButton, getString(R.string.wrong_password));
+                        goToErrorWindowActivity(connectButton, getString(R.string.wrong_identifier));
                         CBlockFactory.getInstance().setFabCommunication(null);
                         isConnected = false;
                     }
@@ -446,7 +437,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                     m_currentFactory.disconnect();
                     //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     //connectSuccess.setText(getString(R.string.disconnected));
-                    goToErrorWindowActivity(connectButton, getString(R.string.wrong_password));
+                    goToErrorWindowActivity(connectButton, getString(R.string.wrong_identifier));
                     CBlockFactory.getInstance().setFabCommunication(null);
                     isConnected = false;
                 }
