@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import static com.example.crunky.smartminifab.R.id.ID_PlacementMode_BrickPreview_ImageView;
 import static java.lang.Math.abs;
-import android.media.MediaPlayer;
+//import android.media.MediaPlayer;
 
 
 public class PlacementModeActivity extends AppCompatActivity {
@@ -53,9 +53,9 @@ public class PlacementModeActivity extends AppCompatActivity {
     boolean b_brick_is_placeable = false;
 
     // Click counter for sound
-    int ClickCnt = 0;
+   /* int ClickCnt = 0;
 
-    MediaPlayer mp = null;
+    MediaPlayer mp = null;*/
 
 
     @Override
@@ -63,7 +63,7 @@ public class PlacementModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_placement_mode);
 
-        mp = MediaPlayer.create(this, R.raw.tetris);
+       // mp = MediaPlayer.create(this, R.raw.tetris);
 
         // Defining drop target
         findViewById(R.id.TetrisGrid).setOnDragListener(new MyDragListener());
@@ -122,12 +122,12 @@ public class PlacementModeActivity extends AppCompatActivity {
          updateView();
 
     }
-    @Override
+  /*  @Override
     public void onPause() {
         super.onPause();
         mp.stop();
         mp.release();
-    }
+    }*/
 
     /**
      * Update actual view according to warehouse content, actual chosen brick and actual marked brick
@@ -231,7 +231,7 @@ public class PlacementModeActivity extends AppCompatActivity {
      * Play Sound have Fun
      */
     public void goSendOrderButton(View view) { //is called by onClick function of Button in activity_main.xml
-
+/*
         if(ClickCnt == 0) {
             mp.start();
             ClickCnt = 1;
@@ -247,7 +247,7 @@ public class PlacementModeActivity extends AppCompatActivity {
             }
 
             mp.seekTo(0);
-        }
+        }*/
     }
     /**
      * function for brick choosing. Determines chosen brick by id of respective brick image button in
