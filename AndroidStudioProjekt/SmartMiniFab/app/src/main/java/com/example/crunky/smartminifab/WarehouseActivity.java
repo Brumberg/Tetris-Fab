@@ -284,16 +284,17 @@ public class WarehouseActivity extends AppCompatActivity {
      * @param view
      */
     public void goToHelpWindowActivity(View view) {
-        String s = "\nWarehouse\n\nHere you can enter and safe the stock of the selected factory.\n\n\n" +
-                "To select a predefined stock, press the 'Load'-Button\n\n" +
+        String s = "\nWarehouse\n\nHere you can enter and save the stock of the selected factory.\n\n\n" +
+                "To select a predefined stock, press the 'Load'-button\n\n" +
                 "The symbols in the first column represent the available shapes. The colors in the first row " +
-                "are the respective possible colors. To enter increase or decrease the number of elements " +
-                "select the number in the column of your chosen color and increase/decrease " +
-                "by pressing the '+'/'-'-Buttons.\nThe sum of all selected items is displayed right of the '+'" +
-                "-Button. Store your selection by pressing the 'Store'-Button." +
+                "are the respective possible colors. To increase or decrease the number of elements " +
+                "select the number in the column of the chosen color. " +
+                "Pressing '+'/'-' modifies the amount of available bricks.\n" +
+                "The sum of all selected items is displayed right of the '+'" +
+                "-button. Store your selection by pressing the 'Store'-button." +
                 "\n\nTo connect to a different factory go back to factory selection via 'Factory Select'" +
-                "-Button.\n\nWhen fininished with entering stock proceed to seedbox selection by pressing" +
-                " the 'Seedbox'-Button.";
+                "-button.\n\nWhen finished entering the stock proceed to seed box selection by pressing " +
+                "the 'Seedbox'-button.";
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
         startActivity(intent);
