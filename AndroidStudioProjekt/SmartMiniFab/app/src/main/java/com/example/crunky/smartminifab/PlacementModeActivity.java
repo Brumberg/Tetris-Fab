@@ -211,16 +211,16 @@ public class PlacementModeActivity extends AppCompatActivity {
                 "In the brick preview the current selected setting of the brick is always shown. " +
                 "The following steps are only executable in this order:" +
                 "\n\n1. Choose a brick: Tap the desired brick. A brick is only shown in black if " +
-                "it is available in the stock. The unavailable bricks are greyed out and can not be " +
+                "it is on stock. Unavailable bricks are greyed out and cannot be " +
                 "selected.\n2. Choose a color for the brick: Tap the desired color. The respective color is " +
-                "only shown if the choosen Brick (from step 1)" +
+                "only shown if the chosen Brick (from step 1)" +
                 " is available in this color. The unavailable colors are greyed out and can not be selected\n" +
                 "3. Set rotation: Rotate brick clockwise (right) or " +
                 "counterclockwise (left)\n4. Place brick via drag and drop: pick the brick from " +
-                "brick preview and place it via drag and drop in the seedbox. The center of " +
-                "gravity is always on the bottom left cornor (even if the brick is rotated)." +
-                "\n\nDelete a placed brick from seedbox: mark a brick via touching the desired " +
-                "brick in the seedbox and press the trashcan button.";
+                "brick preview and place it via drag and drop in the seed box. The center of " +
+                "gravity is always on the bottom left corner (even if the brick is rotated)." +
+                "\n\nDelete a placed brick from seed box: mark a brick via touching the desired " +
+                "brick in the seed box and press the trashcan button.";
 
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
