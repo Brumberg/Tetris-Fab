@@ -14,9 +14,9 @@ import java.util.*;
 /**
  * Created by i00201574 on 20.12.2016.
  * Component is responsible for stock handling - block exchange.
- * The seedbox just gets a handle to IDispatchBlocks. Blocks can be
- * allocated from te Blockfactory (if on stock) or released (back on stock)
- * Component is handld as a singleton - there is just one stock.
+ * The seed box just gets a handle to IDispatchBlocks. Blocks can be
+ * allocated from the Blockfactory (if on stock) or released (back on stock)
+ * Component is handled as a singleton - there is just one stock.
  * ResetFactory removes all components on stock
  * AddBlock(s) can be used to create blocks and "fill" the stock.
  */
@@ -40,7 +40,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         FILENOTFOUND,
         INVALIDFILEFORMAT,
         INVALIDFILEVERSION,
-    };  // indicates state of the fab
+    };                                                      // indicates state of the fab
     public final int m_MaxNoOfEachBlockType=99;
     private final int m_FactoryVersion=10000;
     private final int m_FactoryID=0x5ac7081;
@@ -51,7 +51,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
     private final String UNKNOWNFACTORYVERSION = "Factory version is unknown.";
     private String m_IOError;
 
-    private final int MAXNOBLOCKS = Integer.MAX_VALUE; //maximum number of blocks/storae space
+    private final int MAXNOBLOCKS = Integer.MAX_VALUE; //maximum number of blocks/storage space
 
     private static CBlockFactory fab = new CBlockFactory(); // Meyers singleton
                                                             // there is only one class to administer
@@ -64,11 +64,11 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
     private int[][] m_BlocksOnStock = new
             int [BlockType.NODIFFERENTBLOCKTYPES][BlockType.NOBLOCKCOLORS];
                                                             // number of blocks still available
-                                                            // for seedbox
+                                                            // for seed box
     private int[][] m_PlacedBlocks = new
             int [BlockType.NODIFFERENTBLOCKTYPES][BlockType.NOBLOCKCOLORS];
                                                             // number of bocks allocated by the
-                                                            // seedbox. Ownership has the seedbox
+                                                            // seed box. Ownership has the seed box
     transient private List<Block>[][] m_AvailableBlocks;    // List of blocks on stock
     transient private List<Block>[][] m_DrawnBlocks;        // List of placed blocks (just for
                                                             // balancing)
@@ -123,6 +123,13 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
         return retVal;
     }
 
+    /**
+     * returns the number of (specific) blocks drawn by the seed box
+     * Feature cames in handy as it got very easy to resore the stock if the seed box size changes
+     * @param blockshape
+     * @param color
+     * @return
+     */
     public int GetNoBlocksDrawn(BlockShape blockshape, BlockColor color) { //number of blocks o stock
         return m_PlacedBlocks[blockshape.ordinal()][color.ordinal()];
     }
@@ -203,7 +210,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
     }
 
     /**
-     * deletes all elements of the factory. Storage size is zero
+     * deletes all elements of the factory. Storage size is set to zero
      */
     public void ResetFactory() {
         m_NoBlocks = 0;
@@ -261,7 +268,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
      * Used to create blocks. The number of blocks are managed by the factory.
      * Allocating blocks decreases the number of available blocks
      * Release blocks increases the number of available blocks
-     * Available blocks can be placed in the seedbox. This function just instantiates
+     * Available blocks can be placed in the seed box. This function just instantiates
      * the number of specified blocks
      * @param NoBlocks
      * @param blocktype
@@ -313,7 +320,7 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
      * Used to create blocks. The number of blocks are managed by the factory.
      * Allocating blocks decreases the number of available blocks
      * Release blocks increases the number of available blocks
-     * Available blocks can be placed in the seedbox. This function just instantiates
+     * Available blocks can be placed in the seed box. This function just instantiates
      * the number of specified blocks
      * @param NoBlocks
      * @param blocktype
