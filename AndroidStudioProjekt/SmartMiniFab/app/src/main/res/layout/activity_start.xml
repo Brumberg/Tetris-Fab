@@ -61,13 +61,12 @@
 
     <Button
         android:id="@+id/ID_FactorySelectMode_LoadIP_Button"
-        android:text="Load predefined IP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
         android:layout_below="@+id/ID_FactorySelectMode_Url_PlainText"
         android:layout_centerHorizontal="true"
-        android:onClick="goLoadPredDefIP"/>
+        android:text="Load predefined IP"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
 
     <TextView
         android:id="@+id/ID_FactorySelectMode_RequestIdentifier_TextView"

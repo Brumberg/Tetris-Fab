@@ -42,8 +42,8 @@ public class TCPIPModule implements IFabCommunication {
         try {
             m_connection.connect();
             // TODO: remove debug changes
-            //m_connection.writeLine("HELLO");
-            //m_connected = m_connection.readLine().equals("ARDUINO");
+            m_connection.writeLine("HELLO");
+            m_connected = m_connection.readLine().equals("ARDUINO");
         } catch (IOException e) {
             m_connected = false;
         }
@@ -70,7 +70,7 @@ public class TCPIPModule implements IFabCommunication {
             throws IllegalArgumentException {
         if ((m_connected) && (!m_loggedIn)) {
             try {
-                m_connection.writeLine("PASSWORD " + password);
+               m_connection.writeLine("PASSWORD " + password);
                 m_loggedIn = m_connection.readLine().equals("OK");
             } catch (IOException e) {
                 disconnect();
