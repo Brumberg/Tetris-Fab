@@ -67,8 +67,8 @@ public class WiFiConnection {
 
     public void close()
             throws Exception {
-        m_reader.close();
         m_writer.close();
+        m_reader.close();
         m_socket.close();
     }
 

@@ -34,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
     private Button WarehouseButton;
     private Button LoadIP;
     public IFabCommunication m_currentFactory;
-    public connectTask asykTask;
+    public connectTask asycTask;
     public boolean ConnectionException;
 
     /**
@@ -73,10 +73,10 @@ public class StartActivity extends AppCompatActivity {
                 goLoadPredDefIP_onClick(v);
             }
         });
-        asykTask = new connectTask();
-        m_currentFactory = (IFabCommunication) (new TCPIPModule(asykTask));
-        asykTask.execute("");
+        asycTask = new connectTask();
+        m_currentFactory = (IFabCommunication) (new TCPIPModule());
         ConnectionException = false;
+        asycTask.execute("");
         CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
     }
     /**
@@ -134,7 +134,6 @@ public class StartActivity extends AppCompatActivity {
         //Context context = (Context) new Object();
         //fab.connectToFab(Url.getText().toString());
         try {
-            boolean test = asykTask.isCancelled();
             m_currentFactory.connect(Url.getText().toString(), Identifier.getText().toString());
             ConnectButton.setEnabled(false);
             DisconnectButton.setEnabled(true);
@@ -165,7 +164,7 @@ class connectTask extends AsyncTask<String,String,Object> {
                         m_currentFactory.getProtocol().setSingedIn(true);
                     }
 
-                    while (m_currentFactory.getProtocol().getSignedIn()&&m_currentFactory.getProtocol().getConnectionActive()) {
+                    while (m_currentFactory.getProtocol().getSignedIn()&&m_currentFactory.getProtocol().getConnectionActive()&&m_currentFactory.getProtocol().getFab().getConnectionState()) {
                         m_currentFactory.getProtocol().messageHandling(m_currentFactory.getProtocol().splitMessage(m_currentFactory.getProtocol().getFab().readLine()));
                     }
 
@@ -179,19 +178,6 @@ class connectTask extends AsyncTask<String,String,Object> {
 
             return new Object();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         @Override
         protected void onCancelled(Object result) {

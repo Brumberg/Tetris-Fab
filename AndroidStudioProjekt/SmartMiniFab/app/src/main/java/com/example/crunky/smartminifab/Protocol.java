@@ -26,8 +26,8 @@ public class Protocol {
 
     WiFiConnection fab;
 
-    Protocol(AsyncTask connectionTask) {
-        runningTask = connectionTask;
+    Protocol() {
+
     }
 
     boolean getConnectionStatus() {
@@ -114,6 +114,7 @@ public class Protocol {
         connectionStatus = false;
         singedIn = false;
         connectionFaild = true;
+        fab.close();
     }
 
     public void sendOrder(String OrderString) throws Exception{
@@ -146,7 +147,6 @@ public class Protocol {
 
     public void connectToFab(String ipAdressToCon) throws Exception {
         connectionFaild = false;
-        singedIn = false;
         connectionActive = true;
         ipAdress = ipAdressToCon;
         while (!singedIn && !connectionFaild) {

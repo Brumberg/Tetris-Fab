@@ -36,8 +36,8 @@ public class TCPIPModule implements IFabCommunication {
     private boolean m_connected;
 
 
-    public TCPIPModule(AsyncTask conectionTask) {
-        m_connection = new Protocol(conectionTask);
+    public TCPIPModule() {
+        m_connection = new Protocol();
         m_connected = false;
     }
 
@@ -47,7 +47,6 @@ public class TCPIPModule implements IFabCommunication {
         m_connection.sendBroadcast();
         m_connection.signIn(password);
         m_connected = true;
-
 
         return m_connected;
     }
