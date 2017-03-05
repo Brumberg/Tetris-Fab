@@ -25,6 +25,9 @@ public class PlacementModeActivity extends AppCompatActivity {
     // get block handler from factory
     CBlockFactory objBlockFactory = CBlockFactory.getInstance();
 
+    // get actual instance of the Server
+    IFabCommunication fab = CBlockFactory.getInstance().getFabCommunication();
+
     // actual choosen Brick
     Block objBrickPreview = null;
 
@@ -58,6 +61,8 @@ public class PlacementModeActivity extends AppCompatActivity {
     MediaPlayer mp = null;*/
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +83,7 @@ public class PlacementModeActivity extends AppCompatActivity {
         surface = (SeedBoxSurface) findViewById(R.id.TetrisGrid);
 
         surface.setSeedBoxSize(((SmartMiniFab) this.getApplication()).getSeedBoxSize());
+
 
         // map between shapes -> Image Button id's
         map_bricks_to_id.put(BlockShape.FOUR_SHAPE, R.id.ID_PlacementMode_S_Brick_ImageButton);
@@ -231,6 +237,12 @@ public class PlacementModeActivity extends AppCompatActivity {
      * Play Sound have Fun
      */
     public void goSendOrderButton(View view) { //is called by onClick function of Button in activity_main.xml
+        try {
+            fab.transmit(surface.getSeedbox().toString());
+        }
+        catch (Exception e) {
+            //ErrorWindow
+        }
 /*
         if(ClickCnt == 0) {
             mp.start();

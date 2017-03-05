@@ -51,7 +51,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private ProgressBar orderStatus;
     private TCPIPModuleManagement m_factoryManagement;
     private TCPIPModule m_currentFactory;
-    private FabCommunicationListAdapter m_adapter;
+   // private FabCommunicationListAdapter m_adapter;
     private Boolean isConnected = false;
      //public Handler handler;
     //public Runnable timeout;
@@ -314,7 +314,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
      */
     private void factoryManagement_onStartScanning(TCPIPModuleManagement sender) {
         if (m_currentFactory != null) {
-            m_currentFactory.disconnect();
+  //          m_currentFactory.disconnect();
         }
         scanNetworkButton.setEnabled(false);
         wifiSpinner_setEnabled(false);
@@ -342,7 +342,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private void factoryManagement_onAllIpsScanned(TCPIPModuleManagement sender) {
 //        bButton.setVisibility(View.VISIBLE);
 //        pbScanProgress.setVisibility(View.INVISIBLE);
-        m_adapter = new FabCommunicationListAdapter(this, m_factoryManagement.getBlockFactories());
+/*        m_adapter = new FabCommunicationListAdapter(this, m_factoryManagement.getBlockFactories());
         wifiSpinner.setAdapter(m_adapter);
         // Check if any factory was found
         if (wifiSpinner.getCount() > 0) {
@@ -350,7 +350,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
             wifiSpinner.setSelection(0);
         } else {
             goToErrorWindowActivity(wifiSpinner, getString(R.string.no_factory_found));
-        }
+        }*/
     }
 
     /**
@@ -369,7 +369,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
      * Handles the event if the ConnectButton is clicked
      */
     private void connectButton_onClick(View v) {
-
+/*
         if(preDefIP != "" && preDefIP != "Insert IP here") {
 
             // Initialize IP of Factory with user input
@@ -391,7 +391,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                     /*isConnected = true;
                     TimeOut = new TimeOutReconnectModule();
                     TimeOut.TimeOut(delay, isConnected, inpPassword.getText().toString());*/
-                    } else {
+              /*      } else {
                         // Show an error message if it does not work
                         m_currentFactory.disconnect();
                         //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
@@ -432,7 +432,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                     /*isConnected = true;
                     TimeOut = new TimeOutReconnectModule();
                     TimeOut.TimeOut(delay, isConnected, inpPassword.getText().toString());*/
-                } else {
+           /*     } else {
                     // Show an error message if it does not work
                     m_currentFactory.disconnect();
                     //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
@@ -449,19 +449,20 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                 CBlockFactory.getInstance().setFabCommunication(null);
                 isConnected = false;
             }
-        }
+        }*/
     }
 
     /**
      * Handles the event if the DisconnectButton is clicked
      */
     private void disconnectButton_onClick(View v) {
+        /*
         m_currentFactory.disconnect();
         connectButton.setEnabled(true);
         disconnectButton.setEnabled(false);
         connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
         connectSuccess.setText(getString(R.string.disconnected));
-        CBlockFactory.getInstance().setFabCommunication(null);
+        CBlockFactory.getInstance().setFabCommunication(null);*/
     }
 
     /**
@@ -470,7 +471,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
 
     private void sendOrderButton_onClick(View v)  {
         //Try to transmit Order
-
+/*
             if (m_currentFactory.transmit(inpUserTestString.getText().toString())) {
                 inpUserTestString.setEnabled(false);
                 sendOrderButton.setEnabled(false);
@@ -484,7 +485,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                 goToErrorWindowActivity(sendOrderButton, "Order not successful");
                 CBlockFactory.getInstance().setFabCommunication(null);
             }
-
+*/
     }
 
 

@@ -47,7 +47,7 @@ public class TCPIPModuleManagement extends ContextDependentObject {
      * Scans the network for factories
      */
     public void scanBlockFactories() throws Exception {
-        m_stopScanning=false;
+ /*       m_stopScanning=false;
         // First get the subnet mask
         int prefixLength=32;
         long localHost = 0L;
@@ -99,7 +99,7 @@ public class TCPIPModuleManagement extends ContextDependentObject {
             if(m_ipScannedListener!=null) {
                 m_ipScannedListener.onIpScanned(this);
             }
-        }
+        }*/
     }
 
     private String toIpString(long ip)

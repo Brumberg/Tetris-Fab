@@ -43,31 +43,36 @@ public class WiFiConnection {
     }
 
     public void connect()
-            throws IOException {
+            throws Exception {
         if ((m_socket != null) && (m_socket.isConnected())) {
             close();
+            m_socket = null;
         }
-        // TODO: This line prevents an execution of AsyncTask.onPostExecute
+
         m_socket = new Socket(m_host, m_port);
         m_reader = new BufferedReader(new InputStreamReader(m_socket.getInputStream()));
         m_writer = new OutputStreamWriter(m_socket.getOutputStream());
     }
 
     public void writeLine(final String line)
-            throws IOException {
+            throws Exception {
         m_writer.write(line + "\r\n");
         m_writer.flush();
     }
 
     public String readLine()
-            throws IOException {
+            throws Exception {
         return m_reader.readLine();
     }
 
     public void close()
-            throws IOException {
+            throws Exception {
         m_reader.close();
         m_writer.close();
         m_socket.close();
+    }
+
+    public boolean getConnectionState() {
+        return m_socket.isConnected();
     }
 }

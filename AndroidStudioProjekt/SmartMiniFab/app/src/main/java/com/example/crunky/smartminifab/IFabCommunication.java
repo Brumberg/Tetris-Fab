@@ -15,10 +15,10 @@ import java.net.*;
 
 
 public interface IFabCommunication {
-    InetAddress getHost();
-    boolean connect();
-    boolean disconnect();
+    boolean connect(String IpAdress, String password) throws Exception;
+    boolean disconnect() throws Exception;
     boolean status();
-    boolean login(String password);
-    boolean transmit(String orderString);
+    boolean transmit(String orderString) throws Exception;
+    public String getConnectionStatus();
+    public Protocol getProtocol();
 }

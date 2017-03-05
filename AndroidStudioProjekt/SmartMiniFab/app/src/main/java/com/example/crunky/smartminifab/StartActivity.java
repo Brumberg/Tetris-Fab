@@ -3,6 +3,7 @@ package com.example.crunky.smartminifab;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +33,9 @@ public class StartActivity extends AppCompatActivity {
     private TextView ConnectionStatus;
     private Button WarehouseButton;
     private Button LoadIP;
-    private IFabCommunication m_currentFactory;
+    public IFabCommunication m_currentFactory;
+    public connectTask asykTask;
+    public boolean ConnectionException;
 
     /**
      * Called when the activity is first created.
@@ -70,6 +73,11 @@ public class StartActivity extends AppCompatActivity {
                 goLoadPredDefIP_onClick(v);
             }
         });
+        asykTask = new connectTask();
+        m_currentFactory = (IFabCommunication) (new TCPIPModule(asykTask));
+        asykTask.execute("");
+        ConnectionException = false;
+        CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
     }
     /**
      * Handles the event if the LoadPredefinedIPButton is clicked
@@ -123,82 +131,131 @@ public class StartActivity extends AppCompatActivity {
      * Handles the event if the ConnectButton is clicked
      */
     private void ConnectButton_onClick(View v) {
-        AsyncTask<Object, Object, Object> task = new AsyncTask<Object, Object, Object>() {
-            private Exception exception;
-            private String state = "";
-            private Context context;
-            private String identifier;
-            private String ip;
+        //Context context = (Context) new Object();
+        //fab.connectToFab(Url.getText().toString());
+        try {
+            boolean test = asykTask.isCancelled();
+            m_currentFactory.connect(Url.getText().toString(), Identifier.getText().toString());
+            ConnectButton.setEnabled(false);
+            DisconnectButton.setEnabled(true);
+            ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+            ConnectionStatus.setText(getString(R.string.connected));
+            CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+        } catch (Exception e) {
+            ConnectionStatus.setText("Verbindung Fehlgeschlagen." + m_currentFactory.getConnectionStatus());
+            //ErrorWindow
+        }
 
-            @Override
-            public Object doInBackground(Object... Objects) {
+    }
+
+
+class connectTask extends AsyncTask<String,String,Object> {
+
+        @Override
+        protected Object doInBackground(String... message) {
+            while(!this.isCancelled()) {
                 try {
-                    context = (Context) (Objects[0]);
-                    ip = (String)(Objects[1]);
-                    identifier = (String) (Objects[2]);
-                    m_currentFactory = (IFabCommunication) (new TCPIPModule(InetAddress.getByName(ip), TCPIPModuleManagement.Port));
-                    if (m_currentFactory.connect()) {
-                        // Try to login to the factory
-                        if (m_currentFactory.login(identifier)) {
-                            CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
-                            state = "ok";
-                        } else {
-                            // Show an error message if it does not work
-                            m_currentFactory.disconnect();
-                            CBlockFactory.getInstance().setFabCommunication(null);
-                            state = "login failed";
+                    ConnectionException = false;
+                    if (!m_currentFactory.getProtocol().getSignedIn() && m_currentFactory.getProtocol().getConnectionActive()) {
+                        if(m_currentFactory.getProtocol().getFab()!=null) {
+                            m_currentFactory.getProtocol().setFab(null);
                         }
-                    } else {
-                        // Show an error message if it does not work
-                        CBlockFactory.getInstance().setFabCommunication(null);
-                        state = "connect failed";
+                        m_currentFactory.getProtocol().setFab(new WiFiConnection(InetAddress.getByName(m_currentFactory.getProtocol().getIpAdress()), 1000));
+                        m_currentFactory.getProtocol().getFab().connect();
+                        m_currentFactory.getProtocol().setSingedIn(true);
                     }
-                } catch (Exception e) {
-                    exception = e;
+
+                    while (m_currentFactory.getProtocol().getSignedIn()&&m_currentFactory.getProtocol().getConnectionActive()) {
+                        m_currentFactory.getProtocol().messageHandling(m_currentFactory.getProtocol().splitMessage(m_currentFactory.getProtocol().getFab().readLine()));
+                    }
+
+                } catch (Exception e){
+                    m_currentFactory.getProtocol().setSingedIn(false);
+                    m_currentFactory.getProtocol().setConnectionFaild(true);
+                    m_currentFactory.getProtocol().setconnectionActive(false);
+                    ConnectionException = true;
                 }
-                return new Object();
             }
 
-            @Override
-            public void onPostExecute(Object v) {
-                if (exception != null) {
-                    ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                    ConnectionStatus.setText(getString(R.string.disconnected));
-                    ErrorWindowActivity.show(context, getString(R.string.unknown_host));
-                    CBlockFactory.getInstance().setFabCommunication(null);
-                } else if (state.equals("ok")) {
-                    ConnectButton.setEnabled(false);
-                    DisconnectButton.setEnabled(true);
-                    ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
-                    ConnectionStatus.setText(getString(R.string.connected));
-                    CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
-                } else if (state.equals("login failed")) {
-                    ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                    ConnectionStatus.setText(getString(R.string.disconnected));
-                    ErrorWindowActivity.show(context, getString(R.string.wrong_identifier));
-                    CBlockFactory.getInstance().setFabCommunication(null);
-                } else if (state.equals("connect failed")) {
-                    // Show an error message if it does not work
-                    ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                    ConnectionStatus.setText(getString(R.string.disconnected));
-                    ErrorWindowActivity.show(context, getString(R.string.connection_failed));
-                    CBlockFactory.getInstance().setFabCommunication(null);
-                }
-            }
-        };
-        task.execute(this, Url.getText().toString(), Identifier.getText().toString());
+            return new Object();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @Override
+        protected void onCancelled(Object result) {
+            /*
+        }
+            try {
+                singedIn = false;
+                connectionFaild = true;
+                connectionStatus = false;
+                fab = null;
+
+            } catch (Exception e) {
+                singedIn = false;
+                connectionFaild = true;
+                connectionStatus = false;
+                connectionActive = false;
+            }*/
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+           /* super.onProgressUpdate(values);
+            String messageType = "";
+
+            //in the arrayList we add the messaged received from server
+            messageType = messageHandling(splitMessage(values[0]));
+            // notify the adapter that the data set has changed. This means that new message received
+            // from server was added to the list
+
+            switch (messageType) {
+                case "SIGN_IN_RS":
+                    if(getConnectionStatus() == true) {
+
+                    }
+                    break;
+
+                case "ORDER_RS":
+
+                    break;
+
+                case "BROADCAST_RS":
+
+                    break;
+
+                default:
+                    break;
+            }*/
+        }
     }
 
     /**
      * Handles the event if the DisconnectButton is clicked
      */
     private void DisconnectButton_onClick(View v) {
-        m_currentFactory.disconnect();
+        try {
+            m_currentFactory.disconnect();
+        }
+        catch (Exception e) {
+            //ErrorWindow
+        }
         ConnectButton.setEnabled(true);
         DisconnectButton.setEnabled(false);
         ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
         ConnectionStatus.setText(getString(R.string.disconnected));
-        CBlockFactory.getInstance().setFabCommunication(null);
     }
 
     /**

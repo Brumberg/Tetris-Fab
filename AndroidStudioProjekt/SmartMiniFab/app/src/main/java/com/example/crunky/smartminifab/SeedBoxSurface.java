@@ -327,6 +327,10 @@ public class SeedBoxSurface extends SurfaceView {
         int blue = Color.blue(color);
         return Color.argb(alpha, red, green, blue);
     }
+
+    public SeedBox getSeedbox() {
+        return objSeedBox;
+    }
 }
 
 
