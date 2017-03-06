@@ -1,6 +1,8 @@
 package com.example.crunky.smartminifab;
 
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -50,7 +52,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private ProgressBar connectStatus;
     private ProgressBar orderStatus;
     private TCPIPModuleManagement m_factoryManagement;
-    private TCPIPModule m_currentFactory;
+    public IFabCommunication m_currentFactory;
    // private FabCommunicationListAdapter m_adapter;
     private Boolean isConnected = false;
      //public Handler handler;
@@ -58,6 +60,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private TimeOutReconnectModule TimeOut;
     private int delay = 1000;
     private int port = 1000;
+    public connectTask asycTask;
 
 
     @Override
@@ -105,10 +108,25 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         inpIP = (EditText) findViewById(R.id.ID_Dev_Mode_IP_EditText);
         inpUserTestString = (EditText) findViewById(R.id.TestString);
         orderSuccess = (TextView) findViewById(R.id.ID_Dev_Mode_OrderSucces_TextView);
-        orderSuccess.setEnabled(false);
+        orderSuccess.setEnabled(true);
         connectSuccess = (TextView) findViewById(R.id.ID_Dev_Mode_ConnectionStatus_TextView);
         wifiSpinner = (Spinner) findViewById(R.id.ID_Dev_Mode_DropDownWifi_Spinner);
         wifiSpinner_setEnabled(false);
+        asycTask = new connectTask();
+        m_currentFactory = (IFabCommunication) (new TCPIPModule());
+        asycTask.execute("");
+        CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+        orderSuccess.setText("");
+        final Handler handler = new Handler();
+        final Runnable r1 = new Runnable() {
+            public void run() {
+
+                orderSuccess.setText(m_currentFactory.getProtocol().getOrderRsStatus());
+                connectSuccess.setText(m_currentFactory.getProtocol().getSingInRsStatus());
+                handler.postDelayed(this, 500);
+            }
+        };
+        handler.postDelayed(r1, 500);
 
 
         wifiSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -369,6 +387,15 @@ public class DevelopmentModeActivity extends AppCompatActivity {
      * Handles the event if the ConnectButton is clicked
      */
     private void connectButton_onClick(View v) {
+        try {
+            m_currentFactory.connect(inpIP.getText().toString(), inpPassword.getText().toString());
+            connectButton.setEnabled(false);
+            disconnectButton.setEnabled(true);
+            CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+            connectSuccess.setText(m_currentFactory.getProtocol().getSingInRsStatus());
+        } catch (Exception e) {
+            //ErrorWindow
+        }
 /*
         if(preDefIP != "" && preDefIP != "Insert IP here") {
 
@@ -456,6 +483,15 @@ public class DevelopmentModeActivity extends AppCompatActivity {
      * Handles the event if the DisconnectButton is clicked
      */
     private void disconnectButton_onClick(View v) {
+        try {
+            m_currentFactory.disconnect();
+            connectSuccess.setText(m_currentFactory.getProtocol().getSingInRsStatus());
+        }
+        catch (Exception e) {
+            //ErrorWindow
+        }
+        connectButton.setEnabled(true);
+        disconnectButton.setEnabled(false);
         /*
         m_currentFactory.disconnect();
         connectButton.setEnabled(true);
@@ -470,6 +506,14 @@ public class DevelopmentModeActivity extends AppCompatActivity {
      */
 
     private void sendOrderButton_onClick(View v)  {
+
+        try {
+            m_currentFactory.transmit(inpUserTestString.getText().toString());
+            connectSuccess.setText(m_currentFactory.getProtocol().getSingInRsStatus());
+        }
+        catch (Exception e) {
+            //ErrorWindow
+        }
         //Try to transmit Order
 /*
             if (m_currentFactory.transmit(inpUserTestString.getText().toString())) {
@@ -571,6 +615,94 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ErrorWindowActivity.class);
         intent.putExtra("message", message);
         startActivity(intent);
+    }
+
+    class connectTask extends AsyncTask<String,String,Object> {
+
+        @Override
+        protected Object doInBackground(String... message) {
+            while(!this.isCancelled()) {
+                try {
+
+                    if (!m_currentFactory.getProtocol().getSignedIn() && m_currentFactory.getProtocol().getConnectionActive()) {
+                        if(m_currentFactory.getProtocol().getFab()!=null) {
+                            m_currentFactory.getProtocol().setFab(null);
+                        }
+                        m_currentFactory.getProtocol().setFab(new WiFiConnection(InetAddress.getByName(m_currentFactory.getProtocol().getIpAdress()), 1000));
+                        m_currentFactory.getProtocol().getFab().connect();
+                        m_currentFactory.getProtocol().setSingedIn(true);
+                    }
+
+                    while (m_currentFactory.getProtocol().getSignedIn()&&m_currentFactory.getProtocol().getConnectionActive()&&m_currentFactory.getProtocol().getFab().getConnectionState()) {
+                        m_currentFactory.getProtocol().messageHandling(m_currentFactory.getProtocol().splitMessage(m_currentFactory.getProtocol().getFab().readLine()));
+                    }
+
+                } catch (Exception e){
+                    m_currentFactory.getProtocol().setSingedIn(false);
+                    m_currentFactory.getProtocol().setConnectionFaild(true);
+                    m_currentFactory.getProtocol().setconnectionActive(false);
+
+                }
+            }
+
+            return new Object();
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+            orderSuccess.setText(m_currentFactory.getProtocol().getOrderRsStatus());
+            connectSuccess.setText(m_currentFactory.getProtocol().getSingInRsStatus());
+        }
+
+        @Override
+        protected void onCancelled(Object result) {
+            /*
+        }
+            try {
+                singedIn = false;
+                connectionFaild = true;
+                connectionStatus = false;
+                fab = null;
+
+            } catch (Exception e) {
+                singedIn = false;
+                connectionFaild = true;
+                connectionStatus = false;
+                connectionActive = false;
+            }*/
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            orderSuccess.setText(m_currentFactory.getProtocol().getOrderRsStatus());
+            connectSuccess.setText(m_currentFactory.getProtocol().getSingInRsStatus());
+           /* super.onProgressUpdate(values);
+            String messageType = "";
+
+            //in the arrayList we add the messaged received from server
+            messageType = messageHandling(splitMessage(values[0]));
+            // notify the adapter that the data set has changed. This means that new message received
+            // from server was added to the list
+
+            switch (messageType) {
+                case "SIGN_IN_RS":
+                    if(getConnectionStatus() == true) {
+
+                    }
+                    break;
+
+                case "ORDER_RS":
+
+                    break;
+
+                case "BROADCAST_RS":
+
+                    break;
+
+                default:
+                    break;
+            }*/
+        }
     }
 
 }

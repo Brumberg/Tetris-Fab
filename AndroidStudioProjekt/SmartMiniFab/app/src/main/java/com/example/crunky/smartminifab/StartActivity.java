@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -33,9 +35,9 @@ public class StartActivity extends AppCompatActivity {
     private TextView ConnectionStatus;
     private Button WarehouseButton;
     private Button LoadIP;
-    public IFabCommunication m_currentFactory;
-    public connectTask asycTask;
     public boolean ConnectionException;
+    public connectTask asycTask;
+    public IFabCommunication m_currentFactory;
 
     /**
      * Called when the activity is first created.
@@ -73,11 +75,129 @@ public class StartActivity extends AppCompatActivity {
                 goLoadPredDefIP_onClick(v);
             }
         });
-        asycTask = new connectTask();
-        m_currentFactory = (IFabCommunication) (new TCPIPModule());
-        ConnectionException = false;
-        asycTask.execute("");
-        CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+
+        if(m_currentFactory == null) {
+            m_currentFactory = (IFabCommunication) (new TCPIPModule());
+            CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+        }
+        if(asycTask == null) {
+            asycTask = new connectTask();
+            asycTask.execute("");
+        }
+
+        final Handler handler = new Handler();
+        final Runnable r1 = new Runnable() {
+            public void run() {
+                handler.postDelayed(this, 100);
+                if(m_currentFactory.getProtocol().getConnectionActive() && m_currentFactory.getProtocol().getSignedIn()) {
+                    WarehouseButton.setEnabled(true);
+                } else {
+                    WarehouseButton.setEnabled(false);
+                }
+                if(!WifiAvaible()) {
+                    goToErrorWindowActivity(findViewById(android.R.id.content), "Please start your Wifi before you start. The application will close after you press the BACK Button.");
+                    ConnectButton.setEnabled(false);
+                    DisconnectButton.setEnabled(false);
+                    m_currentFactory.getProtocol().setUiStatus(20);
+                    handler.removeCallbacks(this);
+                }
+                switch (m_currentFactory.getProtocol().getUiStatus()) {
+                    case 0:
+                        break;
+
+                    /*Verbindung erfolgreich aufgebaut*/
+                    case 1:
+                        DisconnectButton.setEnabled(true);
+                        if(m_currentFactory.getProtocol().getOrdersOmStatus().equals("0")) {
+                            ConnectionStatus.setText("Connected to: "+ m_currentFactory.getProtocol().getFactoryName() + ".");
+                        } else {
+                            ConnectionStatus.setText("Connected to: "+ m_currentFactory.getProtocol().getFactoryName() + ". \n There are " +
+                                    m_currentFactory.getProtocol().getOrdersOmStatus() + " orders on the stack, it will take " +
+                                    m_currentFactory.getProtocol().getTimeLeft() + "s to finish.");
+                        }
+                        ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                    /*Verbindung erfolgreich getrennt*/
+                    case 2:
+                        ConnectButton.setEnabled(true);
+                        DisconnectButton.setEnabled(false);
+                        ConnectionStatus.setText("Disconnected from: " + m_currentFactory.getProtocol().getFactoryName() + ".");
+                        ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                    /*Fabrik antwortet nicht*/
+                    case 3:
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "The factory you are trying to connect seems to be busy.");
+                        ConnectButton.setEnabled(true);
+                        DisconnectButton.setEnabled(false);
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                    /*Verbindungsabbruch*/
+                    case 4:
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "Connection to " + m_currentFactory.getProtocol().getFactoryName() + " lost. The application will close after you press the BACK Button.");
+                        ConnectButton.setEnabled(false);
+                        DisconnectButton.setEnabled(false);
+                        m_currentFactory.getProtocol().setUiStatus(20);
+                        break;
+
+                    /*Client ist aktiv aber Fabrik antwortet nicht*/
+                    case 5:
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "The factory you are trying to connect is not answering.");
+                        ConnectButton.setEnabled(true);
+                        DisconnectButton.setEnabled(false);
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                    /*Falscher Identifier*/
+                    case 6:
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "You entered the wrong Identifier.");
+                        ConnectButton.setEnabled(true);
+                        DisconnectButton.setEnabled(false);
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                    /*Eine Fremde Bestellung wird abgearbeitet.*/
+                    case 7:
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "An external Order is in progress.");
+                        ConnectButton.setEnabled(true);
+                        DisconnectButton.setEnabled(false);
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                    /*Passwordtimeout ist aktiv.*/
+                    case 8:
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "You entered the wrong Identifier to many times, the factory is no locked.");
+                        ConnectButton.setEnabled(true);
+                        DisconnectButton.setEnabled(false);
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                    /*Passwordtimeout ist aktiv.*/
+                    case 9:
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "An unexpected ERROR eccored, please try to connect again.");
+                        ConnectButton.setEnabled(true);
+                        DisconnectButton.setEnabled(false);
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                                        /*Passwordtimeout ist aktiv.*/
+                    case 10:
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "Factory does not respont on Order, please try again.");
+                        ConnectButton.setEnabled(false);
+                        DisconnectButton.setEnabled(true);
+                        m_currentFactory.getProtocol().setUiStatus(0);
+                        break;
+
+                    default:
+                }
+
+            }
+        };
+        handler.postDelayed(r1, 100);
     }
     /**
      * Handles the event if the LoadPredefinedIPButton is clicked
@@ -133,115 +253,35 @@ public class StartActivity extends AppCompatActivity {
     private void ConnectButton_onClick(View v) {
         //Context context = (Context) new Object();
         //fab.connectToFab(Url.getText().toString());
-        try {
-            m_currentFactory.connect(Url.getText().toString(), Identifier.getText().toString());
-            ConnectButton.setEnabled(false);
-            DisconnectButton.setEnabled(true);
-            ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
-            ConnectionStatus.setText(getString(R.string.connected));
-            CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
-        } catch (Exception e) {
-            ConnectionStatus.setText("Verbindung Fehlgeschlagen." + m_currentFactory.getConnectionStatus());
-            //ErrorWindow
-        }
-
-    }
-
-
-class connectTask extends AsyncTask<String,String,Object> {
-
-        @Override
-        protected Object doInBackground(String... message) {
-            while(!this.isCancelled()) {
-                try {
-                    ConnectionException = false;
-                    if (!m_currentFactory.getProtocol().getSignedIn() && m_currentFactory.getProtocol().getConnectionActive()) {
-                        if(m_currentFactory.getProtocol().getFab()!=null) {
-                            m_currentFactory.getProtocol().setFab(null);
-                        }
-                        m_currentFactory.getProtocol().setFab(new WiFiConnection(InetAddress.getByName(m_currentFactory.getProtocol().getIpAdress()), 1000));
-                        m_currentFactory.getProtocol().getFab().connect();
-                        m_currentFactory.getProtocol().setSingedIn(true);
-                    }
-
-                    while (m_currentFactory.getProtocol().getSignedIn()&&m_currentFactory.getProtocol().getConnectionActive()&&m_currentFactory.getProtocol().getFab().getConnectionState()) {
-                        m_currentFactory.getProtocol().messageHandling(m_currentFactory.getProtocol().splitMessage(m_currentFactory.getProtocol().getFab().readLine()));
-                    }
-
-                } catch (Exception e){
-                    m_currentFactory.getProtocol().setSingedIn(false);
-                    m_currentFactory.getProtocol().setConnectionFaild(true);
-                    m_currentFactory.getProtocol().setconnectionActive(false);
-                    ConnectionException = true;
-                }
-            }
-
-            return new Object();
-        }
-
-        @Override
-        protected void onCancelled(Object result) {
-            /*
-        }
+        if(WifiAvaible()) {
             try {
-                singedIn = false;
-                connectionFaild = true;
-                connectionStatus = false;
-                fab = null;
+                m_currentFactory.connect(Url.getText().toString(), Identifier.getText().toString());
+                ConnectButton.setEnabled(false);
+                CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
 
             } catch (Exception e) {
-                singedIn = false;
-                connectionFaild = true;
-                connectionStatus = false;
-                connectionActive = false;
-            }*/
+                //ErrorWindow
+            }
         }
 
-        @Override
-        protected void onProgressUpdate(String... values) {
-           /* super.onProgressUpdate(values);
-            String messageType = "";
 
-            //in the arrayList we add the messaged received from server
-            messageType = messageHandling(splitMessage(values[0]));
-            // notify the adapter that the data set has changed. This means that new message received
-            // from server was added to the list
-
-            switch (messageType) {
-                case "SIGN_IN_RS":
-                    if(getConnectionStatus() == true) {
-
-                    }
-                    break;
-
-                case "ORDER_RS":
-
-                    break;
-
-                case "BROADCAST_RS":
-
-                    break;
-
-                default:
-                    break;
-            }*/
-        }
     }
+
+
+
 
     /**
      * Handles the event if the DisconnectButton is clicked
      */
     private void DisconnectButton_onClick(View v) {
-        try {
-            m_currentFactory.disconnect();
+        if(WifiAvaible()) {
+            try {
+                m_currentFactory.disconnect();
+            } catch (Exception e) {
+                //ErrorWindow
+            }
+            DisconnectButton.setEnabled(false);
         }
-        catch (Exception e) {
-            //ErrorWindow
-        }
-        ConnectButton.setEnabled(true);
-        DisconnectButton.setEnabled(false);
-        ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-        ConnectionStatus.setText(getString(R.string.disconnected));
     }
 
     /**
@@ -313,5 +353,119 @@ class connectTask extends AsyncTask<String,String,Object> {
     public void goToWarehouseActivity(View view) { //is called by onClick function of Button in activity_main.xml
         Intent intent = new Intent(this, WarehouseActivity.class);
         startActivity(intent);
+    }
+
+    public void goToErrorWindowActivity(View view, String message) {
+        Intent intent = new Intent(this, ErrorWindowActivity.class);
+        intent.putExtra("message", message);
+        startActivity(intent);
+    }
+
+    private boolean WifiAvaible() {
+        boolean Wifi = false;
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo NI : netInfo) {
+            if (NI.getTypeName().equalsIgnoreCase("WIFI")){
+                if (NI.isConnected()){
+                    Wifi = true;
+                }
+            }
+        }
+        return Wifi;
+    }
+
+    class connectTask extends AsyncTask<String,String,Object> {
+
+        @Override
+        protected Object doInBackground(String... message) {
+            while(!this.isCancelled()) {
+                try {
+
+                    if (!m_currentFactory.getProtocol().getSignedIn() && m_currentFactory.getProtocol().getConnectionActive()) {
+                        if(m_currentFactory.getProtocol().getFab()!=null) {
+                            m_currentFactory.getProtocol().setFab(null);
+                        }
+                        m_currentFactory.getProtocol().setFab(new WiFiConnection(InetAddress.getByName(m_currentFactory.getProtocol().getIpAdress()), 2000));
+                        m_currentFactory.getProtocol().getFab().connect();
+                        m_currentFactory.getProtocol().setSingedIn(true);
+                    }
+
+                    while (m_currentFactory.getProtocol().getSignedIn()&&m_currentFactory.getProtocol().getConnectionActive()&&m_currentFactory.getProtocol().getFab().getConnectionState()) {
+                        m_currentFactory.getProtocol().messageHandling(m_currentFactory.getProtocol().splitMessage(m_currentFactory.getProtocol().getFab().readLine()));
+                    }
+
+                } catch (Exception e){
+
+                    if(!m_currentFactory.getProtocol().getSignedIn()&& m_currentFactory.getProtocol().getConnectionActive()){
+                        m_currentFactory.getProtocol().setUiStatus(3);
+                    } else if (m_currentFactory.getProtocol().getSignedIn() && m_currentFactory.getProtocol().getConnectionActive()) {
+                        m_currentFactory.getProtocol().setUiStatus(4);
+                    } else {
+
+                    }
+                    m_currentFactory.getProtocol().setSingedIn(false);
+                    m_currentFactory.getProtocol().setConnectionFaild(true);
+                    m_currentFactory.getProtocol().setconnectionActive(false);
+
+                }
+            }
+
+            return new Object();
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+
+        }
+
+        @Override
+        protected void onCancelled(Object result) {
+            /*
+        }
+            try {
+                singedIn = false;
+                connectionFaild = true;
+                connectionStatus = false;
+                fab = null;
+
+            } catch (Exception e) {
+                singedIn = false;
+                connectionFaild = true;
+                connectionStatus = false;
+                connectionActive = false;
+            }*/
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+
+           /* super.onProgressUpdate(values);
+            String messageType = "";
+
+            //in the arrayList we add the messaged received from server
+            messageType = messageHandling(splitMessage(values[0]));
+            // notify the adapter that the data set has changed. This means that new message received
+            // from server was added to the list
+
+            switch (messageType) {
+                case "SIGN_IN_RS":
+                    if(getConnectionStatus() == true) {
+
+                    }
+                    break;
+
+                case "ORDER_RS":
+
+                    break;
+
+                case "BROADCAST_RS":
+
+                    break;
+
+                default:
+                    break;
+            }*/
+        }
     }
 }

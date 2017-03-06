@@ -1,8 +1,13 @@
 package com.example.crunky.smartminifab;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +18,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.Map;
 import static com.example.crunky.smartminifab.R.id.ID_PlacementMode_BrickPreview_ImageView;
@@ -60,6 +68,9 @@ public class PlacementModeActivity extends AppCompatActivity {
 
     MediaPlayer mp = null;*/
 
+    private Button SendButton;
+    private TextView OrderStatus;
+
 
 
 
@@ -67,6 +78,7 @@ public class PlacementModeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_placement_mode);
+
 
        // mp = MediaPlayer.create(this, R.raw.tetris);
 
@@ -84,6 +96,7 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         surface.setSeedBoxSize(((SmartMiniFab) this.getApplication()).getSeedBoxSize());
 
+        SendButton = (Button) (findViewById(R.id.ID_PlacementMode_SendOrder_Button));
 
         // map between shapes -> Image Button id's
         map_bricks_to_id.put(BlockShape.FOUR_SHAPE, R.id.ID_PlacementMode_S_Brick_ImageButton);
@@ -125,8 +138,46 @@ public class PlacementModeActivity extends AppCompatActivity {
         map_angle_to_blockrotation.put(180,BlockRotation.DEGREES_180);
         map_angle_to_blockrotation.put(270,BlockRotation.DEGREES_270);
 
+
+        SendButton = (Button) (findViewById(R.id.ID_PlacementMode_SendOrder_Button));
+        OrderStatus= (TextView) (findViewById(R.id.ID_PlacementMode_OrderSuccessfull_TextView));
+
          updateView();
 
+        final Handler handler = new Handler();
+        final Runnable r1 = new Runnable() {
+            public void run() {
+                if(fab.getProtocol().getOrderRsStatus().equals("Default")){
+                    OrderStatus.setText("");
+                } else {
+                    switch (fab.getProtocol().getOrderRsStatus()) {
+                        case "SUCCESSFUL":
+                            OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                            OrderStatus.setText("Successful");
+                            SendButton.setEnabled(true);
+                            break;
+
+                        case "ORDER_WRONG":
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "Your order was not plausibel. Clear the seedbox and try again, please.");
+                            SendButton.setEnabled(true);
+                            break;
+
+                        case "PW_WRONG":
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. The application will close after you press the BACK Button.");
+                            fab.getProtocol().setUiStatus(20);
+                            break;
+
+                        default:
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. The application will close after you press the BACK Button.");
+                            fab.getProtocol().setUiStatus(20);
+                            break;
+                    }
+                    fab.getProtocol().resetOrderRsStatus();
+                }
+                handler.postDelayed(this, 2000);
+            }
+        };
+        handler.postDelayed(r1, 2000);
     }
   /*  @Override
     public void onPause() {
@@ -134,6 +185,12 @@ public class PlacementModeActivity extends AppCompatActivity {
         mp.stop();
         mp.release();
     }*/
+
+    public void goToErrorWindowActivity(View view, String message) {
+        Intent intent = new Intent(this, ErrorWindowActivity.class);
+        intent.putExtra("message", message);
+        startActivity(intent);
+    }
 
     /**
      * Update actual view according to warehouse content, actual chosen brick and actual marked brick
@@ -237,29 +294,15 @@ public class PlacementModeActivity extends AppCompatActivity {
      * Play Sound have Fun
      */
     public void goSendOrderButton(View view) { //is called by onClick function of Button in activity_main.xml
-        try {
-            fab.transmit(surface.getSeedbox().toString());
-        }
-        catch (Exception e) {
-            //ErrorWindow
-        }
-/*
-        if(ClickCnt == 0) {
-            mp.start();
-            ClickCnt = 1;
-        } else {
-            ClickCnt = 0;
-            mp.stop();
+        if(WifiAvaible()) {
             try {
-                mp.prepare();
+                fab.transmit(surface.getSeedbox().toString());
+            } catch (Exception e) {
+                //ErrorWindow
             }
-            catch (java.lang.Exception e)
-            {
-               // Do nothing
-            }
+            SendButton.setEnabled(false);
+        }
 
-            mp.seekTo(0);
-        }*/
     }
     /**
      * function for brick choosing. Determines chosen brick by id of respective brick image button in
@@ -573,7 +616,19 @@ public class PlacementModeActivity extends AppCompatActivity {
             return true;
         }
     }
-
+    private boolean WifiAvaible() {
+        boolean Wifi = false;
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo NI : netInfo) {
+            if (NI.getTypeName().equalsIgnoreCase("WIFI")){
+                if (NI.isConnected()){
+                    Wifi = true;
+                }
+            }
+        }
+        return Wifi;
+    }
     /**
      * Defines drag and drop listener to brick preview.
      */

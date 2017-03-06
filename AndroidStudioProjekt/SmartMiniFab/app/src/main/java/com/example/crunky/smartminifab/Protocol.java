@@ -15,6 +15,8 @@ public class Protocol {
     private boolean connectionActive = false;
     private boolean singedIn = false;
     private boolean connectionFaild = false;
+    private boolean waitForOrderRs = false;
+    private int  uiStatus = 0;
     private String signInRsStatus = "Default";
     private String orderRsStatus = "Default";
     private String ordersOnStack = "Default";
@@ -28,6 +30,14 @@ public class Protocol {
 
     Protocol() {
 
+    }
+
+    public int getUiStatus() {
+        return uiStatus;
+    }
+
+    public void setUiStatus(int value) {
+        uiStatus = value;
     }
 
     boolean getConnectionStatus() {
@@ -49,6 +59,10 @@ public class Protocol {
 
     String getOrderRsStatus () {
         return orderRsStatus;
+    }
+
+    public void resetOrderRsStatus() {
+        orderRsStatus ="Default";
     }
 
     String getOrdersOmStatus () {
@@ -115,11 +129,22 @@ public class Protocol {
         singedIn = false;
         connectionFaild = true;
         fab.close();
+        uiStatus = 2;
     }
 
     public void sendOrder(String OrderString) throws Exception{
         if(fab != null && fab.getConnectionState()) {
             fab.writeLine("[ORDER%"+ id +"%"+OrderString+"]");
+            Handler handler = new Handler();
+            Runnable r1 = new Runnable() {
+                public void run() {
+                    if(waitForOrderRs) {
+
+                    }
+                }
+            };
+            handler.postDelayed(r1, 200);
+
         }
         else
             throw new Exception();
@@ -153,7 +178,7 @@ public class Protocol {
         }
 
         if(getConnectionFailed()) {
-            signInRsStatus = "getConnectionFailedExeption";
+            //signInRsStatus = "getConnectionFailedExeption";
             connectionActive = false;
             connectionStatus = false;
             throw new Exception();
@@ -178,13 +203,17 @@ public class Protocol {
                             sendSignIn(pasword);
                         } catch (Exception e) {}
                         handler.postDelayed(this, 5000);
-                    }
-
-                    else {
+                    } else if(!connectionStatus && connectionActive && singedIn) {
+                        if (uiStatus == 0) {
+                            uiStatus = 5;
+                        }
                         handler.removeCallbacks(this);
                         connectionActive = false;
                         singedIn = false;
-                        //ErrorWindow
+                    } else {
+                        handler.removeCallbacks(this);
+                        connectionActive = false;
+                        singedIn = false;
                     }
                 }
         };
@@ -206,36 +235,70 @@ public class Protocol {
                 if(connectionActive == true) {
                     connectionStatus = true;
                 }
+                if(connectionActive == true) {
+                    uiStatus = 1;
+                }
+
                 return status;
 
 
             case "BLOCKED":
                 connectionStatus = false;
                 connectionActive = false;
+                singedIn = false;
+                connectionFaild = true;
+                try {
+                    fab.close();
+                } catch (Exception e) {}
+                uiStatus = 3;
                 return status;
 
 
             case "PW_WRONG":
                 connectionStatus = false;
                 connectionActive = false;
+                singedIn = false;
+                connectionFaild = true;
+                try {
+                    fab.close();
+                } catch (Exception e) {}
+                uiStatus = 6;
                 return status;
 
 
             case "EXT_ORDER":
                 connectionStatus = false;
                 connectionActive = false;
+                singedIn = false;
+                connectionFaild = true;
+                try {
+                    fab.close();
+                } catch (Exception e) {}
+                uiStatus = 7;
                 return status;
 
 
             case "PW_TIMEOUT":
                 connectionStatus = false;
                 connectionActive = false;
+                singedIn = false;
+                connectionFaild = true;
+                try {
+                    fab.close();
+                } catch (Exception e) {}
+                uiStatus = 8;
                 return status;
 
 
             default:
                 connectionStatus = false;
                 connectionActive = false;
+                singedIn = false;
+                connectionFaild = true;
+                try {
+                    fab.close();
+                } catch (Exception e) {}
+                uiStatus = 9;
                 status = "ERROR";
                 return status;
 
@@ -276,9 +339,9 @@ public class Protocol {
 
             case "SIGN_IN_RS":
                 if(incomingMessage.length==4){
-                    signInRsStatus = handleSignInRs(incomingMessage[1], incomingMessage[2], incomingMessage[3]);
-                    ordersOnStack = incomingMessage[2];
-                    timeLeft = incomingMessage[3];
+                    handleSignInRs(incomingMessage[1], incomingMessage[2], incomingMessage[3]);
+                    ordersOnStack = incomingMessage[1];
+                    timeLeft = incomingMessage[2];
                 }
                 else {
                     connectionStatus = false;
