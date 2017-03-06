@@ -250,13 +250,13 @@ public class StartActivity extends AppCompatActivity {
      * Goes to the HelpWindowActivity
      */
     public void goToHelpWindowActivity(View view) { //is called by onClick function of Button in activity_main.xml
-        String s="\nFactory Select \n\nHere you can scan for available factories and connect to one of them via Wifi.\n\n\n" +
+        String s="\nFactory Select \n\nHere you can connect to a factory via Wifi.\n\n\n" +
                 "Make sure you are connected to the internet. \n\n" +
-                "Please press 'Scan Network'-Button to Scan for IPs of potential Factories." +
-                "The progress of the scanning process is visible in the progressbar. When the scanning is finished " +
-                "select the factory you want to connect to.\n\nBefore starting to connect, enter you password in " +
+                "Please enter the IP of the factory you want to connect to. Pressing the 'enter " +
+                "predefined IP'-Button will enter the first part of your IP." +
+                "\n\nBefore starting to connect, enter you password in " +
                 "the 'Type in your Identifier'-Textbox. Afterwards press the 'Connect'-Button." +
-                "\n\nPlease proceed to 'Warehouse' when successfully connected to one factory in order to enter the " +
+                "\n\nPlease proceed to 'Warehouse' when successfully connected to the factory in order to enter the " +
                 "factory's stock.";
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);

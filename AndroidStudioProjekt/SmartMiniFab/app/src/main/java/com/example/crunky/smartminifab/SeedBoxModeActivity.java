@@ -46,9 +46,7 @@ public class SeedBoxModeActivity extends AppCompatActivity {
                 "Select a seed box by clicking on it. On selection the color of the grid will change " +
                 "from black to red.\n\nIn order to change the factory's stock go back to Warehouse by" +
                 " pressing the 'Warehouse'-button.\n\nTo fill the selected seed box with bricks, proceed" +
-                " to Placement by pressing the 'Placement'-button.\n\nFor extended functions please" +
-                " proceed to Development Mode. Development Mode can be entered by clicking just above" +
-                " the 'Placement'-button. ";
+                " to Placement by pressing the 'Placement'-button. ";
         Intent intent = new Intent(this, HelpWindowActivity.class);
         intent.putExtra("message", s);
         startActivity(intent);
