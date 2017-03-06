@@ -142,6 +142,7 @@ public class StartActivity extends AppCompatActivity {
                         ConnectButton.setEnabled(false);
                         DisconnectButton.setEnabled(false);
                         m_currentFactory.getProtocol().setUiStatus(20);
+                        handler.removeCallbacks(this);
                         break;
 
                     /*Client ist aktiv aber Fabrik antwortet nicht*/
