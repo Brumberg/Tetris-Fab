@@ -25,6 +25,7 @@ interface IDispatchBlocks {
     public Block Allocate(BlockShape shape, BlockColor color);
     public void ReleaseBlock(Block block);
     public boolean IsBlocktypeAvailable(BlockShape blockshape, BlockColor color);
+    public boolean DisposeBlock(Block block);
 }
 
 public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
@@ -520,6 +521,29 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
             //ResetFactory();
             eFactoryState = FactoryState.FILENOTFOUND;
             m_IOError = i.getMessage();
+        }
+        return retVal;
+    }
+
+    /**
+     * Dispose a block
+     * this function is required if a block is transmitted to the seed box
+     * afterwards the block is not available any more
+     * @param block
+     * @return
+     */
+    public boolean DisposeBlock(Block block) {
+        boolean retVal = false;
+        if (block!=null) {
+            int shape = block.getShape().ordinal();
+            int color = block.getColor().ordinal();
+            List<Block> blocklist = m_DrawnBlocks[shape][color];
+            if (blocklist!=null && m_PlacedBlocks[shape][color]>0 && m_BlocksOnStock[shape][color]>0) {
+                if (blocklist.remove(block))
+                    m_PlacedBlocks[shape][color]--;
+                m_BlocksOnStock[shape][color]--;
+                retVal = true;
+            }
         }
         return retVal;
     }
