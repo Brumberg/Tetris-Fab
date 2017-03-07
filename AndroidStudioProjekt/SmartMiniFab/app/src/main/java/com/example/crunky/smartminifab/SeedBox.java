@@ -218,6 +218,22 @@ public class SeedBox {
         }
     }
 
+    /**
+     * returs an array of placed blocks
+     * @return
+     */
+    public Block[] GetPlacedBlocks() {
+        Block[] blocklist = null;
+        if (m_placedBlocks!=null) {
+            blocklist = new Block[m_placedBlocks.size()];
+            int i=0;
+            for (Block block: m_placedBlocks) {
+                blocklist[i] = block;
+            }
+        }
+        return blocklist;
+    }
+
     public String toString() {
         String seedboxsize;
         switch (m_size) {
