@@ -135,19 +135,29 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         SendButton = (Button) (findViewById(R.id.ID_PlacementMode_SendOrder_Button));
         OrderStatus= (TextView) (findViewById(R.id.ID_PlacementMode_OrderSuccessfull_TextView));
+        OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+        OrderStatus.setText("");
 
          updateView();
 
         final Handler handler = new Handler();
         final Runnable r1 = new Runnable() {
             public void run() {
+                handler.postDelayed(this, 1500);
                 if(!WifiAvaible()) {
                     SendButton.setEnabled(false);
+                    goToErrorWindowActivity(findViewById(android.R.id.content), "Please activate your wifi and reconnect to the factory.");
+                    OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     OrderStatus.setText("Wifi not active");
+                    handler.removeCallbacks(this);
 
-                }
-
-                if(fab.getProtocol().getOrderRsStatus().equals("Default")){
+                }else if(!fab.getProtocol().getConnectionActive()) {
+                    OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                    goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory.");
+                    OrderStatus.setText("Disconnected");
+                    SendButton.setEnabled(false);
+                    handler.removeCallbacks(this);
+                } else if(fab.getProtocol().getOrderRsStatus().equals("Default")&&fab.getProtocol().getConnectionActive()){
                     OrderStatus.setText("");
                 } else {
                     switch (fab.getProtocol().getOrderRsStatus()) {
@@ -177,9 +187,9 @@ public class PlacementModeActivity extends AppCompatActivity {
                             SendButton.setEnabled(false);
                             break;
                     }
-                    fab.getProtocol().resetOrderRsStatus();
+
                 }
-                handler.postDelayed(this, 1500);
+
             }
         };
         handler.postDelayed(r1, 1500);

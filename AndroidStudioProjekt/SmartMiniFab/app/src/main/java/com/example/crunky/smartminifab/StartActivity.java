@@ -107,6 +107,7 @@ public class StartActivity extends AppCompatActivity {
                 } else if (!m_currentFactory.getProtocol().getConnectionActive()) {
                     ConnectButton.setEnabled(true);
                     DisconnectButton.setEnabled(false);
+                    ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     ConnectionStatus.setText("Disconnected");
                 }
 
