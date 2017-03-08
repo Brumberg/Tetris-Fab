@@ -93,10 +93,6 @@ public class StartActivity extends AppCompatActivity {
             public void run() {
                 handler.postDelayed(this, 100);
 
-                if(m_currentFactory.getProtocol().getJustSendSignIn()) {
-                    m_currentFactory.getProtocol().orderDelay();
-                }
-
                 if(m_currentFactory.getProtocol().getConnectionActive() && m_currentFactory.getProtocol().getSignedIn()) {
                     WarehouseButton.setEnabled(true);
                 } else {

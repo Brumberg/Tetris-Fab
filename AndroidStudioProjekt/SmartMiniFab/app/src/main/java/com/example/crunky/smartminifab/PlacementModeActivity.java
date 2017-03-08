@@ -138,7 +138,7 @@ public class PlacementModeActivity extends AppCompatActivity {
         OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
         OrderStatus.setText("");
 
-         updateView();
+        updateView();
 
         final Handler handler = new Handler();
         final Runnable r1 = new Runnable() {
@@ -151,48 +151,58 @@ public class PlacementModeActivity extends AppCompatActivity {
                     OrderStatus.setText("Wifi not active");
                     handler.removeCallbacks(this);
 
-                }else if(!fab.getProtocol().getConnectionActive()) {
+                }else if(!fab.getProtocol().getConnectionActive()||!fab.getProtocol().getSignedIn()) {
                     OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory.");
                     OrderStatus.setText("Disconnected");
                     SendButton.setEnabled(false);
                     handler.removeCallbacks(this);
-                } else if(fab.getProtocol().getOrderRsStatus().equals("Default")&&fab.getProtocol().getConnectionActive()){
-                    OrderStatus.setText("");
                 } else {
                     switch (fab.getProtocol().getOrderRsStatus()) {
+                        case "Default":
+                            if(!OrderStatus.getText().toString().equals("Successful")&&!OrderStatus.getText().toString().equals("Waiting for \n"+"confirmation.")) {
+                                OrderStatus.setText("");
+                            }
+                            break;
+
                         case "SUCCESSFUL":
                             OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
                             OrderStatus.setText("Successful");
+                            SendButton.setEnabled(true);
+                            fab.getProtocol().resetOrderRsStatus();
+
+                            // dispose placed and sent bricks from warehouse
                             for (Block obj_block : surface.getPlacedBlocks()){
                                 objBlockFactory.DisposeBlock(obj_block);
                             }
+                            // reset SeedBox (clear seedbox)
                             surface.resetSeedbox();
+
                             updateView();
-                            SendButton.setEnabled(true);
                             break;
 
                         case "ORDER_WRONG":
                             goToErrorWindowActivity(findViewById(android.R.id.content), "Your order was not plausibel. Clear the seedbox and try again, please.");
                             SendButton.setEnabled(true);
+                            fab.getProtocol().resetOrderRsStatus();
                             break;
 
                         case "PW_WRONG":
                             goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory.");
                             SendButton.setEnabled(false);
+                            fab.getProtocol().resetOrderRsStatus();
                             break;
 
                         default:
                             goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory");
                             SendButton.setEnabled(false);
+                            fab.getProtocol().resetOrderRsStatus();
                             break;
                     }
-
                 }
-
             }
         };
-        handler.postDelayed(r1, 1500);
+        handler.postDelayed(r1, 500);
 
     }
   /*  @Override
@@ -314,19 +324,11 @@ public class PlacementModeActivity extends AppCompatActivity {
     public void goSendOrderButton(View view) { //is called by onClick function of Button in activity_main.xml
         if(WifiAvaible()) {
             try {
-                fab.transmit(surface.getSeedbox().toString());
+                fab.getProtocol().Order(surface.getSeedbox().toString());
+                OrderStatus.setText("Waiting for \n"+"confirmation.");
             } catch (Exception e) {
                 //ErrorWindow
             }
-
-            // dispose placed and sent bricks from warehouse
-            for (Block obj_block : surface.getPlacedBlocks()){
-                objBlockFactory.DisposeBlock(obj_block);
-            }
-            // reset SeedBox (clear seedbox)
-            surface.resetSeedbox();
-
-            updateView();
 
             SendButton.setEnabled(false);
         }
