@@ -35,6 +35,7 @@ public class SeedBoxSurface extends SurfaceView {
     private int m_SurfViewHeight;
     private Block obj_marked_block = null;
 
+    // create Seedbox
     private SeedBox objSeedBox = new SeedBox();
 
     // map between BlockColor and print color
@@ -156,8 +157,19 @@ public class SeedBoxSurface extends SurfaceView {
 
         // force surface to update view
         invalidate();
-
     }
+
+    public void resetSeedbox() {
+        objSeedBox.reset();
+
+        // force surface to update view
+        invalidate();
+    }
+
+    public Block[] getPlacedBlocks() {
+        return objSeedBox.GetPlacedBlocks();
+    }
+
 
     public Boolean handleDropOperation(int x, int y, Block block) {
         boolean successful = objSeedBox.place(TranslateXcoord(x), TranslateYcoord(y), block);

@@ -231,6 +231,13 @@ public class PlacementModeActivity extends AppCompatActivity {
      * Play Sound have Fun
      */
     public void goSendOrderButton(View view) { //is called by onClick function of Button in activity_main.xml
+        for (Block obj_block : surface.getPlacedBlocks()){
+            objBlockFactory.DisposeBlock(obj_block);
+        }
+        surface.resetSeedbox();
+
+        updateView();
+
 /*
         if(ClickCnt == 0) {
             mp.start();
