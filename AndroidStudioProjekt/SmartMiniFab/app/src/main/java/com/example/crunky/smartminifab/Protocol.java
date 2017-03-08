@@ -20,9 +20,10 @@ public class Protocol {
     private String timeLeft = "Default";
     private String factoryName = "Default";
     private String ipAdress = "192.168.0.38";
+    private String Order = "";
     private String id = "";
-    private boolean justSendSignIn = false;
-    private int OrderDelay = 0;
+    private boolean SendOrder = false;
+
 
     WiFiConnection fab;
 
@@ -48,6 +49,11 @@ public class Protocol {
 
     String getIpAdress() {
         return ipAdress;
+    }
+
+    public void Order(String orderString) {
+        Order = orderString;
+        SendOrder = true;
     }
 
     /*Returns the values of private attributes.*/
@@ -83,21 +89,7 @@ public class Protocol {
         return singedIn;
     }
 
-    boolean getJustSendSignIn() {
-        return justSendSignIn;
-    }
 
-    public void orderDelay() {
-
-        if(OrderDelay<4) {
-            OrderDelay++;
-        }
-        else {
-            justSendSignIn = false;
-            OrderDelay = 0;
-        }
-
-    }
 
     public void setSingedIn(boolean value) {
         singedIn = value;
@@ -121,7 +113,6 @@ public class Protocol {
     public void sendSignIn(String pasword) throws Exception{
         if(fab != null && fab.getConnectionState()) {
             fab.writeLine("[SIGN_IN%" + pasword + "]");
-            justSendSignIn = true;
         }
         else
             throw new Exception();
@@ -149,13 +140,12 @@ public class Protocol {
 
     public void sendOrder(String OrderString) throws Exception{
         if(fab != null && fab.getConnectionState()) {
-            while(justSendSignIn){}
             fab.writeLine("[ORDER%"+ id +"%"+OrderString+"]");
             Handler handler = new Handler();
             Runnable r1 = new Runnable() {
                 public void run() {
                     if(waitForOrderRs) {
-
+                        orderRsStatus = "Not Responding";
                     }
                 }
             };
@@ -235,9 +225,16 @@ public class Protocol {
                     }*/
 
                     if (connectionStatus&&connectionActive) {
-                        connectionStatus = false;
+
                         try {
-                            sendSignIn(pasword);
+                            if(SendOrder) {
+                                sendOrder(Order);
+                                SendOrder = false;
+                            } else {
+                                sendSignIn(pasword);
+                                connectionStatus = false;
+                            }
+
                         } catch (Exception e) {}
                         handler.postDelayed(this, 5000);
                     } else if(!connectionStatus && connectionActive && singedIn) {
@@ -260,7 +257,7 @@ public class Protocol {
             //ErrorWindow
         }
 
-        handler.postDelayed(r1, 5000);
+        handler.postDelayed(r1, 1000);
     }
 
 
