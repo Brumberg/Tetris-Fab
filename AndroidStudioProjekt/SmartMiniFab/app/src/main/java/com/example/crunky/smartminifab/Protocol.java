@@ -21,7 +21,8 @@ public class Protocol {
     private String factoryName = "Default";
     private String ipAdress = "192.168.0.38";
     private String id = "";
-    private AsyncTask runningTask;
+    private boolean justSendSignIn = false;
+    private int OrderDelay = 0;
 
     WiFiConnection fab;
 
@@ -82,6 +83,22 @@ public class Protocol {
         return singedIn;
     }
 
+    boolean getJustSendSignIn() {
+        return justSendSignIn;
+    }
+
+    public void orderDelay() {
+
+        if(OrderDelay<4) {
+            OrderDelay++;
+        }
+        else {
+            justSendSignIn = false;
+            OrderDelay = 0;
+        }
+
+    }
+
     public void setSingedIn(boolean value) {
         singedIn = value;
     }
@@ -104,6 +121,7 @@ public class Protocol {
     public void sendSignIn(String pasword) throws Exception{
         if(fab != null && fab.getConnectionState()) {
             fab.writeLine("[SIGN_IN%" + pasword + "]");
+            justSendSignIn = true;
         }
         else
             throw new Exception();
@@ -131,6 +149,7 @@ public class Protocol {
 
     public void sendOrder(String OrderString) throws Exception{
         if(fab != null && fab.getConnectionState()) {
+            while(justSendSignIn){}
             fab.writeLine("[ORDER%"+ id +"%"+OrderString+"]");
             Handler handler = new Handler();
             Runnable r1 = new Runnable() {
