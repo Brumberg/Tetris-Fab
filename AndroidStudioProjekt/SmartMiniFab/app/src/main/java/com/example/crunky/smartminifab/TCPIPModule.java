@@ -41,11 +41,17 @@ public class TCPIPModule implements IFabCommunication {
         m_connected = false;
     }
 
-    public boolean connect(String IpAdress, String password) throws Exception {
+    public boolean connect(String IpAdress,final String password) throws Exception {
         m_connection.connectToFab(IpAdress);
         m_connection.setId(password);
         m_connection.sendBroadcast();
-        m_connection.signIn(password);
+        final Handler handler = new Handler();
+        Runnable r1 = new Runnable() {
+            public void run() {
+                m_connection.signIn(password);
+            }
+        };
+        handler.postDelayed(r1, 100);
         m_connected = true;
 
         return m_connected;

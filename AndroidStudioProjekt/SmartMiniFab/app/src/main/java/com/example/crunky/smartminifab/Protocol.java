@@ -153,6 +153,9 @@ public class Protocol {
     /*In the following method the incoming frame is split into single signals*/
 
     public String[] splitMessage(String messageToCheck) {
+        if(messageToCheck.contains("*HELLO*")) {
+            messageToCheck = messageToCheck.substring(7);
+        }
         String splitted[]= messageToCheck.split("%");
         splitted[0]=splitted[0].substring(1,splitted[0].length());
         splitted[splitted.length-1]=splitted[splitted.length-1].substring(0,splitted[splitted.length-1].length()-1);

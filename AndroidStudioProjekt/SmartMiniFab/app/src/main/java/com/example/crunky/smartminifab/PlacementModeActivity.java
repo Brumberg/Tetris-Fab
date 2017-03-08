@@ -154,6 +154,8 @@ public class PlacementModeActivity extends AppCompatActivity {
                         case "SUCCESSFUL":
                             OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
                             OrderStatus.setText("Successful");
+                            objBlockFactory.RestoreBlockFactory();
+                            updateView();
                             SendButton.setEnabled(true);
                             break;
 
@@ -174,10 +176,10 @@ public class PlacementModeActivity extends AppCompatActivity {
                     }
                     fab.getProtocol().resetOrderRsStatus();
                 }
-                handler.postDelayed(this, 2000);
+                handler.postDelayed(this, 1500);
             }
         };
-        handler.postDelayed(r1, 2000);
+        handler.postDelayed(r1, 1500);
     }
   /*  @Override
     public void onPause() {
