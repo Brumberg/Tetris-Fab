@@ -308,6 +308,16 @@ public class PlacementModeActivity extends AppCompatActivity {
             } catch (Exception e) {
                 //ErrorWindow
             }
+
+            // dispose placed and sent bricks from warehouse
+            for (Block obj_block : surface.getPlacedBlocks()){
+                objBlockFactory.DisposeBlock(obj_block);
+            }
+            // reset SeedBox (clear seedbox)
+            surface.resetSeedbox();
+
+            updateView();
+
             SendButton.setEnabled(false);
         }
 
