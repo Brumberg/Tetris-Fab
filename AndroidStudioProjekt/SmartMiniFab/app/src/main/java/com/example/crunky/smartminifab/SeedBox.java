@@ -228,7 +228,7 @@ public class SeedBox {
             blocklist = new Block[m_placedBlocks.size()];
             int i=0;
             for (Block block: m_placedBlocks) {
-                blocklist[i] = block;
+                blocklist[i++] = block;
             }
         }
         return blocklist;
