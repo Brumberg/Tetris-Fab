@@ -177,6 +177,24 @@ public class Protocol {
         connectionFaild = false;
         connectionActive = true;
         ipAdress = ipAdressToCon;
+
+        Handler handler = new Handler();
+        Runnable r1 = new Runnable() {
+            public void run() {
+                if(!singedIn && !connectionFaild) {
+                    connectionFaild = true;
+                    singedIn = false;
+                    try {
+                        fab.close();
+                    } catch (Exception e) {
+
+                    }
+                    uiStatus = 9;
+                }
+            }
+        };
+        handler.postDelayed(r1, 500);
+
         while (!singedIn && !connectionFaild) {
         }
 
@@ -231,7 +249,6 @@ public class Protocol {
 
 
     /*The following method the SIGN_IN_RS message gets interpreted*/
-
     public String handleSignInRs(String nOrdersOnStack, String tToFinish, String status) {
         switch (status){
             case "SUCCESSFUL":

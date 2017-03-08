@@ -147,6 +147,12 @@ public class PlacementModeActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         final Runnable r1 = new Runnable() {
             public void run() {
+                if(!WifiAvaible()) {
+                    SendButton.setEnabled(false);
+                    OrderStatus.setText("Wifi not active");
+
+                }
+
                 if(fab.getProtocol().getOrderRsStatus().equals("Default")){
                     OrderStatus.setText("");
                 } else {
@@ -165,13 +171,13 @@ public class PlacementModeActivity extends AppCompatActivity {
                             break;
 
                         case "PW_WRONG":
-                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. The application will close after you press the BACK Button.");
-                            fab.getProtocol().setUiStatus(20);
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory.");
+                            SendButton.setEnabled(false);
                             break;
 
                         default:
-                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. The application will close after you press the BACK Button.");
-                            fab.getProtocol().setUiStatus(20);
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory");
+                            SendButton.setEnabled(false);
                             break;
                     }
                     fab.getProtocol().resetOrderRsStatus();

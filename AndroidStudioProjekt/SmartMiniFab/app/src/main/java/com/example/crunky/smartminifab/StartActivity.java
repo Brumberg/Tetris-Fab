@@ -39,6 +39,7 @@ public class StartActivity extends AppCompatActivity {
     public connectTask asycTask;
     public IFabCommunication m_currentFactory;
 
+
     /**
      * Called when the activity is first created.
      */
@@ -94,13 +95,19 @@ public class StartActivity extends AppCompatActivity {
                 } else {
                     WarehouseButton.setEnabled(false);
                 }
+
                 if(!WifiAvaible()) {
-                    goToErrorWindowActivity(findViewById(android.R.id.content), "Please start your Wifi before you start. The application will close after you press the BACK Button.");
                     ConnectButton.setEnabled(false);
                     DisconnectButton.setEnabled(false);
-                    m_currentFactory.getProtocol().setUiStatus(20);
-                    handler.removeCallbacks(this);
+                    m_currentFactory.getProtocol().setUiStatus(0);
+                    ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                    ConnectionStatus.setText("Please activate your wifi.");
+                } else if (!m_currentFactory.getProtocol().getConnectionActive()) {
+                    ConnectButton.setEnabled(true);
+                    DisconnectButton.setEnabled(false);
+                    ConnectionStatus.setText("Disconnected");
                 }
+
                 switch (m_currentFactory.getProtocol().getUiStatus()) {
                     case 0:
                         break;
@@ -141,8 +148,7 @@ public class StartActivity extends AppCompatActivity {
                         goToErrorWindowActivity(findViewById(android.R.id.content), "Connection to " + m_currentFactory.getProtocol().getFactoryName() + " lost. The application will close after you press the BACK Button.");
                         ConnectButton.setEnabled(false);
                         DisconnectButton.setEnabled(false);
-                        m_currentFactory.getProtocol().setUiStatus(20);
-                        handler.removeCallbacks(this);
+                        m_currentFactory.getProtocol().setUiStatus(0);
                         break;
 
                     /*Client ist aktiv aber Fabrik antwortet nicht*/
@@ -264,8 +270,6 @@ public class StartActivity extends AppCompatActivity {
                 //ErrorWindow
             }
         }
-
-
     }
 
 

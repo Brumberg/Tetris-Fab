@@ -31,10 +31,6 @@ public class ErrorWindowActivity extends AppCompatActivity {
      * Goes Back to last Activity
      */
     public void goBack(View v) { //is called by onClick function of Back Button in activity_help_window.xml
-        if(fab.getProtocol().getUiStatus()==20) {
-            finish();
-            System.exit(0);
-        }
         super.onBackPressed();
     }
 
