@@ -35,14 +35,15 @@ public class StartActivity extends AppCompatActivity {
     private TextView ConnectionStatus;
     private Button WarehouseButton;
     private Button LoadIP;
-    public boolean ConnectionException;
     public connectTask asycTask;
-    public IFabCommunication m_currentFactory;
+    public IFabCommunication m_currentFactory= CBlockFactory.getInstance().getFabCommunication();
+    private boolean FistStart;
 
 
-    /**
-     * Called when the activity is first created.
-     */
+
+        /**
+         * Called when the activity is first created.
+         */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +66,8 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DisconnectButton_onClick(v);
-            }
-        });
+                }
+            });
         ConnectionStatus = (TextView) (findViewById(R.id.ID_FactorySelectMode_ConnectionStatus_TextView));
         WarehouseButton = (Button) (findViewById(R.id.ID_FactorySelectMode_Warehouse_Button));
         LoadIP = (Button) (findViewById(R.id.ID_FactorySelectMode_LoadIP_Button));
@@ -76,6 +77,7 @@ public class StartActivity extends AppCompatActivity {
                 goLoadPredDefIP_onClick(v);
             }
         });
+
 
         if(m_currentFactory == null) {
             m_currentFactory = (IFabCommunication) (new TCPIPModule());
@@ -114,6 +116,7 @@ public class StartActivity extends AppCompatActivity {
 
                     /*Verbindung erfolgreich aufgebaut*/
                     case 1:
+                        ConnectButton.setEnabled(false);
                         DisconnectButton.setEnabled(true);
                         if(m_currentFactory.getProtocol().getOrdersOmStatus().equals("0")) {
                             ConnectionStatus.setText("Connected to: "+ m_currentFactory.getProtocol().getFactoryName() + ".");
@@ -200,12 +203,27 @@ public class StartActivity extends AppCompatActivity {
                         break;
 
                     default:
+                    }
                 }
-
-            }
-        };
+            };
         handler.postDelayed(r1, 100);
+
+
+        if(m_currentFactory.getProtocol().getConnectionActive()&& m_currentFactory.getProtocol().getSignedIn()) {
+            ConnectButton.setEnabled(false);
+            DisconnectButton.setEnabled(true);
+            if(m_currentFactory.getProtocol().getOrdersOmStatus().equals("0")) {
+                ConnectionStatus.setText("Connected to: "+ m_currentFactory.getProtocol().getFactoryName() + ".");
+            } else {
+                ConnectionStatus.setText("Connected to: "+ m_currentFactory.getProtocol().getFactoryName() + ". \n There are " +
+                        m_currentFactory.getProtocol().getOrdersOmStatus() + " orders on the stack, it will take " +
+                        m_currentFactory.getProtocol().getTimeLeft() + "s to finish.");
+            }
+            ConnectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+            m_currentFactory.getProtocol().setUiStatus(0);
+        }
     }
+
     /**
      * Handles the event if the LoadPredefinedIPButton is clicked
      */
