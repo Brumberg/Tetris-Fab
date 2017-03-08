@@ -538,10 +538,9 @@ public class CBlockFactory implements IDispatchBlocks, java.io.Serializable {
             int shape = block.getShape().ordinal();
             int color = block.getColor().ordinal();
             List<Block> blocklist = m_DrawnBlocks[shape][color];
-            if (blocklist!=null && m_PlacedBlocks[shape][color]>0 && m_BlocksOnStock[shape][color]>0) {
+            if (blocklist!=null && m_PlacedBlocks[shape][color]>0 ) {
                 if (blocklist.remove(block))
                     m_PlacedBlocks[shape][color]--;
-                m_BlocksOnStock[shape][color]--;
                 retVal = true;
             }
         }
