@@ -27,9 +27,9 @@ public class FabCommunicationListAdapter extends ArrayAdapter<IFabCommunication>
      * Returns the view for the item at the given position
      */
     public View getView(int position, View convertView, ViewGroup parent) {
-        InetAddress host=((IFabCommunication)(getItem(position))).getHost();
-        ( (TextView) (convertView.findViewById(R.id.tvHostname))).setText(host.getHostName());
-        ( (TextView) (convertView.findViewById(R.id.tvIp))).setText(host.getHostAddress());
+      //  InetAddress host=((IFabCommunication)(getItem(position))).getHost();
+      //  ( (TextView) (convertView.findViewById(R.id.tvHostname))).setText(host.getHostName());
+      //  ( (TextView) (convertView.findViewById(R.id.tvIp))).setText(host.getHostAddress());
         return convertView;
     }
 }

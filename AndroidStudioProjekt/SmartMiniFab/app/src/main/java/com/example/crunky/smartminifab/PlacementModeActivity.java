@@ -1,8 +1,13 @@
 package com.example.crunky.smartminifab;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +29,9 @@ public class PlacementModeActivity extends AppCompatActivity {
 
     // get block handler from factory
     CBlockFactory objBlockFactory = CBlockFactory.getInstance();
+
+    // get actual instance of the Server
+    IFabCommunication fab = CBlockFactory.getInstance().getFabCommunication();
 
     // actual choosen Brick
     Block objBrickPreview = null;
@@ -56,6 +64,12 @@ public class PlacementModeActivity extends AppCompatActivity {
    /* int ClickCnt = 0;
 
     MediaPlayer mp = null;*/
+
+   /*define a variable to accass the SendButton*/
+    private Button SendButton;
+    /*define a variable to accass the OrderStatus*/
+    private TextView OrderStatus;
+
 
 
     @Override
@@ -119,7 +133,56 @@ public class PlacementModeActivity extends AppCompatActivity {
         map_angle_to_blockrotation.put(180,BlockRotation.DEGREES_180);
         map_angle_to_blockrotation.put(270,BlockRotation.DEGREES_270);
 
+        SendButton = (Button) (findViewById(R.id.ID_PlacementMode_SendOrder_Button));
+        OrderStatus= (TextView) (findViewById(R.id.ID_PlacementMode_OrderSuccessfull_TextView));
+
          updateView();
+
+        final Handler handler = new Handler();
+        final Runnable r1 = new Runnable() {
+            public void run() {
+                if(!WifiAvaible()) {
+                    SendButton.setEnabled(false);
+                    OrderStatus.setText("Wifi not active");
+
+                }
+
+                if(fab.getProtocol().getOrderRsStatus().equals("Default")){
+                    OrderStatus.setText("");
+                } else {
+                    switch (fab.getProtocol().getOrderRsStatus()) {
+                        case "SUCCESSFUL":
+                            OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                            OrderStatus.setText("Successful");
+                            for (Block obj_block : surface.getPlacedBlocks()){
+                                objBlockFactory.DisposeBlock(obj_block);
+                            }
+                            surface.resetSeedbox();
+                            updateView();
+                            SendButton.setEnabled(true);
+                            break;
+
+                        case "ORDER_WRONG":
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "Your order was not plausibel. Clear the seedbox and try again, please.");
+                            SendButton.setEnabled(true);
+                            break;
+
+                        case "PW_WRONG":
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory.");
+                            SendButton.setEnabled(false);
+                            break;
+
+                        default:
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory");
+                            SendButton.setEnabled(false);
+                            break;
+                    }
+                    fab.getProtocol().resetOrderRsStatus();
+                }
+                handler.postDelayed(this, 1500);
+            }
+        };
+        handler.postDelayed(r1, 1500);
 
     }
   /*  @Override
@@ -226,17 +289,28 @@ public class PlacementModeActivity extends AppCompatActivity {
         intent.putExtra("message", s);
         startActivity(intent);
     }
+
+    /*Defines the interface to start the ErrorWindowActivity*/
+    public void goToErrorWindowActivity(View view, String message) {
+        Intent intent = new Intent(this, ErrorWindowActivity.class);
+        intent.putExtra("message", message);
+        startActivity(intent);
+    }
+
     /**
      * Send Order Button Text
      * Play Sound have Fun
      */
     public void goSendOrderButton(View view) { //is called by onClick function of Button in activity_main.xml
-        for (Block obj_block : surface.getPlacedBlocks()){
-            objBlockFactory.DisposeBlock(obj_block);
+        if(WifiAvaible()) {
+            try {
+                fab.transmit(surface.getSeedbox().toString());
+            } catch (Exception e) {
+                //ErrorWindow
+            }
+            SendButton.setEnabled(false);
         }
-        surface.resetSeedbox();
 
-        updateView();
 
 /*
         if(ClickCnt == 0) {
@@ -382,6 +456,21 @@ public class PlacementModeActivity extends AppCompatActivity {
         objBlockFactory.ReleaseBlock(objMarkedBrickInSeedbox);
         objMarkedBrickInSeedbox = null;
         updateView();
+    }
+
+    /*checks if there is a valid Wifi-Connection active*/
+    public boolean WifiAvaible() {
+        boolean Wifi = false;
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo NI : netInfo) {
+            if (NI.getTypeName().equalsIgnoreCase("WIFI")){
+                if (NI.isConnected()){
+                    Wifi = true;
+                }
+            }
+        }
+        return Wifi;
     }
 
     /**
@@ -629,4 +718,5 @@ public class PlacementModeActivity extends AppCompatActivity {
             return true;
         }
     }
+
 }

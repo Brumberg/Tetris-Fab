@@ -312,7 +312,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     /**
      * Handles the event if the scanning for factories was started
      */
-    private void factoryManagement_onStartScanning(TCPIPModuleManagement sender) {
+    private void factoryManagement_onStartScanning(TCPIPModuleManagement sender) {/*
         if (m_currentFactory != null) {
             m_currentFactory.disconnect();
         }
@@ -326,7 +326,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
         connectSuccess.setText(getString(R.string.disconnected));
 //        pbScanProgress.setMax(sender.getCountOfIpsToBeScanned());
-//        pbScanProgress.setProgress(0);
+//        pbScanProgress.setProgress(0);*/
     }
 
     /**
@@ -374,11 +374,11 @@ public class DevelopmentModeActivity extends AppCompatActivity {
 
             // Initialize IP of Factory with user input
             try {
-                m_currentFactory = new TCPIPModule(InetAddress.getByName(inpIP.getText().toString()), port);
+               // m_currentFactory = new TCPIPModule(InetAddress.getByName(inpIP.getText().toString()), port);
                 // Try to connect to the factory
-                if (m_currentFactory.connect()) {
+              //  if (m_currentFactory.connect()) {
                     // Try to login to the factory
-                    if (m_currentFactory.login(inpPassword.getText().toString())) {
+                  /*  if (m_currentFactory.login(inpPassword.getText().toString())) {
                         connectButton.setEnabled(false);
                         disconnectButton.setEnabled(true);
                         wifiSpinner_setEnabled(false);
@@ -386,30 +386,31 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                         //RequestIdentifier.setEnabled(false);
                         connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
                         connectSuccess.setText(getString(R.string.connected));
-                        CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+                        CBlockFactory.getInstance().setFabCommunication(m_currentFactory);*/
 
                     /*isConnected = true;
                     TimeOut = new TimeOutReconnectModule();
                     TimeOut.TimeOut(delay, isConnected, inpPassword.getText().toString());*/
-                    } else {
+                  //  } else {
                         // Show an error message if it does not work
-                        m_currentFactory.disconnect();
+                      /*  m_currentFactory.disconnect();
                         //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                         //connectSuccess.setText(getString(R.string.disconnected));
                         goToErrorWindowActivity(connectButton, getString(R.string.wrong_identifier));
                         CBlockFactory.getInstance().setFabCommunication(null);
-                        isConnected = false;
-                    }
-                } else {
+                        isConnected = false;*/
+                  //  }
+                /*} else {
+
                     // Show an error message if it does not work
                     connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     connectSuccess.setText(getString(R.string.disconnected));
                     goToErrorWindowActivity(connectButton, getString(R.string.connection_failed));
                     CBlockFactory.getInstance().setFabCommunication(null);
                     isConnected = false;
-                }
+                }*/
 
-            } catch (UnknownHostException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 goToErrorWindowActivity(connectButton, "Wrong_IP");
             }
@@ -417,9 +418,9 @@ public class DevelopmentModeActivity extends AppCompatActivity {
         } else {
 
          // Try to connect to the factory
-            if (m_currentFactory.connect()) {
+           // if (m_currentFactory.connect()) {
                 // Try to login to the factory
-                if (m_currentFactory.login(inpPassword.getText().toString())) {
+              /*  if (m_currentFactory.login(inpPassword.getText().toString())) {
                     connectButton.setEnabled(false);
                     disconnectButton.setEnabled(true);
                     wifiSpinner_setEnabled(false);
@@ -427,28 +428,28 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                     //RequestIdentifier.setEnabled(false);
                     connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
                     connectSuccess.setText(getString(R.string.connected));
-                    CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
+                    CBlockFactory.getInstance().setFabCommunication(m_currentFactory);*/
 
                     /*isConnected = true;
                     TimeOut = new TimeOutReconnectModule();
                     TimeOut.TimeOut(delay, isConnected, inpPassword.getText().toString());*/
-                } else {
+               /* } else {
                     // Show an error message if it does not work
                     m_currentFactory.disconnect();
                     //connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     //connectSuccess.setText(getString(R.string.disconnected));
                     goToErrorWindowActivity(connectButton, getString(R.string.wrong_identifier));
                     CBlockFactory.getInstance().setFabCommunication(null);
-                    isConnected = false;
-                }
-            } else {
+                    isConnected = false;*/
+              //  }
+          //  } else {
                 // Show an error message if it does not work
-                connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+           /*     connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                 connectSuccess.setText(getString(R.string.disconnected));
                 goToErrorWindowActivity(connectButton, getString(R.string.connection_failed));
                 CBlockFactory.getInstance().setFabCommunication(null);
                 isConnected = false;
-            }
+            }*/
         }
     }
 
@@ -456,7 +457,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
      * Handles the event if the DisconnectButton is clicked
      */
     private void disconnectButton_onClick(View v) {
-        m_currentFactory.disconnect();
+      //  m_currentFactory.disconnect();
         connectButton.setEnabled(true);
         disconnectButton.setEnabled(false);
         connectSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
@@ -471,7 +472,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
     private void sendOrderButton_onClick(View v)  {
         //Try to transmit Order
 
-            if (m_currentFactory.transmit(inpUserTestString.getText().toString())) {
+          /*  if (m_currentFactory.transmit(inpUserTestString.getText().toString())) {
                 inpUserTestString.setEnabled(false);
                 sendOrderButton.setEnabled(false);
                 orderSuccess.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
@@ -483,7 +484,7 @@ public class DevelopmentModeActivity extends AppCompatActivity {
                 orderSuccess.setText(getString(R.string.disconnected));
                 goToErrorWindowActivity(sendOrderButton, "Order not successful");
                 CBlockFactory.getInstance().setFabCommunication(null);
-            }
+            }*/
 
     }
 

@@ -19,7 +19,7 @@ public class TimeOutReconnectModule {
 
 
     public void TimeOut(int delayTime, boolean connectStatus, String password) {
-        Log.d("Delaytimer", "10s");
+/*        Log.d("Delaytimer", "10s");
         delay = delayTime;
         isConnected = connectStatus;
         Password = password;
@@ -53,7 +53,7 @@ public class TimeOutReconnectModule {
         };
         if(isConnected==true) {
             timeOutHandler.post(timeOutRun);
-        }
+        }*/
     }
 
 }

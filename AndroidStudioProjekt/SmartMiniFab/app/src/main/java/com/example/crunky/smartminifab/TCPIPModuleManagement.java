@@ -85,7 +85,7 @@ public class TCPIPModuleManagement extends ContextDependentObject {
         // Scan each IP address in the subnet
         long netPart = localHost & subnetMask;
         for (long hostPart = 0L; shouldScanningBeResumed(hostPart, hostpartMax); hostPart++) {
-            IFabCommunication fabCommunication = new TCPIPModule(InetAddress.getByName(toIpString(netPart | hostPart)), Port);
+           /* IFabCommunication fabCommunication = new TCPIPModule(InetAddress.getByName(toIpString(netPart | hostPart)), Port);
             // If a factory is accessible at the current IP
             // TODO: remove debug changes
             boolean c = fabCommunication.connect();
@@ -98,7 +98,7 @@ public class TCPIPModuleManagement extends ContextDependentObject {
             m_scannedIps++;
             if(m_ipScannedListener!=null) {
                 m_ipScannedListener.onIpScanned(this);
-            }
+            }*/
         }
     }
 

@@ -1,8 +1,16 @@
+
 package com.example.crunky.smartminifab;
 
 import java.io.IOException;
 import java.net.InetAddress;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.*;
+import android.os.AsyncTask;
+import android.os.Handler;
+
 import com.example.crunky.smartminifab.IFabCommunication;
 import com.example.crunky.smartminifab.WiFiConnection;
 
@@ -29,70 +37,58 @@ import com.example.crunky.smartminifab.WiFiConnection;
  */
 
 public class TCPIPModule implements IFabCommunication {
-    private WiFiConnection m_connection;
+    private Protocol m_connection;
     private boolean m_connected;
-    private boolean m_loggedIn;
 
-    public TCPIPModule(InetAddress address, int port) {
-        m_connection = new WiFiConnection(address, port);
-        m_connected = m_loggedIn = false;
+
+    public TCPIPModule() {
+        m_connection = new Protocol();
+        m_connected = false;
     }
 
-    public boolean connect() {
-        try {
-            m_connection.connect();
-            // TODO: remove debug changes
-            m_connection.writeLine("HELLO");
-            m_connected = m_connection.readLine().equals("ARDUINO");
-        } catch (IOException e) {
-            m_connected = false;
-        }
+    public boolean connect(String IpAdress,final String password) throws Exception {
+        m_connection.connectToFab(IpAdress);
+        m_connection.setId(password);
+        m_connection.sendBroadcast();
+        final Handler handler = new Handler();
+        Runnable r1 = new Runnable() {
+            public void run() {
+                m_connection.signIn(password);
+            }
+        };
+        handler.postDelayed(r1, 100);
+        m_connected = true;
+
         return m_connected;
     }
 
-    public boolean disconnect() {
+    public boolean disconnect() throws Exception{
         if (m_connected) {
-            try {
-                m_connection.writeLine("BYE");
-                m_connection.close();
-            } catch (IOException e) {
-            }
-            m_connected =
-                    m_loggedIn = false;
+            m_connection.sendSignOut();
+            m_connected = false;
         }
         return !m_connected;
     }
 
     public boolean status() {
-        return true;
-    }
-    public boolean login(String password)
-            throws IllegalArgumentException {
-        if ((m_connected) && (!m_loggedIn)) {
-            try {
-               m_connection.writeLine("PASSWORD " + password);
-                m_loggedIn = m_connection.readLine().equals("OK");
-            } catch (IOException e) {
-                disconnect();
-            }
-        }
-        return m_loggedIn;
+        return m_connection.getSignedIn();
     }
 
-    public boolean transmit(String OrderString) {
+    public String getConnectionStatus() {
+        return m_connection.getSingInRsStatus();
+    }
+
+
+    public boolean transmit(String OrderString) throws Exception{
         boolean transferred = false;
-        if ((m_connected) && (m_loggedIn)) {
-            try {
-                m_connection.writeLine("SEEDBOX " + OrderString);
-                transferred = m_connection.readLine().equals("OK");
-            } catch (IOException e) {
-                disconnect();
-            }
+        if ((m_connected) && m_connection.getConnectionActive()) {
+            m_connection.sendOrder(OrderString);
         }
         return transferred;
     }
 
-    public InetAddress getHost() {
-        return m_connection.getHost();
+    public Protocol getProtocol() {
+        return m_connection;
     }
+
 }
