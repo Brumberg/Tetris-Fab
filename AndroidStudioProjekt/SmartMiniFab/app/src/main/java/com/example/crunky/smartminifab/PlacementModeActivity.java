@@ -187,13 +187,13 @@ public class PlacementModeActivity extends AppCompatActivity {
                             break;
 
                         case "PW_WRONG":
-                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory.");
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurred. Please reconnect to the factory.");
                             SendButton.setEnabled(false);
                             fab.getProtocol().resetOrderRsStatus();
                             break;
 
                         default:
-                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory");
+                            goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurred. Please reconnect to the factory");
                             SendButton.setEnabled(false);
                             fab.getProtocol().resetOrderRsStatus();
                             break;
@@ -324,7 +324,7 @@ public class PlacementModeActivity extends AppCompatActivity {
     public void goSendOrderButton(View view) { //is called by onClick function of Button in activity_main.xml
         if(WifiAvaible()) {
             try {
-                fab.getProtocol().Order(surface.getSeedbox().toString());
+                fab.getProtocol().sendOrder(surface.getSeedbox().toString());
                 OrderStatus.setText("Waiting for \n"+"confirmation.");
             } catch (Exception e) {
                 //ErrorWindow

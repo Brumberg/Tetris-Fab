@@ -209,11 +209,6 @@ public class Protocol {
         final Handler handler = new Handler();
         Runnable r1 = new Runnable() {
                 public void run() {
-                   /* if (!mTcpClient.getmRun()) {
-                        connectionActive = false;
-                        singedIn = false;
-                    }*/
-
                     if (connectionStatus&&connectionActive) {
 
                         try {
@@ -252,7 +247,7 @@ public class Protocol {
             //ErrorWindow
         }
 
-        handler.postDelayed(r1, 5000);
+        //handler.postDelayed(r1, 5000);
     }
 
 
