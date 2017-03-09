@@ -38,6 +38,7 @@ public class StartActivity extends AppCompatActivity {
     public connectTask asycTask;
     public IFabCommunication m_currentFactory= CBlockFactory.getInstance().getFabCommunication();
     private boolean FistStart;
+    private int uiStatus = 0;
     int test;
 
 
@@ -94,6 +95,7 @@ public class StartActivity extends AppCompatActivity {
         final Runnable r1 = new Runnable() {
             public void run() {
                 handler.postDelayed(this, 500);
+                uiStatus = m_currentFactory.getProtocol().getUiStatus();
 
                 if(m_currentFactory.getProtocol().getConnectionActive() && m_currentFactory.getProtocol().getSignedIn()) {
                     WarehouseButton.setEnabled(true);
@@ -114,7 +116,7 @@ public class StartActivity extends AppCompatActivity {
                     ConnectionStatus.setText("Disconnected");
                 }
 
-                switch (m_currentFactory.getProtocol().getUiStatus()) {
+                switch (uiStatus) {
                     case 0:
                         break;
 
@@ -209,6 +211,7 @@ public class StartActivity extends AppCompatActivity {
                     }
                 }
             };
+        handler.removeCallbacks(r1);
         handler.postDelayed(r1, 100);
 
 

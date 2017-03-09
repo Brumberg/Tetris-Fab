@@ -220,9 +220,11 @@ public class Protocol {
                             if(SendOrder) {
                                 sendOrder(Order);
                                 SendOrder = false;
+                                uiStatus = 1;
                             } else {
                                 sendSignIn(pasword);
                                 connectionStatus = false;
+                                uiStatus = 1;
                             }
 
                         } catch (Exception e) {

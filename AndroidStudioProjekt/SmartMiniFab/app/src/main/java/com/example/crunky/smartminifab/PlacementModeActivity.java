@@ -140,22 +140,22 @@ public class PlacementModeActivity extends AppCompatActivity {
 
         updateView();
 
-        final Handler handler = new Handler();
-        final Runnable r1 = new Runnable() {
+        final Handler handler2 = new Handler();
+        final Runnable r2 = new Runnable() {
             public void run() {
-                handler.postDelayed(this, 1500);
+                handler2.postDelayed(this, 1500);
                 if(!WifiAvaible()) {
                     SendButton.setEnabled(false);
                     goToErrorWindowActivity(findViewById(android.R.id.content), "Please activate your wifi and reconnect to the factory.");
                     OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     OrderStatus.setText("Wifi not active");
-                    handler.removeCallbacks(this);
+                    handler2.removeCallbacks(this);
 
                 }else if(!fab.getProtocol().getConnectionActive()||!fab.getProtocol().getSignedIn()) {
                     OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
                     OrderStatus.setText("Disconnected");
                     SendButton.setEnabled(false);
-                    handler.removeCallbacks(this);
+                    handler2.removeCallbacks(this);
                 } else {
                     switch (fab.getProtocol().getOrderRsStatus()) {
                         case "Default":
@@ -201,7 +201,8 @@ public class PlacementModeActivity extends AppCompatActivity {
                 }
             }
         };
-        handler.postDelayed(r1, 500);
+        handler2.removeCallbacks(r2);
+        handler2.postDelayed(r2, 500);
 
     }
   /*  @Override
