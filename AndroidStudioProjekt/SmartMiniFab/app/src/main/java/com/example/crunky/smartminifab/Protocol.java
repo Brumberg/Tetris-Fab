@@ -219,6 +219,7 @@ public class Protocol {
                         try {
                             if(SendOrder) {
                                 sendOrder(Order);
+                                connectionStatus = false;
                                 SendOrder = false;
                                 uiStatus = 1;
                             } else {
@@ -230,7 +231,7 @@ public class Protocol {
                         } catch (Exception e) {
                             handler.removeCallbacks(this);
                         }
-                        handler.postDelayed(this, 1000);
+                        handler.postDelayed(this, 5000);
                     } else if(!connectionStatus && connectionActive && singedIn) {
                         if (uiStatus == 0) {
                             uiStatus = 5;
@@ -251,7 +252,7 @@ public class Protocol {
             //ErrorWindow
         }
 
-        handler.postDelayed(r1, 1000);
+        handler.postDelayed(r1, 5000);
     }
 
 

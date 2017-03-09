@@ -78,8 +78,8 @@ public class TCPServer extends Thread {
                 break;
 
             case "ORDER":
-                sendMessage("[ORDER_RS%1%180%SUCCESSFUL]");
-                textsend.append("\n[ORDER_RS%1%180%SUCCESSFUL]");
+                sendMessage("[ORDER_RS%SUCCESSFUL%1%180]");
+                textsend.append("\n[ORDER_RS%SUCCESSFUL%1%180]");
               //  messageListener.messageReceived("Server: [ORDER_RS%1%180%SUCCESSFUL]");
                 //sendMessage("[ORDER_RS%1%180%ORDER_WRONG]");
                 //sendMessage("[ORDER_RS%1%180%PW_WRONG]");

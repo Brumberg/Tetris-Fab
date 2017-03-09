@@ -56,7 +56,7 @@ public class TCPIPModule implements IFabCommunication {
                 m_connection.signIn(password);
             }
         };
-        handler.postDelayed(r1, 100);
+        handler.postDelayed(r1, 500);
         m_connected = true;
 
         return m_connected;
