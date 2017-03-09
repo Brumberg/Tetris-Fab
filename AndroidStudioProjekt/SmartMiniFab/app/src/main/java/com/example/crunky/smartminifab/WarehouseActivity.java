@@ -285,7 +285,8 @@ public class WarehouseActivity extends AppCompatActivity {
      */
     public void goToHelpWindowActivity(View view) {
         String s = "\nWarehouse\n\nHere you can enter and save the stock of the selected factory.\n\n\n" +
-                "To select a predefined stock, press the 'Load'-button\n\n" +
+                "To select a previously stored stock, press the 'Load'-button.\n" +
+                "Remark: It is necessary to initially store a stock once before this function can be used.\n\n" +
                 "The symbols in the first column represent the available shapes. The colors in the first row " +
                 "are the respective possible colors. To increase or decrease the number of elements " +
                 "select the number in the column of the chosen color. " +
