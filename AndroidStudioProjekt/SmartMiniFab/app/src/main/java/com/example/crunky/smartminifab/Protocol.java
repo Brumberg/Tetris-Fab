@@ -338,7 +338,6 @@ public class Protocol {
                 if(connectionActive == true) {
                     connectionStatus = true;
                 }
-
                 return status;
 
             case "ORDER_WRONG":
