@@ -141,16 +141,6 @@ public class Protocol {
     public void sendOrder(String OrderString) throws Exception{
         if(fab != null && fab.getConnectionState()) {
             fab.writeLine("[ORDER%"+ id +"%"+OrderString+"]");
-            Handler handler = new Handler();
-            Runnable r1 = new Runnable() {
-                public void run() {
-                    if(waitForOrderRs) {
-                        orderRsStatus = "Not Responding";
-                    }
-                }
-            };
-            handler.postDelayed(r1, 200);
-
         }
         else
             throw new Exception();
@@ -235,8 +225,10 @@ public class Protocol {
                                 connectionStatus = false;
                             }
 
-                        } catch (Exception e) {}
-                        handler.postDelayed(this, 5000);
+                        } catch (Exception e) {
+                            handler.removeCallbacks(this);
+                        }
+                        handler.postDelayed(this, 1000);
                     } else if(!connectionStatus && connectionActive && singedIn) {
                         if (uiStatus == 0) {
                             uiStatus = 5;
@@ -267,11 +259,8 @@ public class Protocol {
             case "SUCCESSFUL":
                 if(connectionActive == true) {
                     connectionStatus = true;
-                }
-                if(connectionActive == true) {
                     uiStatus = 1;
                 }
-
                 return status;
 
 
@@ -344,6 +333,10 @@ public class Protocol {
     public String handleOrderRs(String status) {
         switch (status){
             case "SUCCESSFUL":
+                if(connectionActive == true) {
+                    connectionStatus = true;
+                }
+
                 return status;
 
             case "ORDER_WRONG":
@@ -385,7 +378,7 @@ public class Protocol {
 
             case "ORDER_RS":
                 if(incomingMessage.length==4){
-                    orderRsStatus = handleOrderRs(incomingMessage[3]);
+                    orderRsStatus = handleOrderRs(incomingMessage[1]);
                     ordersOnStack = incomingMessage[2];
                     timeLeft = incomingMessage[3];
                 }

@@ -153,7 +153,6 @@ public class PlacementModeActivity extends AppCompatActivity {
 
                 }else if(!fab.getProtocol().getConnectionActive()||!fab.getProtocol().getSignedIn()) {
                     OrderStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                    goToErrorWindowActivity(findViewById(android.R.id.content), "An unexcpacted ERROR in the identification occurd. Please reconnect to the factory.");
                     OrderStatus.setText("Disconnected");
                     SendButton.setEnabled(false);
                     handler.removeCallbacks(this);

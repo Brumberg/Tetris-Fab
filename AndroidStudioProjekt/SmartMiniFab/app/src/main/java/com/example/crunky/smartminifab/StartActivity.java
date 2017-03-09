@@ -38,6 +38,7 @@ public class StartActivity extends AppCompatActivity {
     public connectTask asycTask;
     public IFabCommunication m_currentFactory= CBlockFactory.getInstance().getFabCommunication();
     private boolean FistStart;
+    int test;
 
 
 
@@ -83,6 +84,7 @@ public class StartActivity extends AppCompatActivity {
             m_currentFactory = (IFabCommunication) (new TCPIPModule());
             CBlockFactory.getInstance().setFabCommunication(m_currentFactory);
         }
+
         if(asycTask == null) {
             asycTask = new connectTask();
             asycTask.execute("");
@@ -91,7 +93,7 @@ public class StartActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         final Runnable r1 = new Runnable() {
             public void run() {
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 500);
 
                 if(m_currentFactory.getProtocol().getConnectionActive() && m_currentFactory.getProtocol().getSignedIn()) {
                     WarehouseButton.setEnabled(true);
@@ -150,7 +152,7 @@ public class StartActivity extends AppCompatActivity {
 
                     /*Verbindungsabbruch*/
                     case 4:
-                        goToErrorWindowActivity(findViewById(android.R.id.content), "Connection to " + m_currentFactory.getProtocol().getFactoryName() + " lost. The application will close after you press the BACK Button.");
+                        goToErrorWindowActivity(findViewById(android.R.id.content), "Connection to " + m_currentFactory.getProtocol().getFactoryName() + " lost.");
                         ConnectButton.setEnabled(false);
                         DisconnectButton.setEnabled(false);
                         m_currentFactory.getProtocol().setUiStatus(0);
@@ -195,8 +197,7 @@ public class StartActivity extends AppCompatActivity {
                         DisconnectButton.setEnabled(false);
                         m_currentFactory.getProtocol().setUiStatus(0);
                         break;
-
-                                        /*Passwordtimeout ist aktiv.*/
+                    /*OrderResponseTimeout ist aktiv.*/
                     case 10:
                         goToErrorWindowActivity(findViewById(android.R.id.content), "Factory does not respont on Order, please try again.");
                         ConnectButton.setEnabled(false);
